@@ -1,0 +1,62 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  hello: "Hello world"
+
+  summary_tab_label: "Summary"
+  container_list_tab_label: "Contents"
+  controllaccess_tab_label: "Names/subjects"
+  access_to_materials_tab_label: "Using these materials"
+
+  abstract_label: "Abstract"
+  accessrestrict_label: "Access to the collection"
+  accruals_label: "Accruals"
+  acqinfo_label: "Source of acquisition"
+  altformavail_label: "Alternative form available"
+  appraisal_label: "Appraisal information"
+  arrangement_label: "Arrangement"
+  bibliography_label: "Bibliography"
+  bioghist_label: "Biographical/historical note"
+  container_label: "Box/folder"
+  custodhist_label: "Custodial history"
+  extent_label: "Size"
+  langmaterial_label: "Language"
+  language_label: "Language"
+  legalstatus_label: "Legal status"
+  materialspec_label: "Material specific details"
+  odd_label: "Note"
+  originalsloc_label: "Location of originals"
+  origination_label: "Creator"
+  otherfindaid_label: "Other finding aid"
+  physdesc_label: "Physical description"
+  physical_location_label: "Location"
+  physloc_label: "Location"
+  phystech_label: "Technical requirements"
+  prefercite_label: "Preferred Citation"
+  processinfo_label: "Processing information"
+  relatedmaterial_label: "Related material"
+  scopecontent_label: "Scope/content"
+  separatedmaterial_label: "Separated material"
+  userestrict_label: "Use of these materials"
+  sponsor_label: "Sponsor"
+
+  digital_content_filter_label: "Show only collections with digitial content"

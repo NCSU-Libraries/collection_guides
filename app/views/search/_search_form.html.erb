@@ -1,0 +1,15 @@
+<%= form_tag(searches_path, method: 'get', class: 'search-form', id: 'search-form') do %>
+
+  <div class="row collapse">
+
+    <div class="small-9 columns">
+      <%= search_field_tag(:q, params[:q] || "", placeholder: "Enter terms to search all collection guides", class: "search-query") %>
+    </div>
+
+    <div class="small-3 columns">
+      <%= submit_tag("Search", class: "button postfix", name: nil) %>
+    </div>
+
+  </div>
+
+<% end %>

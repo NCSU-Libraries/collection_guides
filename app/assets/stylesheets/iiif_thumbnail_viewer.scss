@@ -1,0 +1,146 @@
+.thumbnail-viewer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.thumbnail-viewer .thumbnail,
+.thumbnail-viewer .scroll-control {
+  float: left;
+  color: #666;
+}
+
+.thumbnail-viewer .thumbnail-viewer-inner {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+}
+
+.thumbnail-viewer .scroll-control-next {
+  text-align: right;
+}
+
+.thumbnail-viewer .scroll-control:hover {
+  cursor: pointer;
+  color: #000;
+}
+
+.thumbnail-viewer .scroll-control.disabled {
+  color: #f1f1f1;
+  visibility: hidden;
+  cursor: default;
+}
+
+.thumbnail-viewer .hidden {
+  visibility: hidden;
+}
+
+.thumbnail-viewer .thumbnail-viewer-page-info {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: #999;
+  text-transform: uppercase;
+}
+
+.thumbnail-viewer .toggle-wrapper {
+  margin: 0 0 0.5rem 0;
+  padding-left: 0.25em;
+}
+
+.thumbnail-viewer .visibility-toggle {
+  text-transform: uppercase;
+  font-size: 0.8em;
+  color: #4a7aa9;
+}
+
+.thumbnail-viewer .visibility-toggle i {
+  padding-right: 0.5em;
+}
+
+.thumbnail-viewer .visibility-toggle:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+#test-output {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #333;
+  color: #fff;
+  overflow: auto;
+  font-size: 0.8rem;
+  line-height: 1.5em;
+  height: 300px;
+}
+
+.thumbnail-wrapper a {
+  display: block;
+  z-index: 500;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.thumbnail-wrapper {
+  position: relative;
+}
+
+.thumbnail-wrapper img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.thumbnail-wrapper .title-tip {
+  position: absolute;
+  bottom: 5px;
+  opacity: 0.8;
+  z-index: 100;
+  padding: 2px 4px 4px 4px;
+  background: $black;
+  color: $white;
+  border: 1px solid $gray;
+  font-size: 0.85em;
+  line-height: 1.1em;
+}
+
+.thumbnail-viewer .thumbnail-label {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: #999;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 320px) {
+  .thumbnail-viewer {
+    display: none;
+  }
+}
+
+.thumbnail-visibility-toggle {
+  width: 12rem;
+  float: right;
+}
+
+.thumbnail-visibility-toggle {
+  font-size: 70%;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-top: 1rem;
+  line-height: 1em;
+}
+
+.thumbnail-visibility-toggle .link {
+  background: $blue2;
+  padding: 0.25em 0.4em;
+  color: $white;
+  &:hover {
+    text-decoration: none;
+    background: $blue;
+    color: $white;
+  }
+}

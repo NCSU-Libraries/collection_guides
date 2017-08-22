@@ -1,0 +1,100 @@
+#project-header {
+
+  background: $grayLightest;
+  padding: 1rem 0 0.5rem 0;
+  border-bottom: 1px solid $grayLight;
+ }
+
+#project-header {
+
+  &>.row {
+    padding-left: 0.5rem;
+
+    .inline-list {
+      margin-left: -1rem;
+
+      @media only screen and (max-width: 35em) {
+        li {
+          float: none;
+        }
+      }
+
+    }
+  }
+
+
+
+  input {
+    margin: 0;
+  }
+
+  .column, .columns {
+    padding-left: 0;
+    padding-right: 0.9375rem;
+    float: left;
+  }
+
+  .project-name {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+
+    a {
+      color: $body-font-color;
+      text-decoration: none;
+    }
+
+    .subhead {
+      display: inline;
+      font-size: 1.4rem;
+      color: $gray;
+      font-weight: normal;
+      padding-left: 0.25rem;
+      text-transform: none;
+      @media #{$small-only} {
+        display: block;
+        font-size: 1.1rem;
+        line-height: 1.3rem;
+      }
+    }
+
+  }
+
+  .project-nav {
+    border-top: 1px solid $grayLighter;
+    padding: 0.25rem;
+    text-transform: uppercase;
+    // background: $grayLightest;
+    margin-bottom:  0.5rem;
+
+    ul, li {
+      line-height: 1.25em;
+      font-size: 0.8rem;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    li {
+      margin-right: 1rem;
+    }
+  }
+
+  .browse-all {
+
+    display: block;
+    padding-top: 1rem;
+    font-size: 90%;
+
+    &.browse-all-block {
+      padding-top: 0.25rem;
+      padding-left: 0.25rem;
+    }
+  }
+
+}
+
+  // Override NCSUL web functionality
+
+  header .top-bar #search-toggle {
+    display: none !important;
+  }

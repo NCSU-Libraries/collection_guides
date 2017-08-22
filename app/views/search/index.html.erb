@@ -1,0 +1,50 @@
+<div id="search-results" class="<%= @resource ? 'resource-results search-results' : 'search-results'%>">
+
+  <!-- <div class="row panel" style="overflow: auto;"> <%= @response.request %></div> -->
+
+  <%# @response['facet_counts']['facet_fields']['resource_uri'].inspect %>
+
+  <% if @resource %>
+    <%= results_heading %>
+    <%= search_pagination %>
+    <%= render_resource_results(@response['response']['docs'], @resource) %>
+    <%= search_pagination %>
+  <% else %>
+
+    <div class="row">
+
+      <div class="medium-3 columns show-for-medium-up">
+        <%= facet_options %>
+      </div>
+
+      <div class="medium-9 columns">
+        <%= results_heading %>
+
+        <div class="show-for-small-only" id="mobile-facets">
+
+          <a href="#" class="dropdown-trigger" data-dropdown="filter-drop">Filter results <i class="fa fa-angle-double-down"></i></a>
+          <div id="filter-drop" data-dropdown-content class="small f-dropdown content">
+            <%= facet_options %>
+          </div>
+
+        </div>
+
+        <%= active_filters %>
+
+        <%= search_pagination %>
+
+        <% @response['grouped']['resource_uri']['groups'].each do |g| %>
+          <% if g == @response['grouped']['resource_uri']['groups'].last %>
+            <%= render_group(g, class: 'last') %>
+          <% else %>
+            <%= render_group(g) %>
+          <% end %>
+        <% end %>
+
+        <%= search_pagination %>
+
+      </div>
+    </div>
+
+  <% end %>
+</div>

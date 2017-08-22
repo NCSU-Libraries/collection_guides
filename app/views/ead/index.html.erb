@@ -1,0 +1,25 @@
+<div id="ead-index">
+
+  <div class="row">
+
+
+    <div class="small-12 columns">
+
+      <h1>EAD3 Finding Aids</h1>
+
+      <%= foundation_paginate @resources %>
+
+      <% @resources.each do |r| %>
+
+      <div class="ead-link">
+      <%= link_to r.title, "#{root_path}#{r.eadid}/ead" %>
+      </div>
+      <% end %>
+
+      <%= foundation_paginate @resources %>
+    </div>
+
+  </div>
+
+
+</div>

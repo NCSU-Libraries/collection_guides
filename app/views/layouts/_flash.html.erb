@@ -1,0 +1,13 @@
+<% if !flash.empty? %>
+  <div class="row flash" %>
+
+  <% flash.each do |name, msg| %>
+    <% flash_class = "alert-box #{name}" %>
+    <% if !msg.blank? and msg.class != TrueClass %>
+      <% msg_content = msg %>
+      <%= content_tag :div, msg_content.html_safe, :class => flash_class %>
+    <% end %>
+  <% end %>
+
+  </div>
+<% end %>

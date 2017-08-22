@@ -1,0 +1,21 @@
+/* Things that make IE9 choke when they're in the regular CSS, which cause unrelated things to break */
+/* Figuring this out was not fun */
+/* Also, IE9 is the worst browser since IE8 */
+
+body.good-browser main {
+
+  .inline-dl, .chronitem {
+    dt, dd, .events, .date {
+      p:first-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  div.description-element {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+}

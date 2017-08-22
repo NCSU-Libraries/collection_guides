@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://raw.githubusercontent.com/SAA-SDT/EAD3/master/ead3.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<ead>
+  <control></control>
+  <archdesc></archdesc>
+</ead>

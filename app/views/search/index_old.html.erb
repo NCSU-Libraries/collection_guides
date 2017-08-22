@@ -1,0 +1,46 @@
+<div id="search-results">
+  
+  <h1 class="row">Found <%= @response['response']['numFound'] %> collections matching "<%= @q %>"</h1>
+  
+  <!-- <div class="row panel" style="overflow: auto;"> <%= @response.request %></div> -->
+
+  <div class="row"><%= foundation_paginate @response["response"]["docs"] %></div>
+  
+  <% @response['response']['docs'].each do |d| %>
+    <div class="row search-result">
+      
+      <h2><%= link_to(d['title'], "/#{d['record_type']}s/#{d['record_id']}") %></h2>
+      
+      <a href="#" data-reveal-id="dataModal<%= d['id'].gsub(/\//,'') %>" class="button tiny show-test-data">Show data</a>
+      <div id="dataModal<%= d['id'].gsub(/\//,'') %>" class="reveal-modal test-data-modal" data-reveal>
+
+        <dl>
+          <% d.each do |k,v| %>
+            <div class="row">
+              <dt class="small-2 columns"><%= k %></dt>
+              <dd class="small-10 columns">
+                <% if k == 'json' %>
+                  <dl>
+                    <% JSON.parse(v).each do |kk,vv| %>
+                      <div class="row">
+                        <dt class="small-4 columns"><%= kk %></dt>
+                        <dd class="small-8 columns"><%= vv %></dd>
+                      </div>
+                    <% end %>
+                  </dl>
+                <% else %>
+                  <%= v %>
+                <% end %>
+              </dd>
+            </div><%# row %>
+          <% end %><%# each %>
+        </dl>
+
+      </div>
+
+    </div>
+  <% end %><%# @response['response']['docs'].each %>
+
+  <div class="row"><%= foundation_paginate @response["response"]["docs"] %></div>
+
+</div>

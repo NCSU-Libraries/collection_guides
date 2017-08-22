@@ -1,0 +1,25 @@
+defaults: &defaults
+  solr_host: solr.yourdomain.org
+  solr_port: '8983'
+  solr_core_path: /solr/daev/
+  archivesspace_host: localhost
+  archivesspace_url_host: archivesspace.yourdomain.org
+  archivesspace_port: '8089'
+  archivesspace_frontend_port: '8080'
+  archivesspace_solr_port: '8090'
+  archivesspace_solr_path: '/collection1/'
+  archivesspace_username: admin_username
+  archivesspace_password: admin_password
+  archivesspace_https: true
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults

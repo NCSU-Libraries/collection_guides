@@ -1,0 +1,249 @@
+// Place all the styles related to the resources controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+h1.resource-title {
+  font-weight: bold;
+  .date {
+    font-weight: normal;
+    color: $gray;
+    line-height: 1.25em;
+  }
+}
+
+h2.element-heading {
+  font-size: $h3-font-size;
+  font-weight: bold;
+}
+
+.subelement-heading {
+  font-size: $h4-font-size;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.resource-digital-object-info {
+  margin: 0 0 1em 0;
+  padding: 0.5rem;
+  border: 1px solid $grayLighter;
+  font-style: italic;
+  background: $grayGhost;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  .digital-object-link {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  .digital-object-additional {
+    // @extend p;
+    margin-bottom: 0 !important;
+  }
+}
+
+main .row .resource-overview {
+  margin-bottom: 1.5rem;
+
+  .resource-overview-digital-object-info {
+    font-weight: bold;
+    font-style: italic;
+  }
+}
+
+.arrangement {
+  ul, li {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-position: inside;
+  }
+}
+
+.resource-tree {
+
+  line-height: 1.25em;
+
+  div.description-element {
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .description-element.date {
+    font-weight: bold;
+    color: $grayLight;
+    margin-top: 0.25rem;
+  }
+
+
+  .tree-item {
+    margin-left: 1rem;
+    // margin-top: 1rem;
+
+    @media #{$small-only} {
+      margin-left: 0.5rem;
+    }
+
+    &.series-level {
+      margin-top: 1rem;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+
+      &.container-list-item {
+        border-bottom: 1px solid $grayGhost;
+      }
+
+      .columns {
+        &:first-child {
+          padding-left: 0;
+        }
+        &:last-child, &.container-info {
+          padding-right: 0;
+        }
+      }
+    }
+
+    .component-title {
+      font-weight: bold;
+      line-height: 1.25em;
+      .date, .component-id {
+        color: $grayLight;
+        padding-left: 0.25rem;
+        // &:before {
+        //   content: ', ';
+        // }
+        font-weight: normal;
+        white-space: nowrap;
+        font-size: 0.9em;
+      }
+      .component-id {
+        font-size: 0.7em;
+      }
+    }
+
+    &.tree-item-1 {
+      margin-left: 0;
+      .component-title {
+        font-size: $h3-font-size;
+        .date, .component-id {
+          font-size: $h3-font-size * 0.8;
+        }
+      }
+      & > .row {
+        padding-left: 0;
+      }
+    }
+
+    &.tree-item-2 {
+      .component-title {
+        font-size: $h4-font-size;
+        .date {
+          font-size: $h4-font-size * 0.85;
+        }
+        .component-id {
+          font-size: $h4-font-size * 0.75;
+        }
+      }
+    }
+
+    &.file-level, &.item-level {
+      .component-title {
+        font-size: inherit;
+        .date {
+          font-size: 0.9em;
+        }
+      }
+    }
+
+    .element-heading, .element-label, .subelement-heading  {
+      font-weight: bold;
+      font-size: 80%;
+      text-transform: uppercase;
+    }
+
+    .element-heading {
+      margin-bottom: 0.25rem;
+    }
+
+    .containers, .digital-objects {
+      text-align: right;
+      font-size: 80%;
+      color: $gray;
+      padding-right: .2rem;
+    }
+    .digital-objects {
+      line-height: 1.25em;
+    }
+    .description-element.digital-objects {
+      text-align: inherit;
+      font-size: inherit;
+      color: inherit;
+      padding: inherit;
+      margin-top: 1rem;
+    }
+
+  }
+
+}
+
+
+.series-title {
+  padding: 0.5rem 0 0.25rem 0.5rem;
+  border-bottom: 1px solid $grayLighter;
+  font-size: $h3-font-size;
+  font-weight: bold;
+
+  @media #{$small-only} {
+    font-size: $h3-font-size * 0.8;
+  }
+
+  .date {
+    font-size: $h3-font-size * 0.85;
+    font-weight: normal;
+    color: $grayLight;
+    @media #{$small-only} {
+      font-size: $h3-font-size * 0.65;
+    }
+  }
+  .component-id {
+    display: none;
+  }
+
+}
+
+
+.persistent-header {
+  position: relative;
+}
+
+
+#terms {
+  .access-terms-group {
+    .element-label {
+      // @extend h2;
+      font-size: 1.15em;
+      margin-bottom: 0.25rem;
+    }
+  }
+}
+
+// EAD Index
+.ead-link {
+  margin: 1em 0;
+}

@@ -1,0 +1,338 @@
+// Place all the styles related to the search controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+main #search-results {
+
+  h1 {
+    font-size: $h2-font-size;
+    margin-bottom: 1.5rem;
+    @media #{$small-only} {
+      margin-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+  }
+
+  .query-term {
+    font-weight: bold;
+  }
+
+  .pagination {
+    margin-top: -0.5rem;
+    margin-bottom: 1.75rem;
+    @media #{$small-only} {
+      margin-top: 0;
+    }
+    .arrow.unavailable {
+      color: #e6e6e6;
+    }
+  }
+
+  #search-facets-options {
+
+
+    margin-top: 2rem;
+    font-size: 90%;
+    padding-right: 1rem;
+
+    @media #{$small-only} {
+      margin-top: 0;
+    }
+
+    h2 {
+      text-transform: uppercase;
+      font-size: 1em;
+      border-bottom: 1px solid $grayLightest;
+    }
+
+    h3 {
+      font-size: 1em;
+      margin-bottom: 0.25em;
+      font-weight: bold;
+    }
+
+    .active-facet {
+      font-weight: bold;
+    }
+
+    .facet {
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 90%;
+        line-height: 1.1em;
+
+        li {
+          padding: 0.25em 0;
+          list-style: none;
+
+          &:last-child {
+            border: 0;
+          }
+          &:first-child {
+            padding-top: 0;
+          }
+        }
+        &.date-range-options li {
+          margin: 0;
+        }
+      }
+      .scrollable {
+        background: $grayGhost;
+
+        ul li {
+          border-bottom: 1px solid $grayLightest;
+        }
+      }
+    }
+
+  }
+
+
+  #mobile-facets {
+    margin-bottom: 1rem;
+    margin-left: -0.45rem;
+
+    .f-dropdown.content {
+      border: 1px solid $gray;
+
+
+      &:before {
+        border: inset 6px;
+        border-color: transparent transparent white transparent;
+        border-bottom-style: solid;
+        position: absolute;
+        top: -12px;
+        left: 10px;
+        z-index: 99;
+      }
+      &:after {
+        border: inset 7px;
+        border-color: transparent transparent $gray transparent;
+        border-bottom-style: solid;
+        position: absolute;
+        top: -14px;
+        left: 9px;
+        z-index: 98;
+      }
+
+
+
+    }
+
+    .dropdown-trigger {
+      font-size: 70%;
+
+      i {
+        font-size: 1.25em;
+      }
+
+      text-transform: uppercase;
+      padding: 0.25rem 0.5rem;
+      background: $blue;
+      color: $white;
+
+      &:hover {
+        background: $blue2;
+        text-decoration: none;
+      }
+    }
+
+    #filter-drop {
+      h2.filter-heading {
+        display: none;
+      }
+
+      .scrollable {
+        max-height: 5.5rem;
+        li a {
+          padding: 0.1rem 0.25rem;;
+        }
+      }
+
+      .facet {
+        margin-bottom: 1rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        h3 {
+          margin-top: 0
+        }
+
+        a {
+          display: inline;
+        }
+      }
+    }
+
+  }
+
+
+  #active-filters {
+    font-size: 0.9em;
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
+    .label {
+      @extend .simple-label;
+      text-transform: uppercase;
+      font-size: 0.9em;
+    }
+    .active-facet {
+      padding-right: 0.5rem;
+    }
+    @media #{$small-only} {
+      margin-top: 0;
+    }
+  }
+
+
+  a.remove-facet-link {
+    color: $red;
+    padding-left: 0.25em;
+    font-size: 150%;
+    vertical-align: -0.08em;
+
+    &:hover {
+      color: $red2;
+    }
+  }
+
+  .search-result {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid $grayLightest;
+    position: relative;
+
+    &:last-child, &.last {
+      padding-bottom: 0.5rem;
+      border-bottom: 0;
+    }
+
+    .creator {
+      font-style: italic;
+      color: $grayLight;
+      margin-bottom: 0.25rem;
+    }
+
+    .resource-title {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .resource-details {
+      margin: 0.25rem 0;
+      font-size: 90%;
+
+      .element-label {
+        font-size: 75%;
+        text-transform: uppercase;
+        color: $grayLight;
+      }
+      .detail-data {
+        padding-right: 0.5rem;
+      }
+    }
+
+
+    .resource-component-results, &.row {
+      .columns {
+        padding-left: 0;
+      }
+    }
+
+
+    .resource-digital-content {
+      color: $gray;
+      text-transform: uppercase;
+      max-width: 200px;
+      padding: 0.1rem 0.25rem;
+      background: $grayGhost;
+      border: 1px solid $grayLightest;
+      margin: 0 0 0.75rem 0.75rem;
+      line-height: 1em;
+      span {
+        font-size: 70%;
+      }
+      i {
+        font-size: 90%;
+      }
+    }
+
+    .abstract {
+      @extend p;
+      font-size: 90%;
+      margin-top: 0.75rem;
+      margin-bottom: 0 !important;
+    }
+
+    .component-results {
+      margin-top: 1rem;
+
+      .list-heading {
+        text-transform: uppercase;
+        font-size: 80%;
+        margin-bottom: 0.5rem;
+      }
+
+      ul, li {
+        font-size: 90%;
+        line-height: 1.1em;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        margin-bottom: .5rem;
+        .component-title {
+          font-weight: bold;
+        }
+      }
+
+    }
+  }
+
+
+
+
+
+  &.resource-results {
+    .search-result {
+      // margin-top: 0;
+      // margin-bottom: 1.5rem;
+      padding-bottom: 0;
+      border-bottom: none;
+      line-height: 1.25rem;
+
+      .component-title {
+        font-weight: bold;
+      }
+
+      .archival-object-link {
+        font-size: 1.15em;
+      }
+
+      .date {
+        color: $grayLight;
+        padding-left: 0.25rem;
+      }
+
+      .containers {
+        font-size: 90%;
+      }
+
+    }
+
+
+  }
+}
+
+// For stupid IE9
+ul.resource-component-results,
+ul.resource-component-results li {
+  list-style: none;
+}

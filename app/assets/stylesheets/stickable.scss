@@ -1,0 +1,61 @@
+.stickable {
+
+  h1 {
+    margin: 0 !important;
+    padding-bottom: 1rem;
+
+    @media #{$small-only} {
+      padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+  }
+
+  .row {
+    padding: 0 0.75rem;
+  }
+
+  dl.tabs {
+    padding-bottom: 0.5rem !important;
+    margin-bottom: 0 !important;
+  }
+
+  .sticky-show {
+    display: none;
+    .heading {
+      @extend h1;
+      font-size: $h3-font-size;
+      margin-bottom: 0;
+    }
+    .sticky-show-header {
+      background: $grayDarker;
+      padding: 0.5rem 0;
+
+      .project-name {
+        @extend .project-name;
+      }
+
+    }
+  }
+
+  &.sticky {
+    background: $body-bg;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    border-top: 0;
+    padding: 0 0.75rem;
+
+    .row {
+      // width: $row-width;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .sticky-show {
+      display: block;
+    }
+  }
+
+}

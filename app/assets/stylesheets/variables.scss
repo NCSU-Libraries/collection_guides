@@ -1,0 +1,51 @@
+$white: #fff;
+$black: #000;
+
+$grayDarkest: #222;
+$grayDarker: #383838;
+$grayDark: #444;
+$gray: #666;
+$grayLight: #999;
+$grayLighter: #ccc;
+$grayLightest: #e1e1e1;
+$grayGhost: #efefef;
+
+$red: #c52f24; //primary
+$red2: #a20000; // secondary
+
+$blue: #567; //secondary
+$blue2: #4a7aa9; //support
+
+
+$grayGreen: #5C5541;
+
+$green: #663;
+$green2: #785;
+$green3: #9a7;
+$green4: #cda;
+
+$gold: #c90;
+
+$tan: #A79574;
+$tanLight: #C5BD9D;
+$tanLigher: #E5E1D0;
+
+$blueLight: #67849c;
+
+
+$linkColor: $blue2;
+$orange: #CC9900;
+
+$yellowLight: #FDF1B5;
+
+/* Foundation overrides */
+
+$h1-font-size: rem-calc(32);
+$h2-font-size: rem-calc(24);
+$h3-font-size: rem-calc(21);
+$h4-font-size: rem-calc(18);
+$h5-font-size: rem-calc(14);
+$h6-font-size: 1rem;
+$paragraph-line-height: 1.4rem;
+
+$body-background: #fff;
