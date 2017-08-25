@@ -19,7 +19,7 @@ Provide your database configuration options. You can use database_example.yml as
 ### config/application.yml
 Provide information needed to connect to the Solr index and to ArchivesSpace. You can use application_example.yml as a template.
 
-Configuration options include:
+Configuration options (all required unless specified) include:
 * `solr_host`: Your Solr host (e.g. 'solr.myinstitution.org', without the 'http://' protocol segment included)
 * `solr_port`: The port number on which your Solr instance is running (required)
 * `solr_core_path`: If you are running a multi-core instance of Solr, provide the path to your core (with leading and trailing slashes - e.g. '/solr/aspace_public/')
@@ -31,7 +31,7 @@ Configuration options include:
 * `archivesspace_solr_path`: path the the Solr core used by ArchivesSpace (by default this is '/collection1/')
 * `archivesspace_username`: Username for an ArchivesSpace admin user
 * `archivesspace_password`: Password associated with archivesspace\_username
-* `archivesspace_https`: Set to true to force communication with ArchivesSpace over HTTPS
+* `archivesspace_https`: Set to true to force communication with ArchivesSpace over HTTPS (OPTIONAL - defaults to false)
 
 ### config/secrets.yml
 `secret_key_base` values for each environment. See http://guides.rubyonrails.org/4_1_release_notes.html#config-secrets-yml
