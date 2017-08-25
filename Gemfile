@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.5.1'
+gem 'rails', '~> 4.2.8'
 
 gem "sprockets", ">=2.11.3"
 
@@ -33,7 +33,8 @@ gem 'archivesspace-api-utility', :git => "git@github.com:trevorthornton/archives
 
 
 gem 'compass-rails', '>= 2.0.2'
-gem 'foundation-rails', '~> 5.5.2.1'
+# gem 'foundation-rails', '~> 5.5.2.1'
+gem 'foundation-rails', '< 6.0'
 gem 'modernizr-rails'
 gem 'font-awesome-sass', '~>4.1.0'
 gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'

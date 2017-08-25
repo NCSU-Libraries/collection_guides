@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-AspacePublic::Application.load_tasks
+CollectionGuides::Application.load_tasks

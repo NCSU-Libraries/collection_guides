@@ -23,6 +23,12 @@
   }
 
 
+  a {
+    color: $gray;
+    &:hover {
+      color: $red;
+    }
+  }
 
   input {
     margin: 0;

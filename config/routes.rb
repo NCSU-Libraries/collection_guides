@@ -1,4 +1,4 @@
-AspacePublic::Application.routes.draw do
+CollectionGuides::Application.routes.draw do
   get 'resources/index'
   get 'resources/show'
   get 'search/index'
