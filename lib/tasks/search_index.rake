@@ -75,7 +75,7 @@ namespace :search_index do
   desc "temporary task to populate new index while keeping the old one alive"
   task :populate_new_index => :environment do |t, args|
     if add_task_pid('search_index')
-      solr_url = "http://#{ENV['solr_host']}:8983/solr/aspace_public/"
+      solr_url = "http://#{ENV['solr_host']}:8983/solr/collection_guides/"
       puts "Populating Solr index at #{ solr_url }"
       s = SearchIndex.new
       s.execute_full(solr_url: solr_url)
