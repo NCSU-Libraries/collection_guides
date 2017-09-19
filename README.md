@@ -1,11 +1,11 @@
-# ArchivesSpace Public (finding aids)
+# Collection guides
 
 A Ruby on Rails application for presenting archival finding aids that uses data imported from ArchivesSpace. Used for [NCSU Libraries Special Collections Research Center Collection Guides](http://www.lib.ncsu.edu/findingaids/). Search across finding aids is provided via Apache Solr.
 
 ## Requirements
 
-* Ruby 4.1 or higher
-* Apache Solr 4 or higher
+* Ruby 4.2 or higher
+* Apache Solr 5 or higher
 * Cron (for scheduled updates of data from ArchivesSpace)
 
 ## Configuration
