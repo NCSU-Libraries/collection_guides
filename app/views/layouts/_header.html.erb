@@ -1,6 +1,3 @@
-<%= ncsul_web_header %>
-
-
 <div class="project-header" id="project-header">
 
   <div class="row">
@@ -8,44 +5,9 @@
     <div class="small-12 columns project-name-column">
       <div class="project-name">
         <%= link_to "Collection Guides", root_path %>
-        <div class="subhead">Archival collections at NCSU Libraries</div>
       </div>
     </div>
 
-
-<!--
-    <div class="mobile-nav-wrapper hide-for-medium-up text-right">
-
-      <span class="mobile-nav right">
-        <a href="#" data-dropdown="drop1" data-options="align:left"><%= icon('bars') %></a>
-
-        <ul id="drop1" class="f-dropdown dropdown-menu" data-dropdown-content>
-          <li><%= link_to 'Special Collections Research Center', 'http://www.lib.ncsu.edu/specialcollections' %></li>
-          <li><%= link_to 'Contact', 'http://www.lib.ncsu.edu/specialcollections/research/requestinformation.html' %></li>
-          <li><%= link_to 'Get help', 'http://www.lib.ncsu.edu/findingaids/help.html' %></li>
-        </ul>
-      </span>
-
-      <% if params[:controller] != 'search' %>
-        <span class="mobile-search right">
-          <a href="#"><%= icon('search') %></a>
-        </span>
-      <% end %>
-
-    </div>
- -->
-
-
-  </div>
-
-  <div class="row project-nav">
-    <div class="small-12 columns">
-     <ul class="inline-list" id="project-nav">
-        <li><%= link_to 'Special Collections Research Center', 'http://www.lib.ncsu.edu/specialcollections' %></li>
-        <li><%= link_to 'Contact', 'http://www.lib.ncsu.edu/specialcollections/research/requestinformation.html' %></li>
-        <li><%= link_to 'Get help', help_path %></li>
-      </ul>
-    </div>
   </div>
 
 
@@ -62,9 +24,6 @@
   <div class="row show-for-small-only">
     <%= link_to('Browse all collections', "#{root_path}resources", class: 'browse-all browse-all-block') %>
   </div>
-
-
-
 
 </div>
 

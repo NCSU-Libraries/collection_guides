@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--[if IE 7 ]>    <html lang="en" class="no-js lt-ie9 ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="no-js lt-ie9 ie8" lang="en"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="no-js lt-ie9 ie9" lang="en"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!-->
 <html version="HTML+RDFa 1.1" lang="en"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -14,7 +10,7 @@
   xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns:foaf="http://xmlns.com/foaf/0.1/"
   class="no-js">
-<!--<![endif]-->
+
 
   <head>
     <% if @resource && @presenter %>
@@ -52,6 +48,8 @@
       </style>
     <![endif]-->
 
+    <%= javascript_include_tag 'modernizr' %>
+
     <%= render '/layouts/google_analytics' %>
 
     <%= csrf_meta_tags %>
@@ -80,15 +78,11 @@
 
         </main>
 
-        <%= ncsul_web_footer %>
-
       </div>
     </div>
 
     <!-- js -->
-    <script src="//cdn.ncsu.edu/brand-assets/utility-bar/ub.php?maxWidth=1000&color=red"></script>
     <%= javascript_include_tag 'application' %>
-    <%= ncsul_web_ie_conditionals %>
 
   </body>
 

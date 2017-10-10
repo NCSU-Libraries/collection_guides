@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require foundation
 //= require foundation/foundation.tooltip
-//= require ncsul_web
 //= require utilities
 //= require modal
 //= require digital_objects_thumbnails
