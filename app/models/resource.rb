@@ -358,12 +358,25 @@ class Resource < ActiveRecord::Base
 
 
   def has_descendant_digital_objects
-    sql = "SELECT do.* from digital_objects do
+    sql = "SELECT do.id from digital_objects do
       JOIN digital_object_associations doa ON do.id = doa.digital_object_id
       JOIN archival_objects a ON a.id = doa.record_id
       WHERE doa.record_type = 'ArchivalObject'
       AND a.resource_id = #{id}
       AND do.publish = 1"
+    digital_objects = DigitalObject.find_by_sql(sql)
+    return digital_objects.length > 0 ? true : false
+  end
+
+
+  def has_descendant_digital_objects_with_files
+    sql = "SELECT do.id from digital_objects do
+      JOIN digital_object_associations doa ON do.id = doa.digital_object_id
+      JOIN archival_objects a ON a.id = doa.record_id
+      WHERE doa.record_type = 'ArchivalObject'
+      AND a.resource_id = #{id}
+      AND do.publish = 1
+      AND do.has_files = 1"
     digital_objects = DigitalObject.find_by_sql(sql)
     return digital_objects.length > 0 ? true : false
   end

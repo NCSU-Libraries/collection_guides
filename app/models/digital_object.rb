@@ -20,6 +20,8 @@ class DigitalObject < ActiveRecord::Base
   has_many :subject_associations, -> { order('position ASC') }, as: :record, dependent: :destroy
   has_many :subjects, through: :subject_associations
 
+  after_save :update_has_files
+
   @@uri_format = /^\/repositories\/[\d]+\/digital\_objects\/[\d]+$/
 
   def self.create_from_api(uri, options={})
@@ -96,6 +98,22 @@ class DigitalObject < ActiveRecord::Base
     end
 
     do_data
+  end
+
+
+  def has_files?
+    has_files
+  end
+
+
+  def update_has_files
+    if !api_response.blank?
+      data = JSON.parse(api_response)
+      value = data['file_versions'] &&
+          !data['file_versions'].empty? ?
+              true : false
+      update_attributes(has_files: value)
+    end
   end
 
 
