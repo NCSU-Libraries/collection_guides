@@ -4,18 +4,6 @@ GIT
   specs:
     archivesspace-api-utility (0.0.6.3)
 
-GIT
-  remote: git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git
-  revision: 64d0ce0df88eacf9f653ece52e8f11de80f45f90
-  specs:
-    ncsul_web (0.0.10)
-      font-awesome-sass
-      foundation-rails
-      jquery-rails
-      modernizr-rails
-      rails (>= 4.1.11)
-      sass-rails
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -306,7 +294,6 @@ DEPENDENCIES
   jquery-rails (~> 4.0.4)
   modernizr-rails
   mysql2
-  ncsul_web!
   newrelic_rpm
   nokogiri (~> 1.6.7.1)
   quiet_assets
