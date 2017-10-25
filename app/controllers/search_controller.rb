@@ -42,7 +42,7 @@ class SearchController < ApplicationController
         end
         params[:filters][:inclusive_years] = ranges
       when 'ncsu_subjects'
-        # These are subdivided corporate name subjects, so they are recorfded as agents
+        # These are subdivided corporate name subjects, so they are recorded as agents
         v.each do |subject|
           params[:filters][:agents] << subject
         end
@@ -129,7 +129,7 @@ class SearchController < ApplicationController
 
       if params[:resource_id]
         @total_components = @response['response']['numFound']
-        @pages = (@total_components.to_f/@per_page.to_f).ceil
+        @pages = (@total_components.to_f / @per_page.to_f).ceil
       else
         @total_collections = @response['facet_counts']['facet_fields']['resource_uri'].length / 2
         @pages = (@total_collections.to_f/@per_page.to_f).ceil

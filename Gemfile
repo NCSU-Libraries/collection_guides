@@ -37,7 +37,7 @@ gem 'compass-rails', '>= 2.0.2'
 gem 'foundation-rails', '< 6.0'
 gem 'modernizr-rails'
 gem 'font-awesome-sass', '~>4.1.0'
-gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
+# gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 gem 'rsolr'
 gem 'will_paginate'
