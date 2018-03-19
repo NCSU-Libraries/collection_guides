@@ -5,7 +5,7 @@ A Ruby on Rails application for presenting archival finding aids that uses data 
 ## Requirements
 
 * Ruby 2.4.1 or higher
-* Apache Solr 5 or higher
+* Apache Solr 5 or 6
 * Cron (for scheduled updates of data from ArchivesSpace)
 
 ## Configuration
@@ -14,10 +14,10 @@ Configuration files containing sensitive information are required but not includ
 
 ### config/database.yml
 
-Provide your database configuration options. You can use database_example.yml as a template. For more information see http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
+Provide your database configuration options. You can use `database_example.yml` as a template for MySQL, or `database_example_sqlite.yml` for SQLite (in development only). For more information see http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
 
 ### config/application.yml
-Provide information needed to connect to the Solr index and to ArchivesSpace. You can use application_example.yml as a template.
+Provide information needed to connect to the Solr index and to ArchivesSpace. You can use `application_example.yml` as a template.
 
 Configuration options (all required unless specified) include:
 * `solr_host`: Your Solr host (e.g. 'solr.myinstitution.org', without the 'http://' protocol segment included)
@@ -25,12 +25,12 @@ Configuration options (all required unless specified) include:
 * `solr_core_path`: If you are running a multi-core instance of Solr, provide the path to your core (with leading and trailing slashes - e.g. '/solr/aspace_public/')
 * `archivesspace_host`: The hostname for your ArchivesSpace instance, used for communication between DAEV and ArchivesSpace (localhost if running on the same server as the application)
 * `archivesspace_url_host`: The hostname for your ArchivesSpace instance (e.g. 'archivesspace.myinstitution.org', without the 'http://' protocol segment included), used for generating links to the records in the ArchivesSpace front end
-* `archivesspace_port`: Your ArchivesSpace backend port (8089 by default)
-* `archivesspace_frontend_port`: Your ArchivesSpace frontend port (8080 by default)
-* `archivesspace_solr_port`: Your ArchivesSpace Solr port (8090 by default)
-* `archivesspace_solr_path`: path the the Solr core used by ArchivesSpace (by default this is '/collection1/')
+* `archivesspace_port`: Your ArchivesSpace backend port (ArchivesSpace default is **8089**)
+* `archivesspace_frontend_port`: Your ArchivesSpace frontend port (ArchivesSpace default is **8080**)
+* `archivesspace_solr_port`: Your ArchivesSpace Solr port (ArchivesSpace default is **8090**)
+* `archivesspace_solr_path`: path the the Solr core used by ArchivesSpace (ArchivesSpace default is **'/collection1/'**)
 * `archivesspace_username`: Username for an ArchivesSpace admin user
-* `archivesspace_password`: Password associated with archivesspace\_username
+* `archivesspace_password`: Password associated with *archivesspace\_username*
 * `archivesspace_https`: Set to true to force communication with ArchivesSpace over HTTPS (OPTIONAL - defaults to false)
 
 ### config/secrets.yml
@@ -55,7 +55,7 @@ The Solr index includes both `Resource` (collection) records and `ArchivalObject
 
 The search results use Solr's [Result Grouping](https://cwiki.apache.org/confluence/display/solr/Result+Grouping) feature to aggregate component-level results with their parent collection in order to provide appropriate context.
 
-The application uses the [RSolr](https://github.com/rsolr/rsolr) Ruby client for Apache Solr for all interactions with the Solr index. Solr configuration files are available in this repository for both Solr 4 (in `solr_4_conf`) and 5 (in `solr_conf`).
+The application uses the [RSolr](https://github.com/rsolr/rsolr) Ruby client for Apache Solr for all interactions with the Solr index. Solr configuration files are available in this repository in `solr_conf`.
 
 ### Finding aid presentation
 
