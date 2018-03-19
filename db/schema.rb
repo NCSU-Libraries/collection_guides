@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405204728) do
+ActiveRecord::Schema.define(version: 20171010210428) do
 
   create_table "agent_associations", force: :cascade do |t|
     t.integer  "record_id",   limit: 4
@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.text     "terms",       limit: 4294967295
   end
 
-  add_index "agent_associations", ["agent_id"], name: "index_agent_associations_on_agent_id", using: :btree
-  add_index "agent_associations", ["record_id"], name: "index_agent_associations_on_record_id", using: :btree
-  add_index "agent_associations", ["record_type"], name: "index_agent_associations_on_record_type", using: :btree
+  add_index "agent_associations", ["agent_id"], name: "index_agent_associations_on_agent_id"
+  add_index "agent_associations", ["record_id"], name: "index_agent_associations_on_record_id"
+  add_index "agent_associations", ["record_type"], name: "index_agent_associations_on_record_type"
 
   create_table "agents", force: :cascade do |t|
     t.string   "uri",          limit: 255
@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.datetime "updated_at"
   end
 
-  add_index "agents", ["agent_type"], name: "index_agents_on_agent_type", using: :btree
-  add_index "agents", ["uri"], name: "index_agents_on_uri", using: :btree
+  add_index "agents", ["agent_type"], name: "index_agents_on_agent_type"
+  add_index "agents", ["uri"], name: "index_agents_on_uri"
 
   create_table "archival_objects", force: :cascade do |t|
     t.string   "uri",           limit: 255,        null: false
@@ -60,10 +60,10 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.string   "component_id",  limit: 255
   end
 
-  add_index "archival_objects", ["parent_id"], name: "index_archival_objects_on_parent_id", using: :btree
-  add_index "archival_objects", ["repository_id"], name: "index_archival_objects_on_repository_id", using: :btree
-  add_index "archival_objects", ["resource_id"], name: "index_archival_objects_on_resource_id", using: :btree
-  add_index "archival_objects", ["uri"], name: "index_archival_objects_on_uri", using: :btree
+  add_index "archival_objects", ["parent_id"], name: "index_archival_objects_on_parent_id"
+  add_index "archival_objects", ["repository_id"], name: "index_archival_objects_on_repository_id"
+  add_index "archival_objects", ["resource_id"], name: "index_archival_objects_on_resource_id"
+  add_index "archival_objects", ["uri"], name: "index_archival_objects_on_uri"
 
   create_table "aspace_imports", force: :cascade do |t|
     t.datetime "created_at"
@@ -80,9 +80,9 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.integer "position",          limit: 4
   end
 
-  add_index "digital_object_associations", ["digital_object_id"], name: "index_digital_object_associations_on_digital_object_id", using: :btree
-  add_index "digital_object_associations", ["record_id"], name: "index_digital_object_associations_on_record_id", using: :btree
-  add_index "digital_object_associations", ["record_type"], name: "index_digital_object_associations_on_record_type", using: :btree
+  add_index "digital_object_associations", ["digital_object_id"], name: "index_digital_object_associations_on_digital_object_id"
+  add_index "digital_object_associations", ["record_id"], name: "index_digital_object_associations_on_record_id"
+  add_index "digital_object_associations", ["record_type"], name: "index_digital_object_associations_on_record_type"
 
   create_table "digital_object_volumes", force: :cascade do |t|
     t.integer  "digital_object_id", limit: 4, null: false
@@ -102,9 +102,10 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "show_thumbnails"
+    t.boolean  "has_files"
   end
 
-  add_index "digital_objects", ["uri"], name: "index_digital_objects_on_uri", using: :btree
+  add_index "digital_objects", ["uri"], name: "index_digital_objects_on_uri"
 
   create_table "repositories", force: :cascade do |t|
     t.string   "uri",          limit: 255,        null: false
@@ -116,7 +117,7 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.datetime "updated_at"
   end
 
-  add_index "repositories", ["repo_code"], name: "index_repositories_on_repo_code", using: :btree
+  add_index "repositories", ["repo_code"], name: "index_repositories_on_repo_code"
 
   create_table "resources", force: :cascade do |t|
     t.string   "uri",                  limit: 255,        null: false
@@ -134,9 +135,9 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.string   "eadid",                limit: 255
   end
 
-  add_index "resources", ["eadid"], name: "index_resources_on_eadid", using: :btree
-  add_index "resources", ["repository_id"], name: "index_resources_on_repository_id", using: :btree
-  add_index "resources", ["uri"], name: "index_resources_on_uri", using: :btree
+  add_index "resources", ["eadid"], name: "index_resources_on_eadid"
+  add_index "resources", ["repository_id"], name: "index_resources_on_repository_id"
+  add_index "resources", ["uri"], name: "index_resources_on_uri"
 
   create_table "search_indices", force: :cascade do |t|
     t.string   "index_type",      limit: 255
@@ -155,9 +156,9 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.datetime "updated_at"
   end
 
-  add_index "subject_associations", ["record_id"], name: "index_subject_associations_on_record_id", using: :btree
-  add_index "subject_associations", ["record_type"], name: "index_subject_associations_on_record_type", using: :btree
-  add_index "subject_associations", ["subject_id"], name: "index_subject_associations_on_subject_id", using: :btree
+  add_index "subject_associations", ["record_id"], name: "index_subject_associations_on_record_id"
+  add_index "subject_associations", ["record_type"], name: "index_subject_associations_on_record_type"
+  add_index "subject_associations", ["subject_id"], name: "index_subject_associations_on_subject_id"
 
   create_table "subjects", force: :cascade do |t|
     t.string   "uri",                limit: 255
@@ -170,7 +171,7 @@ ActiveRecord::Schema.define(version: 20170405204728) do
     t.datetime "updated_at"
   end
 
-  add_index "subjects", ["subject_type"], name: "index_subjects_on_subject_type", using: :btree
-  add_index "subjects", ["uri"], name: "index_subjects_on_uri", using: :btree
+  add_index "subjects", ["subject_type"], name: "index_subjects_on_subject_type"
+  add_index "subjects", ["uri"], name: "index_subjects_on_uri"
 
 end

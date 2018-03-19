@@ -12,6 +12,9 @@
 /config/initializers/secret_token.rb
 /config/secrets.yml
 
+# Ignore sqlite db if there is one
+/db/*.sqlite3
+
 #ignore capistrano stuff
 /config/deploy/*
 /Capfile

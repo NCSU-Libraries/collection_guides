@@ -4,7 +4,7 @@ A Ruby on Rails application for presenting archival finding aids that uses data 
 
 ## Requirements
 
-* Ruby 4.2 or higher
+* Ruby 2.4.1 or higher
 * Apache Solr 5 or higher
 * Cron (for scheduled updates of data from ArchivesSpace)
 

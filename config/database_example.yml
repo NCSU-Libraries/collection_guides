@@ -9,14 +9,15 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 #
-default: &default
+development:
   adapter: mysql2
   encoding: utf8
+  database: collection_guides
   pool: 5
+  timeout: 5000
+  username: root
   host: localhost
-  database: daev
-  username: mysql_username
-  password: mysql_password
+  socket: /tmp/mysql.sock
 
 development:
   <<: *default

@@ -29,7 +29,7 @@ gem 'jquery-rails', '~>4.0.4'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-gem 'archivesspace-api-utility', :git => "git@github.com:trevorthornton/archivesspace-api-utility.git"
+gem 'archivesspace-api-utility', :git => "https://github.com/NCSU-Libraries/archivesspace-api-utility.git"
 
 
 gem 'compass-rails', '>= 2.0.2'
@@ -58,8 +58,10 @@ group :development, :test do
   gem 'thin'
   gem 'guard-livereload'
   gem 'quiet_assets'
-
   gem 'annotate'
+
+  # Make SQLite available for development
+  gem 'sqlite3'
 
   # For testing
   gem 'rspec-rails', '>= 3.3.0'
