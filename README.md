@@ -8,15 +8,53 @@ A Ruby on Rails application for presenting archival finding aids that uses data 
 * Apache Solr 5 or 6
 * Cron (for scheduled updates of data from ArchivesSpace)
 
+## Installation
+
+### Select and configure database
+
+#### To use SQLite (for development only)
+Locate the file `config/database_example_sqlite.yml` and save a copy as `config/database.yml`.
+
+#### To use MySQL
+
+> NOTE: Using MySQL requires other MySQL components to already be available on your system.
+
+1. Locate the file `config/database_example_mysql.yml` and save a copy as
+`config/database.yml`. Update the information in this file as needed. For more information see http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
+
+2. In `Gemfile`, uncomment this line before proceeding:
+`# gem 'mysql2'`
+
+### Clone repo and basic setup
+
+1. Clone this repository to your local machine
+2. `cd` into the local collection_guides directory (the one you just cloned)
+3. Run `bundle install` to install gems
+4. Run `bundle exec rake collection_guides:generate_secrets` to generate the Rails secret\_key_base, used to validate cookies.
+
+### Set up database
+
+Run this to create the database:
+
+`rake db:setup`
+
+### Create Solr core
+
+To use search features, a Solr core must be available. The `solr_conf` directory
+contains Solr configuration files.
+These have only beed tested on Solr versions 5 and 6 and may not work on Solr 7.
+
+#### TODO:
+
+* Solr 7 config
+* expanded documentation
+
 ## Configuration
 
 Configuration files containing sensitive information are required but not included in this repository for security. These files need to be created manually.
 
-### config/database.yml
-
-Provide your database configuration options. You can use `database_example.yml` as a template for MySQL, or `database_example_sqlite.yml` for SQLite (in development only). For more information see http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
-
 ### config/application.yml
+
 Provide information needed to connect to the Solr index and to ArchivesSpace. You can use `application_example.yml` as a template.
 
 Configuration options (all required unless specified) include:
@@ -32,9 +70,6 @@ Configuration options (all required unless specified) include:
 * `archivesspace_username`: Username for an ArchivesSpace admin user
 * `archivesspace_password`: Password associated with *archivesspace\_username*
 * `archivesspace_https`: Set to true to force communication with ArchivesSpace over HTTPS (OPTIONAL - defaults to false)
-
-### config/secrets.yml
-`secret_key_base` values for each environment. See http://guides.rubyonrails.org/4_1_release_notes.html#config-secrets-yml
 
 ## Functionality highlights
 
