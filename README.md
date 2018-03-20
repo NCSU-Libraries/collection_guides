@@ -12,6 +12,8 @@ provided via Apache Solr.
 
 ## Installation
 
+To begin, clone or download/unzip this repo.
+
 ### Select and configure database
 
 #### To use SQLite (for development only)
@@ -31,12 +33,11 @@ http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
 
    `# gem 'mysql2'`
 
-### Clone repo and basic setup
+### Basic setup
 
-1. Clone this repository to your local machine
-2. `cd` into the local collection_guides directory (the one you just cloned)
-3. Run `bundle install` to install gems
-4. Run `bundle exec rake collection_guides:generate_secrets` to generate the
+1. `cd` into the local collection_guides directory (the one you just cloned)
+2. Run `bundle install` to install gems
+3. Run `bundle exec rake collection_guides:generate_secrets` to generate the
 Rails secret\_key_base.
 
 ### Set up database
