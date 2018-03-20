@@ -1,6 +1,8 @@
 # Collection guides
 
-A Ruby on Rails application for presenting archival finding aids that uses data imported from ArchivesSpace. Used for [NCSU Libraries Special Collections Research Center Collection Guides](http://www.lib.ncsu.edu/findingaids/). Search across finding aids is provided via Apache Solr.
+A Ruby on Rails application for presenting archival finding aids that uses data
+imported from ArchivesSpace. Used for [NCSU Libraries Special Collections Research Center Collection Guides](http://www.lib.ncsu.edu/findingaids/). Search across finding aids is
+provided via Apache Solr.
 
 ## Requirements
 
@@ -13,14 +15,17 @@ A Ruby on Rails application for presenting archival finding aids that uses data 
 ### Select and configure database
 
 #### To use SQLite (for development only)
-Locate the file `config/database_example_sqlite.yml` and save a copy as `config/database.yml`.
+Locate the file `config/database_example_sqlite.yml` and save a copy as
+`config/database.yml`.
 
 #### To use MySQL
 
 > NOTE: Using MySQL requires other MySQL components to already be available on your system.
 
 1. Locate the file `config/database_example_mysql.yml` and save a copy as
-`config/database.yml`. Update the information in this file as needed. For more information see http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
+`config/database.yml`. Update the information in this file as needed.
+For more information see
+http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
 
 2. In `Gemfile`, uncomment this line before proceeding:
 
@@ -31,7 +36,8 @@ Locate the file `config/database_example_sqlite.yml` and save a copy as `config/
 1. Clone this repository to your local machine
 2. `cd` into the local collection_guides directory (the one you just cloned)
 3. Run `bundle install` to install gems
-4. Run `bundle exec rake collection_guides:generate_secrets` to generate the Rails secret\_key_base, used to validate cookies.
+4. Run `bundle exec rake collection_guides:generate_secrets` to generate the
+Rails secret\_key_base.
 
 ### Set up database
 
@@ -52,16 +58,20 @@ These have only beed tested on Solr versions 5 and 6 and may not work on Solr 7.
 
 ## Configuration
 
-Configuration files containing sensitive information are required but not included in this repository for security. These files need to be created manually.
+Configuration files containing sensitive information are required but not
+included in this repository for security. These files need to be created manually.
 
 ### config/application.yml
 
-Provide information needed to connect to the Solr index and to ArchivesSpace. You can use `application_example.yml` as a template.
+Provide information needed to connect to the Solr index and to ArchivesSpace.
+You can use `application_example.yml` as a template.
 
 Configuration options (all required unless specified) include:
-* `solr_host`: Your Solr host (e.g. 'solr.myinstitution.org', without the 'http://' protocol segment included)
+* `solr_host`: Your Solr host (e.g. 'solr.myinstitution.org', without the
+'http://' protocol segment included)
 * `solr_port`: The port number on which your Solr instance is running (required)
-* `solr_core_path`: If you are running a multi-core instance of Solr, provide the path to your core (with leading and trailing slashes - e.g. '/solr/aspace_public/')
+* `solr_core_path`: If you are running a multi-core instance of Solr,
+provide the path to your core (with leading and trailing slashes - e.g. '/solr/aspace_public/')
 * `archivesspace_host`: The hostname for your ArchivesSpace instance, used for communication between DAEV and ArchivesSpace (localhost if running on the same server as the application)
 * `archivesspace_url_host`: The hostname for your ArchivesSpace instance (e.g. 'archivesspace.myinstitution.org', without the 'http://' protocol segment included), used for generating links to the records in the ArchivesSpace front end
 * `archivesspace_port`: Your ArchivesSpace backend port (ArchivesSpace default is **8089**)
