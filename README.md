@@ -12,7 +12,10 @@ provided via Apache Solr.
 
 ## Installation
 
-To begin, clone or download/unzip this repo.
+To begin:
+
+1. Clone or download/unzip this repo
+2. `cd` into the local collection_guides directory (the one you just cloned)
 
 ### Select and configure database
 
@@ -35,9 +38,8 @@ http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
 
 ### Basic setup
 
-1. `cd` into the local collection_guides directory (the one you just cloned)
-2. Run `bundle install` to install gems
-3. Run `bundle exec rake collection_guides:generate_secrets` to generate the
+1. Run `bundle install` to install gems (requires Bundler - `gem install bundler`)
+2. Run `bundle exec rake collection_guides:generate_secrets` to generate the
 Rails secret\_key_base.
 
 ### Set up database
