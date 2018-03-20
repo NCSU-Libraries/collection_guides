@@ -23,7 +23,8 @@ Locate the file `config/database_example_sqlite.yml` and save a copy as `config/
 `config/database.yml`. Update the information in this file as needed. For more information see http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
 
 2. In `Gemfile`, uncomment this line before proceeding:
-`# gem 'mysql2'`
+
+   `# gem 'mysql2'`
 
 ### Clone repo and basic setup
 
