@@ -52,6 +52,9 @@ gem 'newrelic_rpm'
 
 gem 'whenever', :require => false
 
+# security vulnerabilities in loofah <2.2.1
+gem 'loofah', '~> 2.2.1'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
