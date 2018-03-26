@@ -132,22 +132,22 @@ class Resource < ActiveRecord::Base
               else
                 child_record = ArchivalObject.create_from_api(child['record_uri'], options)
               end
+
+              # Update parent_id here because it is not included in individual responses per archival_object
+              child_record.update_attributes(parent_id: parent_id)
+
+              if child['has_children']
+                # recursion
+                update_children.call(child['children'], child['id'])
+              end
             rescue Exception => e
+              log_info "An error occurred while processing #{child['id']} as a
+                  child of #{parent_id}:"
               log_info e
-            end
-
-
-            # Update parent_id here because it is not included in individual responses per archival_object
-            child_record.update_attributes(parent_id: parent_id)
-
-            if child['has_children']
-              # recursion
-              update_children.call(child['children'], child['id'])
             end
 
           elsif !child['publish'] && existing_archival_object_ids.include?(child['id'])
             removed_archival_objects[:unpublished] << child['id']
-
           elsif child['supressed'] && existing_archival_object_ids.include?(child['id'])
             removed_archival_objects[:supressed] << child['id']
           end
