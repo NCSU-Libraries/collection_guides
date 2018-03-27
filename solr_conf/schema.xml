@@ -145,8 +145,9 @@
 
     <field name="resource_uri" type="string" indexed="true" stored="true" />
     <field name="resource_title" type="string" indexed="true" stored="true" />
-    <field name="resource_id" type="int" indexed="true" stored="true" />
     <copyField source="resource_title" dest="resource_title_t"/>
+    <field name="resource_id" type="int" indexed="true" stored="true" />
+    <field name="repository_id" type="int" indexed="true" stored="true" />
     <field name="resource_collection_id" type="string" indexed="true" stored="true" />
     <field name="resource_abstract" type="string" indexed="false" stored="true" />
     <field name="resource_primary_agent" type="string" indexed="true" stored="true" multiValued="true" />
