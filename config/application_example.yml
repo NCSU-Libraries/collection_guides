@@ -1,7 +1,8 @@
 defaults: &defaults
   solr_host: solr.yourdomain.org
   solr_port: '8983'
-  solr_core_path: /solr/daev/
+  solr_core_path: /solr/collection_guides/
+  solr_core_name: collection_guides
   archivesspace_host: localhost
   archivesspace_url_host: archivesspace.yourdomain.org
   archivesspace_port: '8089'
