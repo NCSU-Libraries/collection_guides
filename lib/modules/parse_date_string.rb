@@ -910,7 +910,7 @@ module ParseDateString
 
     def stringify_values
       @dates.each do |k,v|
-        if v.is_a?(Fixnum)
+        if v.is_a?(Integer)
           @dates[k] = v.to_s
         end
       end

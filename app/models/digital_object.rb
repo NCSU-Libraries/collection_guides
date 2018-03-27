@@ -112,7 +112,7 @@ class DigitalObject < ActiveRecord::Base
       value = data['file_versions'] &&
           !data['file_versions'].empty? ?
               true : false
-      update_attributes(has_files: value)
+      update_columns(has_files: value)
     end
   end
 

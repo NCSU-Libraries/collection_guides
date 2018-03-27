@@ -165,25 +165,6 @@ module Associations
       old_associations = associations.to_a
       p = 0
 
-
-      ## MARKED FOR DELETION
-      #
-      # has_file_uri = lambda do |data|
-      #   has_uri = false
-      #   if data['file_versions']
-      #     data['file_versions'].each do |fv|
-      #       if fv['file_uri'] && !fv['file_uri'].blank?
-      #         has_uri = true
-      #         break
-      #       end
-      #     end
-      #   end
-      #   return has_uri
-      # end
-      #
-      ## END - MARKED FOR DELETION
-
-
       instances.each do |i|
         if i['instance_type'] == 'digital_object'
 
