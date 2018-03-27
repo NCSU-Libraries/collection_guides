@@ -74,7 +74,7 @@ Configuration options (all required unless specified) include:
 'http://' protocol segment included)
 * `solr_port`: The port number on which your Solr instance is running (required)
 * `solr_core_path`: If you are running a multi-core instance of Solr,
-provide the path to your core (with leading and trailing slashes - e.g. '/solr/aspace_public/')
+provide the path to your core (with leading and trailing slashes - e.g. '/solr/collection_guides/')
 * `archivesspace_host`: The hostname for your ArchivesSpace instance, used for communication between DAEV and ArchivesSpace (localhost if running on the same server as the application)
 * `archivesspace_url_host`: The hostname for your ArchivesSpace instance (e.g. 'archivesspace.myinstitution.org', without the 'http://' protocol segment included), used for generating links to the records in the ArchivesSpace front end
 * `archivesspace_port`: Your ArchivesSpace backend port (ArchivesSpace default is **8089**)

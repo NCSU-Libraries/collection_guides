@@ -47,4 +47,37 @@ module AspaceUtilities
     return_array
   end
 
+
+  def archivesspace_solr_url
+    url = ENV['archivesspace_https'] ? 'https://' : 'http://'
+    if ENV['archivesspace_solr_host']
+      url += ENV['archivesspace_solr_host']
+    elsif ENV['archivesspace_host']
+      url += ENV['archivesspace_host']
+    else
+      url += "localhost"
+    end
+    if ENV['archivesspace_solr_port']
+      url += ":#{ENV['archivesspace_solr_port']}"
+    end
+    url += ENV['archivesspace_solr_core_path']
+    url
+  end
+
+
+  def archivesspace_backend_url
+    url = ENV['archivesspace_https'] ? 'https://' : 'http://'
+    if ENV['archivesspace_backend_host']
+      url += ENV['archivesspace_backend_host']
+    elsif ENV['archivesspace_host']
+      url += ENV['archivesspace_host']
+    else
+      url += "localhost"
+    end
+    if ENV['archivesspace_backend_port']
+      url += ":#{ENV['archivesspace_backend_port']}"
+    end
+    url
+  end
+
 end

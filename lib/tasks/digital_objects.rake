@@ -22,4 +22,19 @@ namespace :digital_objects do
     end
   end
 
+  desc "update has_files field"
+  task :update_has_files, [:id] => :environment do |t, args|
+    if args[:id]
+      puts "updating has_files for DigitalObject #{ args[:id] }"
+      dao = DigitalObject.find args[:id]
+      dao.update_has_files
+    else
+      puts "updating has_files for all digital objects"
+      DigitalObject.find_each do |dao|
+        dao.update_has_files
+        print '.'
+      end
+    end
+  end
+
 end

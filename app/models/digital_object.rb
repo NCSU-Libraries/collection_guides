@@ -57,10 +57,10 @@ class DigitalObject < ActiveRecord::Base
   def update_from_data(data,options={})
     d = prepare_data(data)
     r, json = d[:hash], d[:json]
-    attributes = {}
-    attributes[:api_response] = json
-    ['title','publish','digital_object_id'].each { |x| attributes[x.to_sym] = r[x] }
-    update_attributes(attributes)
+    atts = {}
+    atts[:api_response] = json
+    ['title','publish','digital_object_id'].each { |x| atts[x.to_sym] = r[x] }
+    update_attributes(atts)
     # add/update agents and associations
     update_associated_agents_from_data(r['linked_agents'])
     # add/update agents and associations
