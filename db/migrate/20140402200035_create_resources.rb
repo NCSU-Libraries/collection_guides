@@ -10,11 +10,10 @@ class CreateResources < ActiveRecord::Migration
       t.column(:api_response, 'longtext')
       t.timestamps
     end
-    execute "ALTER TABLE `resources` ADD PRIMARY KEY(id)"
     add_index :resources, :uri
     add_index :resources, :repository_id
   end
-  
+
   def down
     drop_table :resources
   end

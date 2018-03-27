@@ -40,8 +40,8 @@ RSpec.configure do |config|
   # instead of true.
   # config.use_transactional_fixtures = true
 
-  # FactoryGirl config
-  config.include FactoryGirl::Syntax::Methods
+  # FactoryBot config
+  config.include FactoryBot::Syntax::Methods
 
 
   # DatabaseCleaner configs
