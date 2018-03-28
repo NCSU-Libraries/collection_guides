@@ -17,13 +17,11 @@ module ApiResponseData
       puts
     end
 
-
     # Convert a record's unit_data attribute (JSON string) to HashWithIndifferentAccess
     # (treats strings and symbols the same when used as keys)
     def parse_unit_data
       ActiveSupport::HashWithIndifferentAccess.new(JSON.parse(unit_data))
     end
-
 
     # Update a record's unit_data attribute based on currently stored
     # API response and existing associations
@@ -68,89 +66,15 @@ module ApiResponseData
 
       @data[:primary_agent] = get_primary_agent_list
 
-      if has_subjects
-        @data[:subjects] = []
-        subjects.each do |s|
-          @data[:subjects] << {
-            id: s.id,
-            uri: s.uri,
-            subject: s.subject,
-            subject_root: s.subject_root,
-            subject_type: s.subject_type,
-            subject_source_uri: s.subject_source_uri
-          }
-        end
-      end
+      add_subjects_to_unit_data()
 
-      if has_agents
-        @data[:agents] = []
+      add_agents_to_unit_data()
 
-        # avoid duplicates by storing agent display names in array and checking against it before processing
-        # using display names rather than ids because the same agent might appear with different subdivisions
-        display_names = []
+      add_instances_to_unit_data(response_data)
 
-        agent_associations.each do |aa|
-          a = aa.agent
-          extension = ''
+      add_digital_objects_to_unit_data()
 
-          if !aa.terms.blank?
-            JSON.parse(aa.terms).each do |t|
-              if !t['term'].blank?
-                extension << " -- #{t['term']}"
-              end
-            end
-          end
-
-          display_name = a.display_name + extension
-
-          if !display_names.include? display_name
-            display_names << display_name
-            agent_data = {
-              id: a.id,
-              uri: a.uri,
-              # display_name: a.display_name,
-              display_name: escape_ampersands(display_name),
-              agent_type: a.agent_type,
-              role: aa.role,
-              relator: aa.relator
-            }
-            relator_data = marc_relators(aa.relator)
-            agent_data[:relator_term] = relator_data[:label]
-            agent_data[:relator_uri] = relator_data[:uri]
-            @data[:agents] << agent_data
-          end
-        end
-      end
-
-      if response_data['instances']
-        response_data['instances'].each do |i|
-          containers = []
-          if i['container']
-            (1..3).each do |x|
-              type = i['container']["type_#{x.to_s}"]
-              indicator = i['container']["indicator_#{x.to_s}"]
-              if type
-                container = container_type_labels(type);
-                container += indicator ? " #{indicator}" : ''
-                containers << container
-              end
-            end
-            (@data[:containers] ||= []) << containers.join(', ')
-          end
-        end
-      end
-
-      if has_digital_objects
-        @data[:digital_objects] = []
-        digital_objects.each do |d|
-          if d.publish
-            do_data = d.presenter_data
-            @data[:digital_objects] << do_data
-          end
-        end
-      end
-
-      update_unit_data_custom
+      update_unit_data_custom()
 
       @data.delete_if { |k,v| v.blank? }
 
@@ -158,14 +82,117 @@ module ApiResponseData
       update_column(:unit_data, JSON.generate(@data))
       touch
     end
-
   end
-
 
   # Included to enable custom additions to update_unit_data()
   def update_unit_data_custom
   end
 
+  private
 
+  #
+  def add_subjects_to_unit_data
+    if has_subjects
+      @data[:subjects] = []
+      subjects.each do |s|
+        @data[:subjects] << {
+          id: s.id,
+          uri: s.uri,
+          subject: s.subject,
+          subject_root: s.subject_root,
+          subject_type: s.subject_type,
+          subject_source_uri: s.subject_source_uri
+        }
+      end
+    end
+  end
 
+  #
+  def add_agents_to_unit_data
+    if has_agents
+      @data[:agents] = []
+
+      # avoid duplicates by storing agent display names in array and checking against it before processing
+      # using display names rather than ids because the same agent might appear with different subdivisions
+      display_names = []
+
+      agent_associations.each do |aa|
+        a = aa.agent
+        extension = ''
+
+        if !aa.terms.blank?
+          JSON.parse(aa.terms).each do |t|
+            if !t['term'].blank?
+              extension << " -- #{t['term']}"
+            end
+          end
+        end
+
+        display_name = a.display_name + extension
+
+        if !display_names.include? display_name
+          display_names << display_name
+          agent_data = {
+            id: a.id,
+            uri: a.uri,
+            # display_name: a.display_name,
+            display_name: escape_ampersands(display_name),
+            agent_type: a.agent_type,
+            role: aa.role,
+            relator: aa.relator
+          }
+          relator_data = marc_relators(aa.relator)
+          agent_data[:relator_term] = relator_data[:label]
+          agent_data[:relator_uri] = relator_data[:uri]
+          @data[:agents] << agent_data
+        end
+      end
+    end
+  end
+
+  #
+  def add_instances_to_unit_data(response_data)
+    container_string = lambda do |type,indicator|
+      container = container_type_labels(type);
+      container += indicator ? " #{indicator}" : ''
+      return container
+    end
+
+    if response_data['instances']
+      response_data['instances'].each do |i|
+        containers = []
+        sub_c = i['sub_container']
+        if sub_c
+          if sub_c['top_container'] && sub_c['top_container']['_resolved']
+            type = sub_c['top_container']['_resolved']['type']
+            indicator = sub_c['top_container']['_resolved']['indicator']
+            containers << container_string.(type,indicator)
+          end
+
+          [2,3].each do |x|
+            type = sub_c["type_#{x.to_s}"]
+            indicator = sub_c["indicator_#{x.to_s}"]
+            if type
+              containers << container_string.(type,indicator)
+            end
+          end
+
+          (@data[:containers] ||= []) << containers.join(', ')
+        end
+      end
+    end
+  end
+
+  #
+  def add_digital_objects_to_unit_data
+    if has_digital_objects
+      @data[:digital_objects] = []
+      digital_objects.each do |d|
+        if d.publish
+          do_data = d.presenter_data
+          @data[:digital_objects] << do_data
+        end
+      end
+    end
+  end
 end

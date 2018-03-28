@@ -5,10 +5,10 @@ module AspaceConnect
 
   included do
     require 'archivesspace-api-utility/helpers'
+    include GeneralUtilities
     include AspaceUtilities
     include ArchivesSpaceApiUtility
     include ArchivesSpaceApiUtility::Helpers
-
 
     # Class method - If record of this class exists with given URI, update it from the API,
     # otherwise create a record of this class from data returned from URI
@@ -25,7 +25,6 @@ module AspaceConnect
       record
     end
 
-
     # Class method - If record of this class exists with URI equal to that included in data,
     # update it from the API, otherwise create a record of this class from data returned from URI
     # Params:
@@ -38,23 +37,21 @@ module AspaceConnect
       uri = r['uri']
       record = where(uri: uri).first
       if record
-        puts "#{uri} exists. Updating from response data"
         record.update_from_data(data,options)
       else
-        puts "Creating new record from response data for #{uri}"
         record = create_from_data(data,options)
       end
+
       record.reload
       record
     end
 
-
+    # Class method - retrieve data from API corrsponding to uri
     def self.get_data_from_api(uri, options={})
-      resolve_linked_records = options[:resolve_linked_records] || true
       session = options[:session] || ArchivesSpaceApiUtility::ArchivesSpaceSession.new
 
       execute = Proc.new do
-        response = resolve_linked_records ? session.get(uri, resolve: ['linked_agents','subjects']) : session.get(uri)
+        response = session.get(uri, resolve: ['linked_agents','subjects','top_container'])
         if response.code.to_i == 200
           data = prepare_data(response.body)
           return (options[:format] == :json) ? data[:json] : data[:hash]
@@ -70,18 +67,16 @@ module AspaceConnect
       execute.call
     end
 
-
     # Class method - Create a record of this class from data returned from URI
     # Params:
     # +uri+:: An ArchivesSpace URI associated with a single record
     # +options+:: Options passed from another method to be passed downstream
     def self.create_record_from_api(uri, options={})
-      resolve_linked_records = options[:resolve_linked_records] || true
       session = options[:session] || ArchivesSpaceApiUtility::ArchivesSpaceSession.new
       retries = 0
 
       execute = Proc.new do
-        response = resolve_linked_records ? session.get(uri, resolve: ['linked_agents','subjects']) : session.get(uri)
+        response = session.get(uri, resolve: ['linked_agents','subjects','top_container'])
         if response.code.to_i == 200
           create_from_data(response.body,options)
         elsif response.code.to_i == 412
@@ -101,8 +96,6 @@ module AspaceConnect
       execute.call
     end
 
-
-
     # Updates the record from the ArchivesSpace API
     # Params:
     # +options+:: Options passed from another method to be passed downstream (may include an active API session)
@@ -111,7 +104,7 @@ module AspaceConnect
       retries = 0
 
       execute = Proc.new do
-        response = session.get(self.uri, resolve: ['linked_agents','subjects'])
+        response = session.get(self.uri, resolve: ['linked_agents','subjects','top_container'])
         if response.code.to_i == 200
           self.update_from_data(response.body,options)
         elsif response.code.to_i == 412
@@ -131,8 +124,6 @@ module AspaceConnect
       execute.call
     end
 
-
-
     def solr_get(query, params={})
       solr_url = "http://#{ENV['archivesspace_host']}:#{ENV['archivesspace_solr_port']}#{ENV['archivesspace_solr_path']}"
       @solr = RSolr.connect :url => solr_url
@@ -142,5 +133,4 @@ module AspaceConnect
     end
 
   end
-
 end

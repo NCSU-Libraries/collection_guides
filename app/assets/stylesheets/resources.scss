@@ -4,6 +4,7 @@
 
 h1.resource-title {
   font-weight: bold;
+
   .date {
     font-weight: normal;
     color: $gray;
@@ -53,10 +54,22 @@ main .row .resource-overview {
 }
 
 .arrangement {
+
   ul, li {
     margin-left: 0;
     padding-left: 0;
     list-style-position: inside;
+    list-style-type: disc;
+
+    li {
+      margin-left: 0.5rem;
+
+      &:before {
+        content: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
   }
 }
 
@@ -67,6 +80,7 @@ main .row .resource-overview {
   div.description-element {
     margin-bottom: 0.5rem;
     margin-top: 0;
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -104,15 +118,18 @@ main .row .resource-overview {
       margin-right: 0;
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
+      padding-left: 0;
 
       &.container-list-item {
         border-bottom: 1px solid $grayGhost;
       }
 
       .columns {
+
         &:first-child {
           padding-left: 0;
         }
+
         &:last-child, &.container-info {
           padding-right: 0;
         }
@@ -122,6 +139,7 @@ main .row .resource-overview {
     .component-title {
       font-weight: bold;
       line-height: 1.25em;
+
       .date, .component-id {
         color: $grayLight;
         padding-left: 0.25rem;
@@ -132,44 +150,91 @@ main .row .resource-overview {
         white-space: nowrap;
         font-size: 0.9em;
       }
-      .component-id {
-        font-size: 0.7em;
+    }
+
+    &.series-level {
+      .component-title {
+        font-size: rem-calc(21);
       }
     }
 
-    &.tree-item-1 {
-      margin-left: 0;
+    &.subseries-level {
       .component-title {
-        font-size: rem-calc(12);
-        .date, .component-id {
-          font-size: rem-calc(12) * 0.8;
-        }
-      }
-      & > .row {
-        padding-left: 0;
-      }
-    }
-
-    &.tree-item-2 {
-      .component-title {
-        font-size: rem-calc(12);
-        .date {
-          font-size: rem-calc(12) * 0.85;
-        }
-        .component-id {
-          font-size: rem-calc(12) * 0.75;
-        }
+        font-size: rem-calc(18);
       }
     }
 
     &.file-level, &.item-level {
       .component-title {
         font-size: inherit;
-        .date {
-          font-size: 0.9em;
-        }
       }
     }
+
+    &.tree-item-1 {
+      margin-left: 0;
+
+      & > .row {
+        padding-left: 0;
+      }
+    }
+
+    // &.tree-item-1 {
+    //   margin-left: 0;
+    //
+    //   .component-title {
+    //     font-size: rem-calc(21);
+    //
+    //     .date, .component-id {
+    //       font-size: rem-calc(21) * 0.8;
+    //     }
+    //   }
+    //
+    //   & > .row {
+    //     padding-left: 0;
+    //   }
+    // }
+
+
+
+    // &.tree-item-2 {
+    //   .component-title {
+    //     font-size: rem-calc(16);
+    //
+    //     // .date {
+    //     //   font-size: rem-calc(16) * 0.85;
+    //     // }
+    //     //
+    //     // .component-id {
+    //     //   font-size: rem-calc(16) * 0.75;
+    //     // }
+    //   }
+    // }
+
+    // &.tree-item-3, &.tree-item-4, &.tree-item-5, &.tree-item-6, &.tree-item-7,
+    // &.tree-item-8, &.tree-item-9, &.tree-item-10, &.tree-item-11, &.tree-item-12 {
+    //   .component-title {
+    //     font-size: rem-calc(16);
+    //
+    //     .date {
+    //       font-size: 0.9em;
+    //     }
+    //
+    //     .component-id {
+    //       font-size: 0.9em;
+    //     }
+    //   }
+    // }
+
+    // &.file-level, &.item-level {
+    //
+    //   .component-title {
+    //     font-size: inherit;
+    //
+    //     .date {
+    //       font-size: 0.9em;
+    //     }
+    //   }
+    // }
 
     .element-heading, .element-label, .subelement-heading  {
       font-weight: bold;
@@ -187,9 +252,11 @@ main .row .resource-overview {
       color: $gray;
       padding-right: .2rem;
     }
+
     .digital-objects {
       line-height: 1.25em;
     }
+
     .description-element.digital-objects {
       text-align: inherit;
       font-size: inherit;
@@ -197,11 +264,8 @@ main .row .resource-overview {
       padding: inherit;
       margin-top: 1rem;
     }
-
   }
-
 }
-
 
 .series-title {
   padding: 0.5rem 0 0.25rem 0.5rem;
@@ -217,24 +281,25 @@ main .row .resource-overview {
     font-size: rem-calc(12) * 0.85;
     font-weight: normal;
     color: $grayLight;
+
     @media #{$small-only} {
       font-size: rem-calc(12) * 0.65;
     }
   }
+
   .component-id {
     display: none;
   }
-
 }
-
 
 .persistent-header {
   position: relative;
 }
 
-
 #terms {
+
   .access-terms-group {
+
     .element-label {
       // @extend h2;
       font-size: 1.15em;

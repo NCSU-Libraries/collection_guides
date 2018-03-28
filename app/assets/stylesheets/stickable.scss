@@ -11,7 +11,7 @@
   }
 
   .row {
-    padding: 0 0.75rem;
+    // padding: 0 0.75rem;
   }
 
   dl.tabs {
@@ -21,11 +21,13 @@
 
   .sticky-show {
     display: none;
+
     .heading {
       @extend h1;
       font-size: $h3-font-size;
       margin-bottom: 0;
     }
+
     .sticky-show-header {
       background: $grayDarker;
       padding: 0.5rem 0;
@@ -33,7 +35,6 @@
       .project-name {
         @extend .project-name;
       }
-
     }
   }
 
@@ -56,6 +57,13 @@
     .sticky-show {
       display: block;
     }
-  }
 
+    .series-title {
+      font-size: rem-calc(21);
+
+      .date, .component-id {
+        font-size: 0.9em;
+      }
+    }
+  }
 }
