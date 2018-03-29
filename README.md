@@ -66,24 +66,54 @@ included in this repository for security. These files need to be created manuall
 
 ### config/application.yml
 
-Provide information needed to connect to the Solr index and to ArchivesSpace.
+Provide information needed to connect to the Solr index and to ArchivesSpace. Options are available to support a variety of
+ArchivesSpace deployment scenarios.
 You can use `application_example.yml` as a template.
 
 Configuration options (all required unless specified) include:
-* `solr_host`: Your Solr host (e.g. 'solr.myinstitution.org', without the
+* `solr_host`<br>
+Your Solr host (e.g. 'solr.myinstitution.org', without the
 'http://' protocol segment included)
-* `solr_port`: The port number on which your Solr instance is running (required)
-* `solr_core_path`: If you are running a multi-core instance of Solr,
+
+* `solr_port`<br>
+The port number on which your Solr instance is running (required)
+
+* `solr_core_path`<br>
+If you are running a multi-core instance of Solr,
 provide the path to your core (with leading and trailing slashes - e.g. '/solr/collection_guides/')
-* `archivesspace_host`: The hostname for your ArchivesSpace instance, used for communication between DAEV and ArchivesSpace (localhost if running on the same server as the application)
-* `archivesspace_url_host`: The hostname for your ArchivesSpace instance (e.g. 'archivesspace.myinstitution.org', without the 'http://' protocol segment included), used for generating links to the records in the ArchivesSpace front end
-* `archivesspace_port`: Your ArchivesSpace backend port (ArchivesSpace default is **8089**)
-* `archivesspace_frontend_port`: Your ArchivesSpace frontend port (ArchivesSpace default is **8080**)
-* `archivesspace_solr_port`: Your ArchivesSpace Solr port (ArchivesSpace default is **8090**)
-* `archivesspace_solr_path`: path the the Solr core used by ArchivesSpace (ArchivesSpace default is **'/collection1/'**)
-* `archivesspace_username`: Username for an ArchivesSpace admin user
-* `archivesspace_password`: Password associated with *archivesspace\_username*
-* `archivesspace_https`: Set to true to force communication with ArchivesSpace over HTTPS (OPTIONAL - defaults to false)
+
+* `archivesspace_host` (ex. *archivespace.yourhost.org*)<br>
+The host name for the ArchivesSpace instance.
+This option should be used for the 'default' ArchivesSpace deployment scenario,
+with each component sharing a host but served on different ports.
+
+* `archivesspace_backend_host` (ex. *api.archivespace.yourhost.org*)<br>
+The hostname for the ArchivesSpace backend (API).
+Use this option if the backend uses an unique host name. If present, this value
+will override **archivesspace_host**
+
+* `archivesspace_frontend_host` (ex. *staff.archivespace.yourhost.org*)<br>
+The hostname for the ArchivesSpace frontend (staff interface).
+Use this option if the frontend uses an unique host name. If present, this value
+will override **archivesspace_host**
+
+* `archivesspace_backend_port` (ex. *8089*)<br>
+The port number used to connect to the ArchivesSpace backend. If your deployment
+does not require a port number (e.g. for SSL) **do not include this option**.
+
+* `archivesspace_backend_port` (ex. *8080*)<br>
+The port number used to connect to the ArchivesSpace frontend. If your deployment
+does not require a port number (e.g. for SSL) **do not include this option**.
+
+* `archivesspace_username`<br>
+User name used to connect to ArchivesSpace. User should have read access to all resources.
+
+* `archivesspace_password`<br>
+Password associated with archivesspace_username
+
+* `archivesspace_https`<br>
+To force connections via https, set this to '1', otherwise do not include this setting.
+
 
 ## Functionality highlights
 
