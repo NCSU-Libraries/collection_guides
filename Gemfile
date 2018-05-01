@@ -55,6 +55,9 @@ gem 'whenever', :require => false
 # security vulnerabilities in loofah <2.2.1
 gem 'loofah', '~> 2.2.1'
 
+# security vulnerabilities in rails-html-sanitizer 1.0.3
+gem 'rails-html-sanitizer', '~> 1.0.4'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
