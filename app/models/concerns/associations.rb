@@ -79,6 +79,17 @@ module Associations
     end
 
 
+    # Returns true if record has associated digital objects with files
+    def has_digital_objects_with_files
+      if self.class != DigitalObject
+        dos = digital_objects.where(has_files: true)
+        (dos.length > 0) ? true : false
+      else
+        nil
+      end
+    end
+
+
     # Updates (or creates) agents associated with a record
     # Params:
     # +linked_agents+:: Array of resolved agent records (as Ruby hashes) included in an API response
@@ -118,7 +129,6 @@ module Associations
       old_associations.each { |o| o.destroy }
       self
     end
-
 
 
     # Updates (or creates) subjects associated with a record

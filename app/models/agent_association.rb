@@ -1,4 +1,4 @@
-class AgentAssociation < ActiveRecord::Base
+class AgentAssociation < ApplicationRecord
 
   include ControlledVocabularyUtilities
 

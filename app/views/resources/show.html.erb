@@ -1,51 +1,56 @@
 <div id="resources-show" typeof="schema:CreativeWork bibo:Collection dcmitype:Collection">
 
-
   <div class="stickable persistent-header" id="stickable">
 
-    <div class="row title">
-      <% if @presenter.digital_objects || @presenter.has_descendant_digital_objects %>
-        <div class="thumbnail-visibility-toggle"></div>
-      <% end %>
+    <div class="title">
+
+      <%= thumbnail_visibility_toggle_output(@presenter, @tab) %>
 
       <h1 class="resource-title dcterms:title"><%= resource_title %></h1>
-      <span property=\"schema:provider arch:heldBy\" resource=\"http://www.lib.ncsu.edu/ld/onld/00000658\"></span>
+      <!-- <span property="schema:provider arch:heldBy" resource=""></span> -->
     </div>
 
-    <div class="row">
-      <dl class="tabs resource-show-tabs data-tabs" data-options="deep_linking:true">
-        <dd class="tab<%= @tab == 'summary' ? ' active' : '' %>"><a href="#summary"><%= t('summary_tab_label') %></a></dd>
+
+    <div>
+
+      <dl class="tabs resource-show-tabs" data-tabs id="resource-tabs" data-options="deep_linking:true">
+        <dd class="tabs-title <%= @tab == 'summary' ? ' is-active' : '' %>" data-tab-id="summary">
+          <a href="#summary"><%= t('summary_tab_label') %></a>
+        </dd>
 
         <% if @presenter.has_children %>
-          <dd class="tab<%= @tab == 'contents' ? ' active' : '' %>"><a href="#contents"><%= t('container_list_tab_label') %></a></dd>
+          <dd class="tabs-title<%= @tab == 'contents' ? ' is-active' : '' %>" data-tab-id="contents">
+            <a href="#contents"><%= t('container_list_tab_label') %></a>
+          </dd>
         <% end %>
 
-        <dd class="tab<%= @tab == 'terms' ? ' active' : '' %>"><a href="#terms"><%= t('controllaccess_tab_label') %></a></dd>
+        <dd class="tabs-title<%= @tab == 'terms' ? ' is-active' : '' %>" data-tab-id="terms">
+          <a href="#terms"><%= t('controllaccess_tab_label') %></a>
+        </dd>
 
-        <dd class="tab last<%= @tab == 'access' ? ' active' : '' %>"><a href="#access"><%= t('access_to_materials_tab_label') %></a></dd>
+        <dd class="tabs-title last<%= @tab == 'access' ? ' is-active' : '' %>" data-tab-id="access">
+          <a href="#access"><%= t('access_to_materials_tab_label') %></a>
+        </dd>
       </dl>
+
     </div>
 
   </div>
 
 
-  <div class="tabs-content">
+  <div class="tabs-content" data-tabs-content="resource-tabs">
 
-    <div class="row content<%= @tab == 'summary' ? ' active' : '' %>" id="summary">
-
+    <div class="tabs-panel content<%= @tab == 'summary' ? ' is-active' : '' %>" id="summary">
       <%= resource_overview %>
-
       <%= resource_abstract %>
-
       <%= resource_notes %>
-
     </div>
 
 
     <% if @presenter.has_children %>
-      <div class="row content<%= @tab == 'contents' ? ' active' : '' %>" id="contents">
+      <div class="grid-x row tabs-panel content<%= @tab == 'contents' ? ' is-active' : '' %>" id="contents">
 
-        <% if @presenter.has_digital_objects || @presenter.has_descendant_digital_objects %>
+        <% if @presenter.has_digital_objects_with_files || @presenter.has_descendant_digital_objects_with_files %>
           <%= resource_digital_object_output.html_safe %>
         <% end %>
 
@@ -55,13 +60,13 @@
 
 
     <% if @presenter.subjects || @presenter.agents %>
-      <div class="row content<%= @tab == 'terms' ? ' active' : '' %>" id="terms">
+      <div class="grid-x row tabs-panel content<%= @tab == 'terms' ? ' is-active' : '' %>" id="terms">
         <%= names_and_subjects %>
       </div>
     <% end %>
 
 
-    <div class="row content<%= @tab == 'access' ? ' active' : '' %>" id="access">
+    <div class="grid-x row tabs-panel content<%= @tab == 'access' ? ' is-active' : '' %>" id="access">
       <%= access_info_output  %>
     </div>
 

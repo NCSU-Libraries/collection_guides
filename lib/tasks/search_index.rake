@@ -5,47 +5,52 @@ namespace :search_index do
 
   desc "full clean index"
   task :full_clean => :environment do |t, args|
-    if add_task_pid('search_index')
-      s = SearchIndex.new
-      s.execute_full(clean: true)
-      remove_task_pid('search_index')
-    end
+    # if add_task_pid('search_index')
+    #   s = SearchIndex.new
+    #   s.execute_full(clean: true)
+    #   remove_task_pid('search_index')
+    # end
+    SearchIndexFullJob.perform_later(clean: true)
   end
 
   desc "full index"
   task :full => :environment do |t, args|
-    if add_task_pid('search_index')
-      s = SearchIndex.new
-      s.execute_full
-      remove_task_pid('search_index')
-    end
+    # if add_task_pid('search_index')
+    #   s = SearchIndex.new
+    #   s.execute_full
+    #   remove_task_pid('search_index')
+    # end
+    SearchIndexFullJob.perform_later
   end
 
   desc "delta index"
   task :delta => :environment do |t, args|
-    if add_task_pid('search_index')
-      s = SearchIndex.new
-      s.execute_delta
-      remove_task_pid('search_index')
-    end
+    # if add_task_pid('search_index')
+    #   s = SearchIndex.new
+    #   s.execute_delta
+    #   remove_task_pid('search_index')
+    # end
+    SearchIndexPartialJob.perform_later('delta')
   end
 
   desc "hourly index"
   task :hourly => :environment do |t, args|
-    if add_task_pid('search_index')
-      s = SearchIndex.new
-      s.execute_hourly
-      remove_task_pid('search_index')
-    end
+    # if add_task_pid('search_index')
+    #   s = SearchIndex.new
+    #   s.execute_hourly
+    #   remove_task_pid('search_index')
+    # end
+    SearchIndexPartialJob.perform_later('hourly')
   end
 
   desc "daily index"
   task :daily => :environment do |t, args|
-    if add_task_pid('search_index')
-      s = SearchIndex.new
-      s.execute_daily
-      remove_task_pid('search_index')
-    end
+    # if add_task_pid('search_index')
+    #   s = SearchIndex.new
+    #   s.execute_daily
+    #   remove_task_pid('search_index')
+    # end
+    SearchIndexPartialJob.perform_later('daily')
   end
 
   desc "index single resource"

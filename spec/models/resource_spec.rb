@@ -64,7 +64,7 @@ describe Resource do
     total_descendants = total_descendants_in_response(resource_tree_data)
     expect(total_descendants).to be_a_kind_of(Numeric)
     r = Resource.find_by_uri($resource_path)
-    r.update_tree_from_api($options)
+    UpdateResourceTree.call(r.id)
     r.reload
     expect(r.archival_objects.length).to eq(total_descendants)
   end

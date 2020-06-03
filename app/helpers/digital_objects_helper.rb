@@ -3,22 +3,31 @@ module DigitalObjectsHelper
   include ApplicationHelper
   include ActionView::Helpers::UrlHelper
 
-  # def digital_object_link_single(digital_object, label=nil)
-  #   url = get_digital_object_url(digital_object)
-  #   if url
-  #     # label ||= digital_object[:title]
-  #     label ||= 'Digital content'
-  #     link_to(label, url, class: 'external')
-  #   else
-  #     nil
-  #   end
-  # end
+  # Load custom methods if they exist
+  # if DigitalObjectsHelperCustom exists it MUST include a custom definition for get_digital_object_url()
+  # use the version in the rescue block as an example
+  begin
+    include DigitalObjectsHelperCustom
+  rescue
+
+    def get_digital_object_url(digital_object)
+      if digital_object[:files]
+        file = digital_object[:files].first
+        url = file[:file_uri]
+        if !(url.match(/^http/))
+          url = 'http://' + url
+        end
+        url
+      end
+    end
+
+  end
 
 
   def digital_object_link_single(digital_object, label=nil)
     output = ''
 
-    if (!thumbnail_enabled_for_digital_object(digital_object))
+    # if (!thumbnail_enabled_for_digital_object(digital_object))
       if !digital_object[:digital_object_volumes].blank?
 
         # filesystem_browse_link = Proc.new do |url|
@@ -49,12 +58,17 @@ module DigitalObjectsHelper
           url = 'http://' + url
         end
         label ||= 'Digital content'
-        output = link_to(label, url, class: 'external')
+        link_class = thumbnail_enabled_for_digital_object(digital_object) ?
+            'external hidden' : 'external'
+        id = "digital-object-link-#{ digital_object[:id] }"
+        # output = link_to(label, url, class: link_class, id: id)
+        link = link_to(label, url, class: 'external')
+        output = "<div id=\"#{id}\" class=\"#{link_class}\">#{link}</div>".html_safe
       end
-    end
+    # end
+
     output
   end
-
 
   def digital_object_link_multi(digital_objects, label=nil)
     output = ''
@@ -62,41 +76,77 @@ module DigitalObjectsHelper
     # output << label
     # output << '<br>'
     digital_objects.each do |d|
-      if (!thumbnail_enabled_for_digital_object(d))
+
+      # if (!thumbnail_enabled_for_digital_object(d))
+
         do_link = digital_object_link_single(d)
         if do_link
           output << digital_object_link_single(d)
-          if !(d == digital_objects.last)
-            output += '<br>'
-          end
+          # if !(d == digital_objects.last)
+          #   output += '<br>'
+          # end
         end
-      end
+
+      # end
+
     end
     return (output.length > 0) ? output.html_safe : nil
   end
 
 
-  def get_digital_object_url(digital_object)
-    if digital_object[:files]
-      file = digital_object[:files].first
-      url = file[:file_uri]
-      if !(url.match(/^http/))
-        url = 'http://' + url
-      end
-      url
+  def thumbnail_enabled_for_digital_object(digital_object)
+    iiif_manifest_url(digital_object) ? true : nil
+  end
+
+
+  def iiif_manifest_url(digital_object)
+    url = get_digital_object_url(digital_object)
+    if url && (url =~ /d\.lib\.ncsu\.edu\/collections\/catalog\//)
+      url.gsub!(/^http:/,'https:')
+      url.gsub!(/#?\?.*$/,'')
+      url + '/manifest'
+    else
+      nil
     end
   end
 
 
-  def thumbnail_enabled_for_digital_object(digital_object)
-    thumbnail_enabled = nil
-    if digital_object['show_thumbnails']
-      url = get_digital_object_url(digital_object)
-      if url
-        thumbnail_enabled = true
+  def thumbnail_visibility_toggle_output(presenter, tab)
+    response = ''
+    if presenter.digital_objects || presenter.has_descendant_digital_objects
+      classes = ['thumbnail-visibility-toggle']
+      if tab != 'contents'
+        classes << 'hidden'
       end
+      response += "<div class=\"#{classes.join(' ')}\"></div>"
     end
-    thumbnail_enabled
+    response.html_safe
+  end
+
+
+  def thumbnail_viewer_output(presenter)
+    # render thumbnails if enabled
+    if presenter.digital_objects
+      manifest_urls = []
+      viewer_id = 'thumbnail-viewer'
+
+      presenter.digital_objects.each do |d|
+        manifest_url = iiif_manifest_url(d)
+        if manifest_url
+          manifest_url.gsub!(/^http:/,'https:')
+          manifest_urls << manifest_url
+          viewer_id += '-' + d[:id].to_s
+        end
+      end
+
+      thumbnail_output = ''
+
+      if !manifest_urls.empty?
+        thumbnail_output += "<div id=\"#{ viewer_id }\" class=\"thumbnail-viewer\" data-manifest-url=\"#{ manifest_urls.join(' ') }\"></div>"
+      end
+
+    end
+    thumbnail_output
   end
 
 
@@ -118,7 +168,7 @@ module DigitalObjectsHelper
 
   def resource_digital_object_link
     output = ''
-    standard_label = "Portions of this collection have been digitized and made available in the Libraries' Rare and Unique Digital Collections site."
+    standard_label = resource_digital_content_text
     if @presenter
       if @presenter.digital_objects
         if @presenter.digital_objects.length == 1
@@ -139,13 +189,15 @@ module DigitalObjectsHelper
   end
 
 
+  def resource_digital_content_text
+    "This collection contains digital content that is available online."
+  end
+
+
   def resource_digital_object_output
     output = ''
     output << '<div class="resource-digital-object-info">'
-    output << "<div class=\"digital-object-link\">#{resource_digital_object_link()}</div>"
-    # output << '<div class="digital-object-additional">Additional materials, including those not available online,
-    #   may be available for viewing in the Special Collections reading room in D.H. Hill Library.
-    #   Certain formats may require the creation of an access copy and will require additional advanced notice.</div>'
+    output << "<div class=\"digital-object-link\">#{ resource_digital_object_link()  }</div>"
     output << '</div>'
   end
 
@@ -153,15 +205,18 @@ module DigitalObjectsHelper
   def resource_overview_digital_object_output
     output = ''
     output << '<div class="resource-overview-digital-object-info">'
-    output << "<div class=\"digital-object-link\">#{resource_digital_object_link()}</div>"
+    output << "<div class=\"digital-object-link\">#{ resource_digital_content_text }</div>"
     output << '</div>'
   end
 
+  # def resource_overview_digital_object_output
+  #   output = ''
+  #   output << '<div class="resource-overview-digital-object-info">'
+  #   output << "<div class=\"digital-object-link\">#{resource_digital_object_link()}</div>"
+  #   output << '</div>'
+  # end
 
-  # Load custom methods if they exist
-  begin
-    include DigitalObjectsHelperCustom
-  rescue
-  end
+
+
 
 end

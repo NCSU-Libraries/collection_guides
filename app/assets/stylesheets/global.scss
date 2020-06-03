@@ -1,81 +1,69 @@
 body {
-  font-family: "UniversRoman", Arial, sans-serif;
+  font-family: "UniversLight", sans-serif !important;
+  // line-height: 1.33em;
+  padding: 0;
+  margin: 0;
+  color: $text-color;
+  background: #111;
 }
 
-
-// There was a problem with duplicate NCSU utility bars and this "fixes" that
-body > .ncstate-utility-bar {
-  display: none;
+.app-content {
+  width: 100%;
+  background: $body-background;
 }
 
-
-input[type="search"] {
-  height: 2.3125rem;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "UniversRoman", Arial, sans-serif !important;
-  color: $gray !important;
-}
-
-h1 {
-  padding-top: 1.375rem;
-  margin-top: 0;
-}
-
-p, ul, ol, dl {
-  // line-height: 1.35em;
-  // font-size: 1rem;
-}
-
-
-header nav.top-bar .top-bar-section ul#primary-nav {
-  padding-bottom: 0;
-}
-
-#utility #utility-search #search-form {
-  visibility: hidden;
-}
-
-
-/* Test data */
-
-.button.show-test-data {
-  background: $grayLight;
-  margin: 1rem 0;
-
-  &:hover {
-    background: $gray;
-  }
-}
-
-.test-data-modal {
-  height: 500px;
-  overflow: auto;
-}
-
-
-/* Global styles */
 
 main {
-
+  // width: 100%;
+  max-width: $max-width;
+  min-height: 400px;
+  margin: 0 auto;
   position: relative;
   background: $white;
+  padding: 0 20px 64px 20px;
+  line-height: 1.6em;
 
-  padding: 0 0.75rem 1.5rem 0.75rem;
+  // @include breakpoint(large up) {
+  //   padding: 0 0 1.5rem 0;
+  // }
 
-  @media #{$large-up} {
-    padding: 0 0 1.5rem 0;
+  input[type="search"] {
+    height: 2.3125rem;
   }
 
-  /* Block elements */
-
   h1, h2, h3, h4, h5, h6 {
-    line-height: 1.25em;
+    font-family: "UniversRoman", sans-serif !important;
+    color: $gray !important;
+    line-height: 1.2em;
+    font-weight: normal;
   }
 
   h1 {
+    padding-top: 1rem;
     margin-bottom: 1rem;
+    font-size: $h1-font-size;
+  }
+
+  h2 {
+    font-size: $h2-font-size;
+    margin-top: $default-block-spacing * 1.5;
+    margin-bottom: 0;
+  }
+
+  h3 {
+    font-size: $h3-font-size;
+  }
+
+  h4 {
+    font-size: $h4-font-size;
+  }
+
+  h5 {
+    font-size: $h5-font-size;
+  }
+
+  h6 {
+    font-size: $h6-font-size;
   }
 
 
@@ -83,15 +71,15 @@ main {
     display: block;
   }
 
-  p {
-    margin-bottom: 1.25rem;
+  p, ul, dl, ol, blockquote, .chronlist {
+    margin: $default-block-spacing 0;
   }
-
 
   /* Links */
 
   a, .link {
     color: $blue2;
+    text-decoration: none;
 
     &:link, &:visited {
       color: $blue2;
@@ -109,19 +97,26 @@ main {
 
     &.external {
       &:after {
-        content: "\f08e";
-        font-family: FontAwesome;
+        content: "\f35d";
+        font-family: "Font Awesome 5 Free";
         font-style: normal;
-        font-weight: normal;
+        font-weight: 900;
         text-decoration: inherit;
         /*--adjust as necessary--*/
         color: $grayLight;
         font-size: 70%;
         padding-left: 0.5em;
+        vertical-align: 10%;
         // position: absolute;
         // top: 10px;
         // left: 0;
       }
+    }
+
+    &.disabled {
+      color: $gray;
+      cursor: default;
+      text-decoration: none;
     }
   }
 
@@ -129,54 +124,44 @@ main {
     text-decoration: underline;
   }
 
+
   /* Lists */
 
   ol, ul, dl, .chronlist {
     line-height: $paragraph-line-height;
   }
 
+
   dl {
+
     dd {
       padding-left: 1.5rem;
-    }
-    p:last-child {
-      margin-bottom: 0;
     }
   }
 
   .inline-dl, .chronitem {
-    // @extend .row;
+    position: relative;
     width: 100%;
     overflow: hidden;
 
     dt, dd, .events, .date {
-      @extend .columns;
+      float: left;
       margin-bottom: 0.5rem;
       padding-left: 0;
-      // Moved to non-IE9 styles :(
-      // p:first-child {
-      //   margin-bottom: 0;
-      // }
 
-    }
-
-    dd {
-      @extend .small-10;
-    }
-
-    dt {
-      @extend .small-2;
-    }
-
-    .date {
-      @extend .small-2;
-    }
-    .events {
-      @extend .small-10;
+      p:first-child {
+        margin-bottom: 0;
+      }
     }
 
     dt, .date {
+      width: 20%;
       min-width: 5rem;
+    }
+
+    dd, .events {
+      width: 70%;
+      margin-left: 1rem;
     }
   }
 
@@ -184,16 +169,64 @@ main {
     line-height: $paragraph-line-height * 1.05;
   }
 
+  ul.inline-list {
+    list-type: none;
+    margin: 1rem 0;
+    padding: 0;
+    // position: relative;
+    // overflow: hidden;
+    // width: 100%;
+
+    li {
+      display: inline;
+      margin: 0;
+      padding: 0 1rem 0 0;
+    }
+  }
+
+  li, dd {
+    p {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+
+  /* Test data */
+
+  .button.show-test-data {
+    background: $grayLight;
+    margin: 1rem 0;
+
+    &:hover {
+      background: $gray;
+    }
+  }
+
+  .test-data-modal {
+    height: 500px;
+    overflow: auto;
+  }
+
   /* Descriptive elements */
 
   div.description-element {
     margin-top: 1rem;
 
-    // Moved to non-IE9 styles :(
-    // &:first-child {
-    //   margin-top: 0;
-    // }
+    &:first-child {
+      margin-top: 0;
+    }
 
+    p, ul, dl, ol, blockquote {
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+    }
   }
 
   [data-render=doublequote] {
@@ -223,9 +256,6 @@ main {
       padding: 2px 4px;
     }
   }
-
-
-
 
   /* Foundation elements */
 
@@ -263,104 +293,6 @@ main {
     @extend .simple-label;
   }
 
-  div.tabs-content {
-    border: 0;
-
-    .row {
-      padding-left: 0.9375rem;
-      &.non-hierarchical {
-        padding-left: 0;
-      }
-      .row {
-        // padding-left: 0;
-      }
-    }
-  }
-
-  dl.tabs {
-    padding-bottom: 0.5rem !important;
-    margin-bottom: 0 !important;
-
-    dd {
-      border: 0;
-      padding-left: 0;
-      margin-right: 2px;
-
-      @media #{$medium-up} {
-        min-width: 12rem;
-      }
-
-      &:first-child {
-        border: 0;
-      }
-
-      a {
-        font-size: 0.85em;
-        background: inherit;
-        text-decoration: none;
-        padding-bottom: 0.2rem;
-        padding-top: 0.1rem;
-        color: $gray;
-        border: 1px solid $grayLighter;
-        // border-bottom-width: 2px;
-        &:hover {
-          color: $body-font-color;
-          border-top-color: $body-font-color;
-          background: $grayGhost;
-        }
-      }
-
-      &.active {
-        border: 0;
-        a {
-          border-color: $gray;
-          font-weight: bold;
-          border-bottom: 0;
-          text-decoration: none;
-          cursor: default;
-          color: $body-font-color;
-          padding-bottom: 0.2rem + rem-calc(1);
-          // For some reason THIS messes up IE9 in a weird way
-          &:hover {
-            background: inherit;
-          }
-          // END weird IE9 thing
-        }
-      }
-
-    }
-
-
-    @media #{$small-only} {
-
-      // border-bottom: 1px solid $grayLightest;
-
-
-      dd {
-
-        a {
-          padding: 0 0.7rem 0 0;
-          border: 0;
-          &:hover {
-            background: inherit;
-            text-decoration: underline;
-          }
-          font-family: helvetica, arial, sans-serif;
-        }
-        &:first-child a {
-          padding-left: 0;
-        }
-        &:last-child a {
-          padding-right: 0;
-        }
-        &.active a {
-          text-decoration: none;
-        }
-      }
-    }
-
-  }
-
   .panel {
     background: $grayLighter;
   }
@@ -369,104 +301,117 @@ main {
     font-family: monospaced;
   }
 
-//   // Force OSX to display scrollbars
-  ::-webkit-scrollbar {
-      -webkit-appearance: none;
-      width: 7px;
-  }
-  ::-webkit-scrollbar-thumb {
-      border-radius: 4px;
-      background-color: rgba(0,0,0,.5);
-      -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-  }
+
 
   div.scrollable {
     padding: 0.25rem 0.5rem;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-y: scroll;
     max-height: 10rem;
     border: 1px solid $grayLightest;
+
+    // Force Webkit to display scrollbars
+    &::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0,0,0,.5);
+        -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+    }
+
   }
 
-}
 
-.show-more {
-  .trigger {
-    font-size: 80%;
-    text-transform: uppercase;
+  .show-more {
+    .trigger {
+      font-size: 80%;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .text1 {
+      display: block;
+    }
+    .text2 {
+      display: none;
+    }
+  }
+
+  .highlight {
+    background-color: $yellowLight;
+  }
+
+  .nowrap {
     white-space: nowrap;
   }
-  .text1 {
-    display: block;
-  }
-  .text2 {
-    display: none;
-  }
-}
 
-.highlight {
-  background-color: $yellowLight;
-}
+  #load-indicator {
+    position: fixed;
+    // top: 1rem;
+    top: 40px;
+    right: 1rem;
+    width: 200px;
+    height: 1.5rem;
+    overflow: hidden;
+    background: $grayLightest;
+    z-index: 1000;
+    border: 1px solid $grayDark;
+    box-shadow: 3px 4px 5px $grayDarker;
 
-#load-indicator {
-  position: fixed;
-  // top: 1rem;
-  top: 40px;
-  right: 1rem;
-  width: 200px;
-  height: 1.5rem;
-  overflow: hidden;
-  background: $grayLightest;
-  z-index: 1000;
-  border: 1px solid $grayDark;
-  box-shadow: 3px 4px 5px $grayDarker;
-
-  &.wait {
-    top: 50%;
-    left: 50%;
-    margin-left: -100px;
-    margin-top: -0.75rem;
-  }
-
-  div {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  #indicator-bar {
-    height: 100%;
-    background: $green3;
-    @for $i from 0 through 100 {
-      &.percent-#{$i} {
-        width: $i * 1%;
-      }
+    &.wait {
+      top: 50%;
+      left: 50%;
+      margin-left: -100px;
+      margin-top: -0.75rem;
     }
-    z-index: 1500;
+
+    div {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #indicator-bar {
+      height: 100%;
+      background: $green3;
+      @for $i from 0 through 100 {
+        &.percent-#{$i} {
+          width: $i * 1%;
+        }
+      }
+      z-index: 1500;
+    }
+
+    #loading-text {
+      padding: 0.25rem;
+      z-index: 2000;
+      color: $black;
+      text-align: center;
+      font-size: 0.8rem;
+      line-height: 1rem;
+      text-transform: uppercase;
+    }
   }
 
-  #loading-text {
-    padding: 0.25rem;
-    z-index: 2000;
-    color: $black;
-    text-align: center;
-    font-size: 0.8rem;
-    line-height: 1rem;
+  #top-link {
+    position: fixed;
+    right: 1rem;
+    bottom: 0;
+    padding: 0.5rem;
+    background: $red;
+    color: white;
     text-transform: uppercase;
+    text-align: center;
+    width: 6rem;
+    a {
+      color: $white;
+      text-decoration: none;
+    }
   }
+
 }
 
-#top-link {
-  position: fixed;
-  right: 1rem;
-  bottom: 0;
-  padding: 0.5rem;
-  background: $red;
-  color: white;
-  text-transform: uppercase;
-  text-align: center;
-  width: 6rem;
-  a {
-    color: $white;
-    text-decoration: none;
-  }
-}
+
+

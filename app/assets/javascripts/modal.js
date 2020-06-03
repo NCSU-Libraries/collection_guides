@@ -1,11 +1,3 @@
-function targetInElement(element, eventTarget) {
-  if (element.contains(eventTarget)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 function Modal(config) {
   var _this = this;
   this.initialize(config);

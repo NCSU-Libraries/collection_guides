@@ -1,4 +1,4 @@
-class DigitalObjectAssociation < ActiveRecord::Base
+class DigitalObjectAssociation < ApplicationRecord
 
   belongs_to :record, polymorphic: true
   belongs_to :digital_object

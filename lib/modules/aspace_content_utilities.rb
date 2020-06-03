@@ -60,7 +60,7 @@ module AspaceContentUtilities
   def parse_chronlist_note(note)
     list_content = ''
     note['items'].each do |item|
-      list_content += '<div class="chronitem row">'
+      list_content += '<div class="grid-x row chronitem">'
       list_content += "<div class=\"date\">#{item['event_date']}</div>"
       list_content += '<div class="events">'
       item['events'].each do |e|

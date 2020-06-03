@@ -1,4 +1,4 @@
-class Resource < ActiveRecord::Base
+class Resource < ApplicationRecord
 
   include AspaceConnect
   include ApiResponseData
@@ -94,148 +94,13 @@ class Resource < ActiveRecord::Base
   end
 
 
-  # Updates all archival objects associated with resource, deletes any that have been removed in AS
-  # and updates hiearchy attributes for resource/archival objects
-  def update_tree_from_api(options={})
-    reload
-    puts "Updating resource tree for #{uri}"
-
-    # options[:session] ||= ArchivesSpaceSession.new
-    # session = options[:session]
-
-    session = ArchivesSpaceSession.new(read_timeout: 360)
-    options[:session] = session
-
-    tree_response = session.get("#{uri}/tree")
-    if tree_response.code.to_i == 200
-
-      # track existing components not included in tree response
-      existing_archival_object_ids = self.archival_objects.pluck(:id)
-      removed_archival_objects = { unpublished: [], supressed: [], missing: [] }
-
-      update_children = Proc.new do |children, parent_id|
-        base_attrs = { resource_id: self.id, parent_id: parent_id, publish: true }
-        children.each_index do |i|
-
-          print '.'
-
-          child = children[i]
-
-          # check for !publish or supressed
-          if child['publish'] && !child['supressed']
-
-            child_record = ArchivalObject.where(id: child['id']).first
-
-            if child_record
-              child_record.update_from_api(options)
-            else
-              child_record = ArchivalObject.create_from_api(child['record_uri'], options)
-            end
-
-            # Update parent_id here because it is not included in individual responses per archival_object
-            child_record.update_attributes(parent_id: parent_id)
-
-            if child['has_children']
-              # recursion
-              update_children.call(child['children'], child['id'])
-            end
-
-          elsif !child['publish'] && existing_archival_object_ids.include?(child['id'])
-            removed_archival_objects[:unpublished] << child['id']
-
-          elsif child['supressed'] && existing_archival_object_ids.include?(child['id'])
-            removed_archival_objects[:supressed] << child['id']
-          end
-
-          existing_archival_object_ids.delete(child['id'])
-
-        end
-        puts
-      end
-      # END Proc
-
-      tree = JSON.parse(tree_response.body)
-      resource_children = tree['children']
-      update_children.call(resource_children, nil)
-
-      removed_archival_objects[:missing] = existing_archival_object_ids
-
-      removed_archival_objects.delete_if { |k,v| v.blank? }
-
-      removed_archival_objects.each do |k,v|
-        if [:unpublished,:supressed].include?(k)
-          ArchivalObject.where("id IN (#{v.join(',')})").each { |a| a.destroy }
-        elsif k == :missing
-          resources_to_update = []
-          v.each do |id|
-            # load archival_object
-            a = ArchivalObject.find(id)
-            a_response = session.get(a.uri)
-            if a_response.code.to_i == 404
-              # archival_object has been deleted
-              a.destroy
-            elsif a_response.code.to_i == 200
-              a_data = JSON.parse(a_response.body)
-              if a_data['resource'] && a_data['resource']['ref']
-
-                # archival_object has been moved
-                # OR, even worse, it has been deleted from the tree but persists in the AS database.
-
-                a_resource_uri = a_data['resource']['ref']
-
-                if a_resource_uri != self.uri
-                  puts "ArchivalObject #{a.id} (#{a.title}) has moved to #{a_resource_uri}"
-
-                  if !Resource.where(uri: a_resource_uri).exists?
-                    Resource.create_from_api(a_resource_uri)
-                  end
-
-                  resources_to_update << a_resource_uri
-                else
-                  a.update_attributes(resource_id: nil)
-                end
-
-              else
-                # archival_object has been orphaned
-                a.destroy
-              end
-            end
-          end
-
-          resources_to_update.uniq!
-
-          if !resources_to_update.blank?
-            puts "Tree update required for #{resources_to_update.join(', ')}"
-
-            resources_to_update.each do |resource_uri|
-              r = Resource.find_by_uri(resource_uri)
-              r.update_tree_from_api
-            end
-          end
-
-        end
-      end
-      reload
-      update_hierarchy_attributes
-      reload
-      update_tree_unit_data
-    elsif tree_response.code.to_i == 412
-      puts "SESSION LOST - ESTABLISHING NEW"
-      # options[:session] = ArchivesSpaceSession.new
-      self.update_tree_from_api(options)
-    else
-      puts "RESPONSE CODE: #{tree_response.code}"
-      raise tree_response.body
-    end
-  end
-
-
   def update_tree_unit_data
     update_unit_data
     archival_objects.find_each { |a| a.update_unit_data }
     reload
     update_hierarchy_attributes
   end
+
 
   def update_structure
     update_column(:structure, JSON.generate(id_tree))
@@ -353,38 +218,36 @@ class Resource < ActiveRecord::Base
 
 
   def has_descendant_digital_objects
-    sql = "SELECT do.id from digital_objects do
-      JOIN digital_object_associations doa ON do.id = doa.digital_object_id
-      JOIN archival_objects a ON a.id = doa.record_id
-      WHERE doa.record_type = 'ArchivalObject'
-      AND a.resource_id = #{id}
-      AND do.publish = 1"
-    digital_objects = DigitalObject.find_by_sql(sql)
-    return digital_objects.length > 0 ? true : false
+    descendant_digital_objects.length > 0
   end
 
 
   def has_descendant_digital_objects_with_files
-    sql = "SELECT do.id from digital_objects do
+    descendant_digital_objects_with_files.length > 0
+  end
+
+
+  # returns
+  def descendant_digital_objects_with_files
+    sql = "SELECT do.* from digital_objects do
       JOIN digital_object_associations doa ON do.id = doa.digital_object_id
       JOIN archival_objects a ON a.id = doa.record_id
       WHERE doa.record_type = 'ArchivalObject'
       AND a.resource_id = #{id}
       AND do.publish = 1
       AND do.has_files = 1"
-    digital_objects = DigitalObject.find_by_sql(sql)
-    return digital_objects.length > 0 ? true : false
+    DigitalObject.find_by_sql(sql)
   end
 
 
   def descendant_digital_objects
-    descendants = []
-    archival_objects.each do |a|
-      if a.has_digital_objects
-        a.digital_objects.each { |d| descendants << d }
-      end
-    end
-    descendants
+    sql = "SELECT do.* from digital_objects do
+      JOIN digital_object_associations doa ON do.id = doa.digital_object_id
+      JOIN archival_objects a ON a.id = doa.record_id
+      WHERE doa.record_type = 'ArchivalObject'
+      AND a.resource_id = #{id}
+      AND do.publish = 1"
+    DigitalObject.find_by_sql(sql)
   end
 
 

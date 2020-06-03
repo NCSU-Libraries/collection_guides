@@ -2,313 +2,332 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-h1.resource-title {
-  font-weight: bold;
 
-  .date {
-    font-weight: normal;
-    color: $gray;
-    line-height: 1.25em;
+main {
+
+  h1.resource-title {
+    // font-weight: bold;
+
+    .date {
+      font-weight: normal;
+      color: $gray;
+      line-height: 1.25em;
+      white-space: nowrap;
+    }
   }
-}
 
-h2.element-heading {
-  font-size: $h3-font-size;
-  font-weight: bold;
-}
+  h2.element-heading {
+    font-size: $h3-font-size;
+    color: $grayDarker !important;
+    // font-weight: bold;
+  }
 
-.subelement-heading {
-  font-size: $h4-font-size;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-}
-
-.resource-digital-object-info {
-  margin: 0 0 1em 0;
-  padding: 0.5rem;
-  border: 1px solid $grayLighter;
-  font-style: italic;
-  background: $grayGhost;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-
-  .digital-object-link {
+  .subelement-heading {
+    font-size: $h4-font-size;
     font-weight: bold;
-    font-size: 1.1em;
+    margin: 1rem 0 0.5rem 0;
   }
 
-  .digital-object-additional {
-    // @extend p;
-    margin-bottom: 0 !important;
-  }
-}
-
-main .row .resource-overview {
-  margin-bottom: 1.5rem;
-
-  .resource-overview-digital-object-info {
-    font-weight: bold;
+  .resource-digital-object-info {
+    margin: 0 0 1em 0;
+    padding: 0.5rem;
+    border: 1px solid $grayLighter;
     font-style: italic;
-  }
-}
+    background: $grayGhost;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 
-.arrangement {
+    // .digital-object-link {
+    //   font-weight: bold;
+    //   font-size: 1.1em;
+    // }
 
-  ul, li {
-    margin-left: 0;
-    padding-left: 0;
-    list-style-position: inside;
-    list-style-type: disc;
-
-    li {
-      margin-left: 0.5rem;
-
-      &:before {
-        content: none;
-        margin: 0;
-        padding: 0;
-      }
-    }
-  }
-}
-
-.resource-tree {
-
-  line-height: 1.25em;
-
-  div.description-element {
-    margin-bottom: 0.5rem;
-    margin-top: 0;
-
-    &:last-child {
-      margin-bottom: 0;
+    .digital-object-additional {
+      // @extend p;
+      margin-bottom: 0 !important;
     }
   }
 
-  .description-element.date {
-    font-weight: bold;
-    color: $grayLight;
-    margin-top: 0.25rem;
+  main .row .resource-overview {
+    margin-bottom: 1.5rem;
+
+    .resource-overview-digital-object-info {
+      font-weight: bold;
+      font-style: italic;
+    }
   }
 
+  .arrangement {
 
-  .tree-item {
-    margin-left: 1rem;
-    // margin-top: 1rem;
-
-    @media #{$small-only} {
-      margin-left: 0.5rem;
-    }
-
-    &.series-level {
-      margin-top: 1rem;
-    }
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    p {
-      margin-bottom: 0;
-    }
-
-    .row {
+    ul, li {
       margin-left: 0;
-      margin-right: 0;
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
       padding-left: 0;
+      list-style-position: inside;
+      list-style-type: disc;
 
-      &.container-list-item {
-        border-bottom: 1px solid $grayGhost;
+      li {
+        margin-left: 0.5rem;
+
+        &:before {
+          content: none;
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  .resource-tree {
+
+    line-height: 1.25em;
+
+    div.description-element {
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .description-element.date {
+      font-weight: bold;
+      color: $grayLight;
+      margin-top: 0.25rem;
+    }
+
+
+    .tree-item {
+      margin-left: 0.5rem;
+      padding-left: 0.5rem;
+      padding-right: 0.25rem;
+
+      // margin-top: 1rem;
+
+      @include breakpoint(small only) {
+        margin-left: 0.5rem;
       }
 
-      .columns {
+      &.series-level {
+        margin-top: 1rem;
+      }
 
-        &:first-child {
+      &:first-child {
+        margin-top: 0;
+      }
+
+      p {
+        margin-bottom: 0;
+        line-height: 1.6em;
+      }
+
+      .row {
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        padding-left: 0;
+
+        &.container-list-item {
+          border-bottom: 1px solid $grayGhost;
+        }
+
+        // .columns {
+
+        //   &:first-child {
+        //     padding-left: 0;
+        //   }
+
+        //   &:last-child, &.container-info {
+        //     padding-right: 0;
+        //   }
+        // }
+      }
+
+      .component-title {
+        font-weight: bold;
+        line-height: 1.25em;
+
+        .date, .component-id {
+          color: $grayLight;
+          padding-left: 0.25rem;
+          // &:before {
+          //   content: ', ';
+          // }
+          font-weight: normal;
+          white-space: nowrap;
+          font-size: 0.9em;
+
+          // &:first-child {
+          //   font-weight: bold;
+          //   padding-left: 0;
+          //   font-size: 1em;
+          //   color: inherit;
+          // }
+        }
+      }
+
+      &.series-level {
+        .component-title {
+          font-size: rem-calc(21);
+        }
+      }
+
+      &.subseries-level {
+        .component-title {
+          font-size: rem-calc(18);
+        }
+      }
+
+      &.file-level, &.item-level {
+        .component-title {
+          font-size: inherit;
+        }
+      }
+
+      &.tree-item-1 {
+        margin-left: 0;
+
+        & > .row {
           padding-left: 0;
         }
-
-        &:last-child, &.container-info {
-          padding-right: 0;
-        }
       }
-    }
 
-    .component-title {
-      font-weight: bold;
-      line-height: 1.25em;
+      // &.tree-item-1 {
+      //   margin-left: 0;
+      //
+      //   .component-title {
+      //     font-size: rem-calc(21);
+      //
+      //     .date, .component-id {
+      //       font-size: rem-calc(21) * 0.8;
+      //     }
+      //   }
+      //
+      //   & > .row {
+      //     padding-left: 0;
+      //   }
+      // }
 
-      .date, .component-id {
-        color: $grayLight;
-        padding-left: 0.25rem;
-        // &:before {
-        //   content: ', ';
-        // }
-        font-weight: normal;
-        white-space: nowrap;
-        font-size: 0.9em;
+
+
+      // &.tree-item-2 {
+      //   .component-title {
+      //     font-size: rem-calc(16);
+      //
+      //     // .date {
+      //     //   font-size: rem-calc(16) * 0.85;
+      //     // }
+      //     //
+      //     // .component-id {
+      //     //   font-size: rem-calc(16) * 0.75;
+      //     // }
+      //   }
+      // }
+
+      // &.tree-item-3, &.tree-item-4, &.tree-item-5, &.tree-item-6, &.tree-item-7,
+      // &.tree-item-8, &.tree-item-9, &.tree-item-10, &.tree-item-11, &.tree-item-12 {
+      //   .component-title {
+      //     font-size: rem-calc(16);
+      //
+      //     .date {
+      //       font-size: 0.9em;
+      //     }
+      //
+      //     .component-id {
+      //       font-size: 0.9em;
+      //     }
+      //   }
+      // }
+
+      // &.file-level, &.item-level {
+      //
+      //   .component-title {
+      //     font-size: inherit;
+      //
+      //     .date {
+      //       font-size: 0.9em;
+      //     }
+      //   }
+      // }
+
+      .element-heading, .element-label, .subelement-heading  {
+        font-weight: bold;
+        font-size: 80%;
+        text-transform: uppercase;
       }
-    }
 
-    &.series-level {
-      .component-title {
-        font-size: rem-calc(21);
+      .element-heading {
+        margin-bottom: 0.25rem;
       }
-    }
 
-    &.subseries-level {
-      .component-title {
-        font-size: rem-calc(18);
+      .containers, .digital-objects {
+        text-align: right;
+        font-size: 80%;
+        color: $gray;
+        padding-right: .2rem;
       }
-    }
 
-    &.file-level, &.item-level {
-      .component-title {
+      .digital-objects {
+        line-height: 1.25em;
+      }
+
+      .description-element.digital-objects {
+        text-align: inherit;
         font-size: inherit;
+        color: inherit;
+        padding: inherit;
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  .series-title {
+    padding: 0.5rem 0 0.25rem 0.5rem;
+    border-bottom: 1px solid $grayLighter;
+    font-size: rem-calc(12);
+    font-weight: bold;
+
+    @include breakpoint(small only) {
+      font-size: rem-calc(12) * 0.8;
+    }
+
+    .date {
+      font-size: rem-calc(12) * 0.85;
+      font-weight: normal;
+      color: $grayLight;
+
+      @include breakpoint(small only) {
+        font-size: rem-calc(12) * 0.65;
       }
     }
 
-    &.tree-item-1 {
-      margin-left: 0;
+    .component-id {
+      display: none;
+    }
+  }
 
-      & > .row {
-        padding-left: 0;
+  .persistent-header {
+    position: relative;
+  }
+
+  #terms {
+
+    .access-terms-group {
+
+      .element-label {
+        // @extend h2;
+        font-size: 1.15em;
+        margin-bottom: 0.25rem;
       }
     }
-
-    // &.tree-item-1 {
-    //   margin-left: 0;
-    //
-    //   .component-title {
-    //     font-size: rem-calc(21);
-    //
-    //     .date, .component-id {
-    //       font-size: rem-calc(21) * 0.8;
-    //     }
-    //   }
-    //
-    //   & > .row {
-    //     padding-left: 0;
-    //   }
-    // }
-
-
-
-    // &.tree-item-2 {
-    //   .component-title {
-    //     font-size: rem-calc(16);
-    //
-    //     // .date {
-    //     //   font-size: rem-calc(16) * 0.85;
-    //     // }
-    //     //
-    //     // .component-id {
-    //     //   font-size: rem-calc(16) * 0.75;
-    //     // }
-    //   }
-    // }
-
-    // &.tree-item-3, &.tree-item-4, &.tree-item-5, &.tree-item-6, &.tree-item-7,
-    // &.tree-item-8, &.tree-item-9, &.tree-item-10, &.tree-item-11, &.tree-item-12 {
-    //   .component-title {
-    //     font-size: rem-calc(16);
-    //
-    //     .date {
-    //       font-size: 0.9em;
-    //     }
-    //
-    //     .component-id {
-    //       font-size: 0.9em;
-    //     }
-    //   }
-    // }
-
-    // &.file-level, &.item-level {
-    //
-    //   .component-title {
-    //     font-size: inherit;
-    //
-    //     .date {
-    //       font-size: 0.9em;
-    //     }
-    //   }
-    // }
-
-    .element-heading, .element-label, .subelement-heading  {
-      font-weight: bold;
-      font-size: 80%;
-      text-transform: uppercase;
-    }
-
-    .element-heading {
-      margin-bottom: 0.25rem;
-    }
-
-    .containers, .digital-objects {
-      text-align: right;
-      font-size: 80%;
-      color: $gray;
-      padding-right: .2rem;
-    }
-
-    .digital-objects {
-      line-height: 1.25em;
-    }
-
-    .description-element.digital-objects {
-      text-align: inherit;
-      font-size: inherit;
-      color: inherit;
-      padding: inherit;
-      margin-top: 1rem;
-    }
-  }
-}
-
-.series-title {
-  padding: 0.5rem 0 0.25rem 0.5rem;
-  border-bottom: 1px solid $grayLighter;
-  font-size: rem-calc(12);
-  font-weight: bold;
-
-  @media #{$small-only} {
-    font-size: rem-calc(12) * 0.8;
   }
 
-  .date {
-    font-size: rem-calc(12) * 0.85;
-    font-weight: normal;
-    color: $grayLight;
-
-    @media #{$small-only} {
-      font-size: rem-calc(12) * 0.65;
-    }
+  // EAD Index
+  .ead-link {
+    margin: 1em 0;
   }
 
-  .component-id {
-    display: none;
-  }
 }
 
-.persistent-header {
-  position: relative;
-}
-
-#terms {
-
-  .access-terms-group {
-
-    .element-label {
-      // @extend h2;
-      font-size: 1.15em;
-      margin-bottom: 0.25rem;
-    }
-  }
-}
-
-// EAD Index
-.ead-link {
-  margin: 1em 0;
-}

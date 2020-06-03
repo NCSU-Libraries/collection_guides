@@ -177,7 +177,8 @@ module GeneralUtilities
 
 
   def log_info(message)
-    Rails.logger.info message; puts message
+    Rails.logger.info message
+    puts "#{DateTime.now.to_s} - #{message}"
   end
 
 end

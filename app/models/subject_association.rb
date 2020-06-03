@@ -1,4 +1,4 @@
-class SubjectAssociation < ActiveRecord::Base
+class SubjectAssociation < ApplicationRecord
 
   belongs_to :record, polymorphic: true
   belongs_to :subject

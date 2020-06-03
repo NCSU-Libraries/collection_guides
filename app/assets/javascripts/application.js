@@ -12,15 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require foundation
-//= require foundation/foundation.tooltip
 //= require utilities
-//= require modal
-//= require digital_objects_thumbnails
-//= require filesystem_browser
-//= require digital_objects_filesystem_browse
-//= require resources
 //= require elements
-//= require archival_objects
-
-$(function(){ $(document).foundation(); });
+//= require stickable
+//= require tabs
+//= require modal
+//= require filesystem_browser
+//= require thumbnail_viewer
+//= require contents_list
+//= require contents_list_thumbnails
+//= require contents_list_filesystem_browse
+//= require on_load

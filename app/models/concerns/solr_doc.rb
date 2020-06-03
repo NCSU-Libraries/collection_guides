@@ -57,7 +57,7 @@ module SolrDoc
         doc[:resource_primary_agent] = data[:primary_agent]
         doc[:resource_date_statement] = data[:date_statement]
         doc[:resource_extent_statement] = data[:extent_statement]
-        if has_digital_objects || has_descendant_digital_objects
+        if has_digital_objects_with_files || has_descendant_digital_objects_with_files
           doc[:resource_digital_content] = true
         end
         doc[:resource_eadid] = eadid
@@ -108,6 +108,7 @@ module SolrDoc
 
       doc
     end
+
 
     # Updates the record in the Solr index
     def update_index

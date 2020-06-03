@@ -1,4 +1,4 @@
-class SearchIndex < ActiveRecord::Base
+class SearchIndex < ApplicationRecord
 
   require 'modules/general_utilities.rb'
   include GeneralUtilities
@@ -47,8 +47,15 @@ class SearchIndex < ActiveRecord::Base
   end
 
 
+  def self.delete_by_query(query)
+    @solr = RSolr.connect :url => @@solr_url
+    @solr.delete_by_query(query)
+    @solr.commit
+  end
+
+
   def execute_full(options={})
-    Rails.logger.info "SearchIndex.execute_full called"
+    log_info "SearchIndex.execute_full called"
     # added conditional here to allow population of new index
     if options[:solr_url]
       @solr = RSolr.connect :url => options[:solr_url]
@@ -66,12 +73,12 @@ class SearchIndex < ActiveRecord::Base
     update_archival_objects
     self.records_updated = @updated
     self.save
-    Rails.logger.info "SearchIndex.execute_full completed"
+    log_info "SearchIndex.execute_full completed"
   end
 
 
   def execute_delta
-    Rails.logger.info "SearchIndex.execute_delta called"
+    log_info "SearchIndex.execute_delta called"
     @solr = RSolr.connect :url => @@solr_url
     self.index_type = 'delta'
     @updated = 0
@@ -88,7 +95,7 @@ class SearchIndex < ActiveRecord::Base
     else
       execute_full
     end
-    Rails.logger.info "SearchIndex.execute_delta completed"
+    log_info "SearchIndex.execute_delta completed"
   end
 
 
@@ -110,6 +117,7 @@ class SearchIndex < ActiveRecord::Base
       self.records_updated = @updated
       self.save
     end
+    puts
     log_info "SearchIndex.execute_hourly completed"
   end
 
@@ -117,6 +125,14 @@ class SearchIndex < ActiveRecord::Base
   def execute_daily
     log_info "SearchIndex.execute_daily called (calls execute_hourly)"
     self.execute_hourly(hours: 24, index_type: 'daily')
+    log_info "SearchIndex.execute_daily completed"
+  end
+
+
+  # actually 1 week plus 12 hours just in case
+  def execute_weekly
+    log_info "SearchIndex.execute_daily called (calls execute_hourly)"
+    self.execute_hourly(hours: 180, index_type: 'weekly')
     log_info "SearchIndex.execute_daily completed"
   end
 

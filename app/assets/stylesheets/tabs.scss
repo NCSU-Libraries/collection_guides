@@ -1,0 +1,123 @@
+  // These styles extend Foundation defaults for Tabs
+
+  div.tabs-content {
+    border: 0;
+
+    .tabs-panel {
+      display: none;
+      padding: 0.5rem;
+
+      &.is-active {
+        display: block;
+      }
+
+      @include breakpoint(small only) {
+        padding: 0.5rem 0;
+      }
+    }
+  }
+
+  dl.tabs {
+    padding-bottom: 0.5rem !important;
+    margin-bottom: 0 !important;
+    border: none;
+
+    dd.tabs-title {
+      border: 0;
+      padding-left: 0;
+      margin: 0 2px 0 0;
+
+      @include breakpoint(small only) {
+        // float: none;
+        padding-right: 1rem;
+      }
+
+      @include breakpoint(medium up) {
+        min-width: 12rem;
+      }
+
+      &:first-child {
+        border: 0;
+      }
+
+      a {
+        font-size: 0.85em;
+        background: $grayGhost;
+        text-decoration: none;
+        padding: 0.5rem;
+        color: $gray;
+        border: 1px solid $grayLighter;
+        border-bottom-color: $grayLight;
+
+        &:hover {
+          color: $gray;
+          border-color: $gray;
+          background: $grayGhost;
+        }
+
+        @include breakpoint(small only) {
+          background: inherit;
+          border: none;
+          color: $linkColor;
+          text-decoration: inherit;
+          padding: 0.25rem 0;
+        }
+      }
+
+      &.is-active {
+        border: 0;
+
+        a {
+          border-color: $grayLight;
+          font-weight: bold;
+          border-bottom: 0;
+          text-decoration: none;
+          cursor: default;
+          color: $body-font-color;
+          padding-bottom: 0.5rem + rem-calc(1);
+          background: inherit;
+
+          &:hover {
+            background: inherit;
+          }
+
+          @include breakpoint(small only) {
+            padding: 0.25rem 0;
+          }
+        }
+      }
+    }
+
+
+    @include breakpoint(small only) {
+      // border-bottom: 1px solid $grayLightest;
+
+
+      dd {
+
+        a {
+          padding: 0 0.7rem 0 0;
+          border: 0;
+
+          &:hover {
+            background: inherit;
+            text-decoration: underline;
+          }
+
+          font-family: helvetica, arial, sans-serif;
+        }
+
+        &:first-child a {
+          padding-left: 0;
+        }
+
+        &:last-child a {
+          padding-right: 0;
+        }
+
+        &.active a {
+          text-decoration: none;
+        }
+      }
+    }
+  }

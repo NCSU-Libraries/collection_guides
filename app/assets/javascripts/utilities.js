@@ -1,3 +1,60 @@
+function getUrl(url, callback) {
+  var request = new XMLHttpRequest();
+
+  request.onreadystatechange = function() {
+    if (request.readyState == 4 && request.status == 200) {
+      callback(request.responseText);
+    }
+  }
+
+  request.open( "GET", url, true );
+  request.send( null );
+}
+
+
+function htmlToElement(html) {
+  var template = document.createElement('template');
+  html = html.trim(); // Never return a text node of whitespace as the result
+  template.innerHTML = html;
+  return template.content.firstChild;
+}
+
+
+function generateElement(name, classes) {
+  var el = document.createElement(name);
+  if (classes) {
+    el.classList.add(classes.join(','));
+  }
+  return el;
+}
+
+
+function show(el) {
+  el.classList.remove('hidden');
+}
+
+
+function hide(el) {
+  el.classList.add('hidden');
+}
+
+
+function hidden(el) {
+  return el.classList.contains('hidden');
+}
+
+
+// Simple utility for merging objects, useful for appending new attributes/methods to $scope
+function objectMerge(target, source) {
+  for (var key in source) {
+    if (source.hasOwnProperty(key)) {
+      target[key] = value;
+    }
+  }
+  return target;
+}
+
+
 function queryParamsFromUrl() {
   var paramsRaw = window.location.search.substring(1).split('&');
   var params = {};
@@ -8,130 +65,115 @@ function queryParamsFromUrl() {
   return params;
 }
 
-function initializeLoadIndicator(mode,total,scale) {
-  var loadIndicator = { 'loaded': 0 };
-  var loadIndicatorHtml = '<div id="load-indicator">';
-  loadIndicatorHtml += '<div id="loading-text">Loading</div>';
-  loadIndicatorHtml += '<div id="indicator-bar" class="percent-0"></div>';
-  loadIndicatorHtml += '</div>';
-  var indicator = $(loadIndicatorHtml);
-  loadIndicator.indicator = indicator;
 
-  var updateLoaded = function(added) {
-    newLoaded = loadIndicator.loaded + added;
-    loadIndicator.loaded = newLoaded;
-    return loadIndicator.loaded;
-  }
-
-  if (mode == 'wait') {
-    loadIndicator.indicator.addClass('wait');
-  } else if (mode == 'hide') {
-    loadIndicator.indicator.addClass('hide');
-  }
-
-  if (typeof total !== 'undefined') {
-    indicator.find('#loading-text').first().html('Loading (0/' + total + ')')
-  }
-
-  $('main').append(loadIndicator.indicator);
-
-  loadIndicator.total = function() {
-    return total;
-  }
-
-  loadIndicator.scale = function() {
-    scale = typeof scale !== 'undefined' ? scale : 2;
-    return scale;
-  }
-
-  // loadIndicator.update = function(loaded,total,scale) {
-  loadIndicator.update = function(added) {
-    var loaded = updateLoaded(added);
-    var indicatorBar = $(this.indicator).find('#indicator-bar').first();
-    var loadingText = $(this.indicator).find('#loading-text').first();
-    var total = loadIndicator.total();
-    var scale = loadIndicator.scale();
-
-    $(loadingText).html('Loading (' + loaded + '/' + total + ')');
-
-    var percent = (loaded / total) * 100;
-    var scaledPercent = Math.floor(percent/scale) * scale;
-    var percentClass = 'percent-' + scaledPercent;
-
-    if (!$(indicatorBar).hasClass(percentClass)) {
-      $(indicatorBar).removeClass();
-      $(indicatorBar).addClass(percentClass);
-    }
-
-    if (percent >= 100) {
-      // console.log('load done');
-      $(this.indicator).addClass('complete');
-      if ($(this.indicator).is(':visible')) {
-        $(this.indicator).fadeOut(600, function() {
-          $(this.indicator).remove();
-        });
-      } else {
-        $(this.indicator).remove();
-      }
-    }
-    return loadIndicator;
-  }
-
-  loadIndicator.waitOff = function() {
-    this.indicator.removeClass('wait');
-  }
-
-  return loadIndicator;
-
+function getProperty(el, property) {
+  var style = window.getComputedStyle(el, null);
+  return style.getPropertyValue(property);
 }
 
 
-$(document).ready(function() {
+function rootUrl() {
+  if (window.location.pathname.match(/^\/findingaids/)) {
+    root = '/findingaids/';
+  }
+  else {
+    root = '/';
+  }
+  return root;
+}
 
-  $.fn.extend({
+
+function inArray(value, array) {
+  return array.indexOf(value) > -1;
+}
 
 
-    showMore: function(options) {
-      return this.each(function() {
+function executeCallback(fn, data){
+  if (typeof fn !== 'undefined') {
+    fn(data);
+  }
+}
 
-        var el = $(this);
-        var trigger = el.find('.trigger');
-        var textShort = el.find('.text-short').first();
-        var textLong = el.find('.text-long').first();
 
-        // it's all responsive
-        // enquire.register("screen and (max-width:40em)", {
-        //   match : function() {
-        //     textLong.show();
-        //     textShort.hide();
-        //     trigger.hide();
-        //   },
-        //   unmatch : function() {
-        //     trigger.show();
-        //     textLong.hide();
-        //     textShort.show();
+function deepLink(element, options) {
+  options = options || {};
+  var offset = document.querySelector('.stickable').offsetHeight;
+  var targetPos = element.getBoundingClientRect().top + window.scrollY;
+  targetPos = targetPos - offset;
+  window.scrollTo(0, targetPos);
+  if (options['highlight']) {
+    element.classList.add('highlight');
+  }
+  return element;
+}
 
-        //   },
-        // });
 
-        trigger.on('click', function() {
-          if (el.is('.open')) {
-            textLong.hide();
-            textShort.show();
-            el.removeClass('open');
-          } else {
-            textLong.show();
-            textShort.hide();
-            el.addClass('open');
-          }
-        });
+function deepLinkToId(targetId, options) {
+  options = options || {};
+  if (targetId) {
+    var target = document.querySelector('#' + targetId);
+    deepLink(target, options);
+  }
+}
 
-      });
-    }
 
+function currentTab() {
+  var tabOptions = ['summary','contents','terms','access'];
+  var path = window.location['pathname'].replace(/^\//,'');
+  var path_parts = path.split('/');
+  var last_path_segment = path_parts[path_parts.length - 1];
+  if (tabOptions.indexOf(last_path_segment) > -1) {
+    return last_path_segment;
+  }
+  else {
+    return 'summary';
+  }
+}
+
+
+function targetInElement(element, eventTarget) {
+  if (element.contains(eventTarget)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+
+// Sort an array of objects on the value corresponding to key
+function sortArrayOfObjects(array, key, direction) {
+  var sortValues = [];
+  var sortedContents = [];
+
+  array.forEach(function(item, index) {
+    var compVal = (typeof item[key] == 'string') ? item[key].toLowerCase() : item[key];
+    sortValues.push([ index, compVal ]);
   });
 
+  sortValues = sortValues.sort(function(a,b) {
+    if (a[1] < b[1]) {
+      return -1;
+    }
+    if (a[1] > b[1]) {
+      return 1;
+    }
+    return 0;
+  });
 
-  $('.show-more').showMore();
+  sortValues.forEach(function(values) {
+    var i = values[0];
+    sortedContents.push(array[i]);
+  });
 
-});
+  if (direction == 'desc') {
+    sortedContents = sortedContents.reverse();
+  }
+  return sortedContents;
+}
+
+
+function removeNode(node) {
+  var parent = node.parentNode;
+  parent.removeChild(node);
+}

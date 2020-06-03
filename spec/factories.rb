@@ -1,4 +1,7 @@
 FactoryBot.define do
+  factory :user do
+    
+  end
 
 
   factory :digital_object_volume do

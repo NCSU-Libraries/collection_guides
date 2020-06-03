@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def help
+    @title = "Help"
     render
   end
 

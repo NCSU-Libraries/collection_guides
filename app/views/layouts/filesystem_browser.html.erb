@@ -19,9 +19,9 @@
   <head>
     <% if @resource && @presenter %>
     <title><%= @presenter.title %><%= @presenter.date_statement ? ", #{@presenter.date_statement}" : '' %>
-      | NCSU Special Collections Research Center Collection Guides</title>
+      | Collection Guides</title>
     <% else %>
-    <title>NCSU Special Collections Research Center Collection Guides</title>
+    <title>Collection Guides</title>
     <% end %>
 
     <meta charset="utf-8" />
@@ -38,8 +38,6 @@
     <%= favicon_link_tag '/homescreen-icon-57x57.png', sizes: "57x57", rel: 'apple-touch-icon', type: 'image/png' %>
     <%= favicon_link_tag '/homescreen-icon-72x72.png', sizes: "72x72", rel: 'apple-touch-icon', type: 'image/png' %>
     <%= favicon_link_tag '/homescreen-icon-114x114.png', sizes: "114x114", rel: 'apple-touch-icon', type: 'image/png' %>
-
-    <link href="//cdn.ncsu.edu/brand-assets/fonts/include.css" rel="stylesheet" type="text/css" />
 
     <!-- css -->
     <%= stylesheet_link_tag "application" %>
@@ -78,8 +76,6 @@
         rootElementSelector: '#modal'
       });
     </script>
-
-    <%= ncsul_web_ie_conditionals %>
 
   </body>
 

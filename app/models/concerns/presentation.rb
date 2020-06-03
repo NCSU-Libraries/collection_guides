@@ -6,7 +6,8 @@ module Presentation
     attr_accessor :data, :record, :title, :uri, :level, :position, :resource_id, :component_id,
       :resource_title, :resource_uri, :notes, :abstract, :date_statement, :extent_statement,
       :collection_id, :primary_agent, :containers, :response_data, :has_children, :tree_size,
-      :total_components, :subjects, :agents, :digital_objects, :alt_digital_object_url, :has_descendant_digital_objects
+      :total_components, :subjects, :agents, :digital_objects, :alt_digital_object_url, :has_descendant_digital_objects,
+      :has_digital_objects_with_files, :has_descendant_digital_objects_with_files
 
     def initialize(record)
       @record = record
@@ -54,6 +55,12 @@ module Presentation
     end
 
 
+    # Convenience method that allows has_digital_object to be called on the record via the Presenter
+    def has_digital_objects_with_files
+      @record.has_digital_objects_with_files
+    end
+
+
     # Convenience method that allows has_descendant_digital_objects to be called on a Resource via the Presenter
     def has_descendant_digital_objects
       if @record.class == Resource
@@ -61,6 +68,16 @@ module Presentation
       end
     end
 
+
+    # Convenience method that allows has_descendant_digital_objects_with_files to be called on a Resource via the Presenter
+    def has_descendant_digital_objects_with_files
+      if @record.class == Resource
+        @record.has_descendant_digital_objects_with_files
+      end
+    end
+
+
+    # has_descendant_digital_objects_with_files
 
     # Convenience method that allows id_tree to be called on a Resource via the Presenter
     def id_tree

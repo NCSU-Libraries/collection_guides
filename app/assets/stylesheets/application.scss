@@ -1,20 +1,16 @@
 @charset "UTF-8";
-// @import "ncsul_web/foundation/settings";    // Foundation variables defined by ncsul_web
 @import "variables";
-// @import "ncsul_web/normalize";
-@import "foundation";                       // Core Foundation SCSS
-@import "font-awesome";                     // FontAwesome
-
-
+@import "foundation_and_overrides";
+@import "font-awesome-sprockets";
+@import "font-awesome";                        // FontAwesome
 @import "global";
 @import "header";
+@import "tabs";
 @import "stickable";
 @import "modal";
-
 @import "search";
 @import "resources";
-@import "not_ie9";
-
-// @import "colorbox";
-@import "iiif_thumbnail_viewer";
+@import "pagination";
 @import "filesystem_browser";
+@import "iiif_thumbnail_viewer";
+@import "admin";

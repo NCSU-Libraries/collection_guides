@@ -26,7 +26,7 @@ module SearchHelper
 
     resource_data[:display_title] = resource_data[:date_statement] ?
       "#{resource_data[:title]}, #{resource_data[:date_statement]}" : resource_data[:title]
-    output << "<div class=\"row search-result result-group#{ options[:class] ? (' ' + options[:class]) : '' }\">"
+    output << "<div class=\"grid-x row search-result result-group#{ options[:class] ? (' ' + options[:class]) : '' }\">"
 
     if resource_data[:digital_content]
       output << '<div class="resource-digital-content right">'
@@ -71,7 +71,7 @@ module SearchHelper
   def render_resource_results(docs, resource)
     output = ''
     docs.each do |d|
-      output << '<div class="row search-result">'
+      output << '<div class="grid-x row search-result">'
       link_label = ''
 
       if !d['component_ancestors_title'].blank?
@@ -80,7 +80,7 @@ module SearchHelper
 
       link_label << "<span class=\"component-title\">#{d['title']}</span>"
 
-      output << '<div class="columns small-9">'
+      output << '<div class="cell small-9">'
       output << link_to(link_label.html_safe,"#{root_path}resources/#{resource.id}/contents?archival_object_id=#{d['record_id']}",
         class: 'archival-object-link')
       if d['date_statement']
@@ -89,7 +89,7 @@ module SearchHelper
       output << '</div>'
 
       if d['containers']
-        output << '<div class="columns small-3">'
+        output << '<div class="cell small-3">'
         output << "<span class=\"containers\">#{ d['containers'].join('; ') }</span>"
         output << '</div>'
       end
@@ -117,14 +117,14 @@ module SearchHelper
     if !docs.empty?
       list = '<ul class="resource-component-results">'
       docs.each do |d|
-        item = '<li class="row">'
+        item = '<li class="grid-x row">'
         link_label = ''
         if !d['component_ancestors_title'].blank?
           link_label << "#{d['component_ancestors_title'].join(' &raquo; ')} &raquo; "
         end
         link_label << "<span class=\"component-title\">#{d['title']}</span>"
 
-        item_col1 = '<span class="columns small-9">'
+        item_col1 = '<span class="cell small-9">'
 
         item_col1 << "#{link_to(link_label.html_safe,"#{resource_data[:path]}/contents?archival_object_id=#{d['record_id']}")}"
 
@@ -135,7 +135,7 @@ module SearchHelper
         item << item_col1
 
         if d['containers']
-          item << '<span class="columns small-3">'
+          item << '<span class="cell small-3">'
           item << "<span class=\"containers\">#{ d['containers'].join('; ') }</span>"
           item << '</span>'
         end
@@ -196,8 +196,8 @@ module SearchHelper
 
   def search_pagination
     if @pages > 1
-      output = '<div class="row">'
-      output << '<ul class="pagination">'
+      # output = '<div class="grid-x row">'
+      output = '<ul class="pagination">'
 
       if @page_list_start == 1
         output << "<li class=\"arrow unavailable\">&laquo;</li>"
@@ -231,7 +231,7 @@ module SearchHelper
       end
 
       output << '</ul>'
-      output << '</div>'
+      # output << '</div>'
       output.html_safe
     end
   end
@@ -281,8 +281,6 @@ module SearchHelper
   end
 
 
-
-
   def facet_heading(facet)
     facet.gsub(/_/, ' ').split.map(&:capitalize).join(' ')
   end
@@ -292,6 +290,7 @@ module SearchHelper
     content = ''
     content << '<ul>'
     values.each do |v,count|
+      CGI::escapeHTML(v)
       content << "<li>#{ filter_link(facet, v, multivalued: true) }</li>"
     end
     content << '</ul>'
@@ -300,13 +299,13 @@ module SearchHelper
   end
 
 
-
   # Generate options for inclusive_years facet as date ranges
   # Params:
   # +increment+:: length of range (e.g. value of 10 will yield a list of decades)
   # +threshold+:: earliest year to list (earlier dates will be listed as "Before #{ threshold }")
   def inclusive_years_facet_options(increment=10, threshold=1800)
     output = ''
+
     if @facets['inclusive_years']
       range_values = []
       active_range_start = nil
@@ -339,8 +338,12 @@ module SearchHelper
       end
 
       content = ''
+
+      puts "range_values"
+      puts range_values.inspect
+
       if !range_values.empty?
-        content << '<ul class="date-range-options">'
+        content << '<ul class="date-range-options facet">'
         range_values.reverse.each do |r|
           content << "<li>#{ filter_link('inclusive_years',r[:value], label: r[:label], multivalued: true) }</li>"
         end
@@ -353,30 +356,28 @@ module SearchHelper
   end
 
 
-
-
-
-
   def filter_link(facet,value,options={})
     output = ''
     label = options[:label] || value
     href_options = @base_href_options.clone
 
-    filters = @filters.clone
+    filters = @filters.dup.to_h
+
+    if filters.respond_to?(:permit!)
+      filters.permit!
+    end
 
     active_facet_value = nil
 
     if filters[facet]
-      if (options[:multivalued] && filters[facet].include?(value)) ||
-        (filters[facet] == value || value === true)
-          active_facet_value = true
+      if (options[:multivalued] && filters[facet].include?(value)) || (filters[facet] == value || value === true)
+        active_facet_value = true
       end
     end
 
     # TODO - push selected to top of list, but not for dates
 
     if active_facet_value
-
       if filters[facet].kind_of? Array
         filters[facet].delete(value)
       else
@@ -385,16 +386,14 @@ module SearchHelper
 
       output << '<span class="active-facet">'
       output << label
-      remove_label = '<i class="fa fa-times-circle"></i>'
+      remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
       href_options[:filters] = filters
       href = searches_path(href_options)
 
-      output << link_to(remove_label.html_safe, href, { class: 'remove-facet-link', title: 'Remove filter' } )
+      output << link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
       output << '</span>'
-
     elsif filters[facet] && !options[:multivalued] && !active_facet_value
       # skip
-
     else
       if options[:multivalued]
         filters[facet] ||= []
@@ -402,10 +401,12 @@ module SearchHelper
       else
         filters[facet] = value
       end
+
       href_options[:filters] = filters
       href = searches_path(href_options)
       output << link_to(label, href, class: 'search-filter-link')
     end
+
     output.html_safe
   end
 
@@ -413,23 +414,23 @@ module SearchHelper
   def active_filters
     if !@filters.blank?
 
-      output = '<div class="row" id="active-filters">'
-      output << "<span class=\"label\">#{'Filter'.pluralize(@filters.length)}:</span> "
+      output = '<div id="active-filters">'
+      output << "<span class=\"active-filter-label\">#{'Filter'.pluralize(@filters.permit!.to_h.length)}:</span> "
       @filters.each do |k,v|
         case k
         when 'resource_digital_content'
           output << filter_link(k, true, label: 'Has digitial content')
         when 'university_archives'
-          output << filter_link(k,v, label: 'University Archives')
+          output << filter_link(k, display_safe(v), label: 'University Archives')
         when 'resource_category'
-          output << filter_link(k, v, label: resource_categories[v])
+          output << filter_link(k, display_safe(v), label: resource_categories[v])
         # when 'inclusive_years'
         #   v.each do |range|
         #     output << filter_link(k, range, multivalued: true)
         #   end
         else
           v.each do |value|
-            output << filter_link(k, value, multivalued: true)
+            output << filter_link(k, display_safe(value), multivalued: true)
           end
         end
       end
@@ -439,14 +440,20 @@ module SearchHelper
   end
 
 
+  def display_safe(value)
+    value = strip_tags(value)
+    CGI::escapeHTML(value)
+  end
+
+
   def results_heading
-    output = '<h1 class="row">'
+    output = '<h1>'
     if !@q.blank?
       if @resource && @total_components
         resource_path = "#{root_path}resources/#{@resource.id}"
-        output << "Found #{@total_components} matches for <span class=\"query-term\">#{@q}</span> in #{link_to(@resource.title, resource_path)}"
+        output << "Found #{@total_components} matches for <span class=\"query-term\">#{ display_safe(@q) }</span> in #{link_to(@resource.title, resource_path)}"
       else
-        output << "Found matches for <span class=\"query-term\">#{@q}</span> in #{@total_collections} collections"
+        output << "Found matches for <span class=\"query-term\">#{ display_safe(@q) }</span> in #{@total_collections} collections"
       end
     else
       if @subject
@@ -481,9 +488,6 @@ module SearchHelper
     response_data[:total] = @response['facet_counts']['facet_fields']['resource_uri'].length / 2
     response_data
   end
-
-
-
 
 
   # Load custom methods if they exist

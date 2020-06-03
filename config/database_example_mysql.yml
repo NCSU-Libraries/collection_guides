@@ -9,7 +9,7 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 #
-development:
+default: &default
   adapter: mysql2
   encoding: utf8
   database: collection_guides
@@ -21,16 +21,13 @@ development:
 
 development:
   <<: *default
-  database: daev_development
-  socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: daev_test
-  socket: /tmp/mysql.sock
+  database: collection_guides_test
 
 staging:
   <<: *default

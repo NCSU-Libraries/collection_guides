@@ -35,7 +35,15 @@ module TestResponseData
         ],
         "instances"=>[
           { "instance_type"=>"mixed_materials", "jsonmodel_type"=>"instance",
-            "container"=> { "indicator_1"=>"1", "type_1"=>"box", "indicator_2"=>"1", "type_2"=>"folder", "jsonmodel_type"=>"container", "container_locations"=>[]}
+            "sub_container" => {
+              "indicator_2" => "1",
+              "type_2" => "folder",
+              "jsonmodel_type" => "container",
+              "container_locations"=>[],
+              "top_container" => {
+                "_resolved" => { "indicator"=>"1", "type"=>"box" }
+              }
+            }
           }
         ],
         "notes"=>[
@@ -50,7 +58,6 @@ module TestResponseData
         "resource"=>{"ref"=>"/repositories/2/resources/1317"},
         "has_unpublished_ancestor"=>false
       }
-
     }
   end
 
@@ -154,10 +161,10 @@ module TestResponseData
 
   def chronlist_subnote_expected
     expected = '<div class="chronlist">'
-    expected << '<div class="chronitem row"><div class="date">1960</div>'
+    expected << '<div class="grid-x row chronitem"><div class="date">1960</div>'
     expected << '<div class="events"><div class="event">Event 1</div><div class="event">Event 2</div></div>'
     expected << '</div>'
-    expected << '<div class="chronitem row"><div class="date">1970</div>'
+    expected << '<div class="grid-x row chronitem"><div class="date">1970</div>'
     expected << '<div class="events"><div class="event">Event 1</div><div class="event">Event 2</div></div>'
     expected << '</div>'
     expected << '</div>'

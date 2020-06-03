@@ -5,27 +5,27 @@ module ResourcesHelper
 
   def resource_overview
     if @presenter
-      overview = '<dl class="inline-dl resource-overview row">'
+      overview = '<dl class="inline-dl resource-overview">'
 
       if !@presenter.primary_agent.blank?
-        overview << "<dt class=\"columns\">#{'Creator'.pluralize(@presenter.primary_agent.length)}</dt>"
-        overview << "<dd#{rdfa_property_attribute(:origination)} class=\"columns\">#{@presenter.primary_agent.join('; ')}</dd>"
+        overview << "<dt>#{'Creator'.pluralize(@presenter.primary_agent.length)}</dt>"
+        overview << "<dd#{rdfa_property_attribute(:origination)}>#{@presenter.primary_agent.join('; ')}</dd>"
       end
 
       if !@presenter.extent_statement.blank?
-        overview << '<dt class="columns">Size</dt>'
-        overview << "<dd#{rdfa_property_attribute(:extent)} class=\"columns\">#{@presenter.extent_statement}</dd>"
+        overview << '<dt>Size</dt>'
+        overview << "<dd#{rdfa_property_attribute(:extent)}>#{@presenter.extent_statement}</dd>"
       end
 
       if !@presenter.collection_id.blank?
-        overview << '<dt class="columns">Call number</dt>'
-        overview << "<dd property=\"dcterms:identifier\" class=\"columns\">#{@presenter.collection_id}</dd>"
+        overview << '<dt>Call number</dt>'
+        overview << "<dd property=\"dcterms:identifier\">#{@presenter.collection_id}</dd>"
       end
 
       overview << '</dl>'
 
-      # if @presenter.has_digital_objects || @presenter.has_descendant_digital_objects
-      #   overview << resource_digital_object_output()
+      # if @presenter.has_digital_objects_with_files || @presenter.has_descendant_digital_objects_with_files
+      #   overview << resource_overview_digital_object_output
       # end
 
     end

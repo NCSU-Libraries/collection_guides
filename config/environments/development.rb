@@ -32,4 +32,8 @@ CollectionGuides::Application.configure do
 
 
   config.log_level = :debug
+
+  config.active_record.sqlite3.represent_boolean_as_integer = true
+
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

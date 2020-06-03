@@ -1,5 +1,5 @@
 $white: #fff;
-$black: #000;
+$black: #111;
 
 $grayDarkest: #222;
 $grayDarker: #383838;
@@ -10,16 +10,15 @@ $grayLighter: #ccc;
 $grayLightest: #e1e1e1;
 $grayGhost: #efefef;
 
-$red: #c52f24; //primary
-$red2: #a20000; // secondary
+$red: #cc0000; //primary
+$red2: #990000; // secondary
 
 $blue: #567; //secondary
 $blue2: #4a7aa9; //support
 
-
 $grayGreen: #5C5541;
 
-$green: #663;
+$green: #6f7d1c;
 $green2: #785;
 $green3: #9a7;
 $green4: #cda;
@@ -33,19 +32,34 @@ $tanLigher: #E5E1D0;
 $blueLight: #67849c;
 
 
-$linkColor: $blue2;
-$orange: #CC9900;
+$orange: #d14905;
 
 $yellowLight: #FDF1B5;
 
-/* Foundation overrides */
+$text-color: $grayDarkest;
+$linkColor: $blue2;
+$body-background: $white;
 
-$h1-font-size: rem-calc(32);
-$h2-font-size: rem-calc(24);
-$h3-font-size: rem-calc(21);
-$h4-font-size: rem-calc(18);
-$h5-font-size: rem-calc(14);
-$h6-font-size: 1rem;
-$paragraph-line-height: 1.4rem;
+// $h1-font-size: rem-calc(28);
+// $h2-font-size: rem-calc(24);
+// $h3-font-size: rem-calc(21);
+// $h4-font-size: rem-calc(18);
+// $h5-font-size: rem-calc(14);
+// $h6-font-size: 1rem;
 
-$body-background: #fff;
+$h1-font-size: 34px;
+$h2-font-size: 24px;
+$h3-font-size: 21px;
+$h4-font-size: 18px;
+$h5-font-size: 14px;
+$h6-font-size: 14px;
+
+$paragraph-line-height: 1.4em;
+
+
+/* widths */
+$max-width: 1200px;
+$line-height: 1.25em;
+$line-height-half: 0.75em;
+$default-block-spacing: $line-height;
+

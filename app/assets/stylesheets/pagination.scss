@@ -1,0 +1,29 @@
+/* Overrides to Foundation's pagination styling */
+
+.pagination {
+
+  padding-left: 0;
+
+  .arrow {
+    padding: 0 0.5rem;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .current, .current:hover {
+    padding: 0;
+    background: none;
+    color: $white;
+    cursor: default;
+
+    a, a:hover {
+      padding: 0.1rem 0.5rem;
+      color: $white;
+      cursor: default;
+      background: #1779ba;
+    }
+  }
+
+}

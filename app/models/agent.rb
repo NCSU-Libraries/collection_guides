@@ -1,4 +1,4 @@
-class Agent < ActiveRecord::Base
+class Agent < ApplicationRecord
 
   include AspaceConnect
 
@@ -84,25 +84,28 @@ class Agent < ActiveRecord::Base
         use_name = authorized_name
       end
 
-      # Only use 'dates of existence', not 'use dates'
-      if data['dates_of_existence']
-        date = data['dates_of_existence'].first
-      end
-
       # use sort_name, which is usually system-generated
       output = use_name['sort_name'].strip.gsub(/\,$/,'')
 
-      if date
+      # THIS IS APPENDING DATES TO NAMES BUT I'M NOT SURE WE WANT THAT
+      # UPDATE 2019-03-18 - we don't
 
-        if date['expression']
-          date_string = date['expression']
-        elsif date['begin'] || date['end']
-          date_string = date['begin'] ? date['begin'].slice(0,4) : ''
-          date_string << '-'
-          date_string << date['end'] ? date['end'].slice(0,4) : ''
-        end
-        output += ", #{date_string}"
-      end
+      # # Only use 'dates of existence', not 'use dates'
+      # if data['dates_of_existence']
+      #   date = data['dates_of_existence'].first
+      # end
+
+      # if date
+      #   if date['expression']
+      #     date_string = date['expression']
+      #   elsif date['begin'] || date['end']
+      #     date_string = date['begin'] ? date['begin'].slice(0,4) : ''
+      #     date_string << '-'
+      #     date_string << date['end'] ? date['end'].slice(0,4) : ''
+      #   end
+      #   output += ", #{date_string}"
+      # end
+
     end
     output
   end

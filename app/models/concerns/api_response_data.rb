@@ -153,7 +153,7 @@ module ApiResponseData
   #
   def add_instances_to_unit_data(response_data)
     container_string = lambda do |type,indicator|
-      container = container_type_labels(type);
+      container = type ? (container_type_labels(type) || type) : ''
       container += indicator ? " #{indicator}" : ''
       return container
     end

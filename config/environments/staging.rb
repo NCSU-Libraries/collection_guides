@@ -21,10 +21,10 @@ CollectionGuides::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_files = false
+  config.public_file_server.enabled = false
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -35,12 +35,6 @@ CollectionGuides::Application.configure do
 
   # Version of your assets, change this if you want to expire all your assets.
   config.assets.version = '1.0'
-
-
-  # config.assets.precompile += ['ncsul_web/ie8.css',
-  #   'ncsul_web/ie8.js',
-  #   'ncsul_web/rem.js',
-  #   'ncsul_web/ie9.css']
 
 
   # Specifies the header that your server uses for sending files.
@@ -85,4 +79,6 @@ CollectionGuides::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

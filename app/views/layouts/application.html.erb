@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!--[if IE 7 ]>    <html lang="en" class="no-js lt-ie9 ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js lt-ie9 ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js lt-ie9 ie9" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
 <html version="HTML+RDFa 1.1" lang="en"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -10,45 +14,33 @@
   xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns:foaf="http://xmlns.com/foaf/0.1/"
   class="no-js">
-
+<!--<![endif]-->
 
   <head>
     <% if @resource && @presenter %>
     <title><%= @presenter.title %><%= @presenter.date_statement ? ", #{@presenter.date_statement}" : '' %>
-      | NCSU Special Collections Research Center Collection Guides</title>
+     | NC State University Libraries Collection Guides</title>
+    <% elsif @title %>
+    <title>Collection Guides | <%= @title %></title>
     <% else %>
-    <title>NCSU Special Collections Research Center Collection Guides</title>
+    <title>Collection Guides</title>
     <% end %>
 
     <meta charset="utf-8" />
+    <meta name="viewport" id="viewport" content="width=device-width,minimum-scale=1.0,initial-scale=1.0" />
 
-    <meta content="ie=edge, chrome=1" http-equiv="x-ua-compatible" />
+    <%= stylesheet_link_tag    "application" %>
+
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
 
     <% if controller_name == 'resources' %>
       <%= escaped_fragment_meta %>
     <% end %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <%= favicon_link_tag '/homescreen-icon-114x114.png', sizes: "114x114", rel: "shortcut icon" %>
     <%= favicon_link_tag '/homescreen-icon-57x57.png', sizes: "57x57", rel: 'apple-touch-icon', type: 'image/png' %>
     <%= favicon_link_tag '/homescreen-icon-72x72.png', sizes: "72x72", rel: 'apple-touch-icon', type: 'image/png' %>
     <%= favicon_link_tag '/homescreen-icon-114x114.png', sizes: "114x114", rel: 'apple-touch-icon', type: 'image/png' %>
-
-    <link href="//cdn.ncsu.edu/brand-assets/fonts/include.css" rel="stylesheet" type="text/css" />
-
-    <!-- css -->
-    <%= stylesheet_link_tag    "application" %>
-
-    <!--[if lt IE 9]>
-      <style>
-        .show-for-small-only, .show-for-small {
-          display: none;
-        }
-      </style>
-    <![endif]-->
-
-    <%= javascript_include_tag 'modernizr' %>
 
     <%= render '/layouts/google_analytics' %>
 
@@ -56,34 +48,26 @@
 
   </head>
 
-  <!--[if !IE]>
-  <body class="good-browser">
-  <![endif]-->
 
-  <!--[if IE]>
   <body>
-  <![endif]-->
 
+    <div class="app-content">
 
-    <div class="off-canvas-wrap">
-      <div class="inner-wrap">
+      <%= render partial: "layouts/header" %>
 
-        <%= render partial: "layouts/header" %>
+      <main role="main">
 
-        <main role="main">
+        <%= render '/layouts/flash' %>
 
-          <%= render '/layouts/flash' %>
+        <%= yield %>
 
-          <%= yield %>
+      </main>
 
-        </main>
-
-      </div>
     </div>
 
-    <!-- js -->
-    <%= javascript_include_tag 'application' %>
+    <%= render partial: "layouts/footer" %>
 
   </body>
+
 
 </html>

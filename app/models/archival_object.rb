@@ -1,4 +1,4 @@
-class ArchivalObject < ActiveRecord::Base
+class ArchivalObject < ApplicationRecord
 
   include AspaceConnect
   include ApiResponseData

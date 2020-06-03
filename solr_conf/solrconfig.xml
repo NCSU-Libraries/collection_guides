@@ -35,7 +35,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
   -->
-  <luceneMatchVersion>5.2.1</luceneMatchVersion>
+  <luceneMatchVersion>5.5.4</luceneMatchVersion>
 
   <!-- Data Directory
 
@@ -44,7 +44,7 @@
        replication is in use, this should match the replication
        configuration.
     -->
-  <dataDir>${solr.collection_guides.data.dir:}</dataDir>
+  <dataDir>${solr.data.dir:}</dataDir>
 
 
   <!-- The DirectoryFactory to use for indexes.
@@ -130,7 +130,7 @@
 
        For more details see http://wiki.apache.org/solr/SolrJmx
     -->
-  <jmx />
+  <!-- <jmx /> -->
   <!-- If you want to connect to a particular server, specify the
        agentId
     -->

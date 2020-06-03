@@ -3,6 +3,11 @@ class SearchController < ApplicationController
   include SearchHelper
 
   def index
+
+    params.permit!
+
+    @title = "Search results"
+
     @q = params[:q]
 
     ######################################################################
@@ -28,7 +33,6 @@ class SearchController < ApplicationController
     # @filters only include facet values included in the request. Additional filters will be added to the query.
     @filters = !params[:filters].blank? ? params[:filters].clone : {}
 
-
     # process special filters (i.e. keys don't correspond to Solr fields)
     params[:filters][:agents] ||= []
     params[:filters].each do |k,v|
@@ -41,21 +45,12 @@ class SearchController < ApplicationController
           ranges << "[#{dates[0]} TO #{dates[1]}]"
         end
         params[:filters][:inclusive_years] = ranges
-      when 'ncsu_subjects'
-        # These are subdivided corporate name subjects, so they are recorded as agents
-        v.each do |subject|
-          params[:filters][:agents] << subject
-        end
-      end
     end
-    params[:filters].delete('ncsu_subjects')
-
-
 
 
     # define base href used for pagination and filtering
     @base_href_options = {
-      q: @q,
+      q: !@q.blank? ? @q : nil,
       filters: @filters.empty? ? nil : @filters.clone,
       per_page: params[:per_page] ? params[:per_page] : nil
     }
@@ -81,6 +76,7 @@ class SearchController < ApplicationController
       params[:filters]['record_type'] = 'resource'
     end
 
+    puts '***'
     puts @base_href_options.inspect
 
     @base_href = searches_path(@base_href_options)
@@ -124,70 +120,70 @@ class SearchController < ApplicationController
   private
 
 
-    def set_pagination_vars(params)
-      @per_page = params[:per_page] ? params[:per_page].to_i : 20
+  def set_pagination_vars(params)
+    @per_page = params[:per_page] ? params[:per_page].to_i : 20
 
-      if params[:resource_id]
-        @total_components = @response['response']['numFound']
-        @pages = (@total_components.to_f / @per_page.to_f).ceil
-      else
-        @total_collections = @response['facet_counts']['facet_fields']['resource_uri'].length / 2
-        @pages = (@total_collections.to_f/@per_page.to_f).ceil
-      end
-
-      @page = params[:page] ? params[:page].to_i : 1
-
-      if @page <= 6
-        @page_list_start = 1
-      elsif (@page > (@pages - 9)) && ((@pages - 9) > 10)
-        @page_list_start = @pages - 9
-      else
-        @page_list_start = @page - 5
-      end
-
-      if (@pages < 10) || ((@page + 4) > @pages)
-        @page_list_end = @pages
-      else
-        @page_list_end = @page_list_start + 9
-      end
+    if params[:resource_id]
+      @total_components = @response['response']['numFound']
+      @pages = (@total_components.to_f / @per_page.to_f).ceil
+    else
+      @total_collections = @response['facet_counts']['facet_fields']['resource_uri'].length / 2
+      @pages = (@total_collections.to_f/@per_page.to_f).ceil
     end
 
+    @page = params[:page] ? params[:page].to_i : 1
 
-    def process_facets(params)
-      raw_facets = @response['facet_counts']['facet_fields']
-      @facets = {}
-      # Convert facet_counts array to hash
-      raw_facets.each do |f,v|
-        if v.kind_of? Array
-          @facets[f] = {}
-          i = 0
-          until i >= raw_facets[f].length
-            value = raw_facets[f][i]
-            count = raw_facets[f][i + 1]
-            @facets[f][value] = count
-            i += 2
-          end
-        else
-          @facets[f] = v
+    if @page <= 6
+      @page_list_start = 1
+    elsif (@page > (@pages - 9)) && ((@pages - 9) > 10)
+      @page_list_start = @pages - 9
+    else
+      @page_list_start = @page - 5
+    end
+
+    if (@pages < 10) || ((@page + 4) > @pages)
+      @page_list_end = @pages
+    else
+      @page_list_end = @page_list_start + 9
+    end
+  end
+
+
+  def process_facets(params)
+    raw_facets = @response['facet_counts']['facet_fields']
+    @facets = {}
+    # Convert facet_counts array to hash
+    raw_facets.each do |f,v|
+      if v.kind_of? Array
+        @facets[f] = {}
+        i = 0
+        until i >= raw_facets[f].length
+          value = raw_facets[f][i]
+          count = raw_facets[f][i + 1]
+          @facets[f][value] = count
+          i += 2
         end
+      else
+        @facets[f] = v
       end
-      # Sort select facets by count
-      facets_to_sort = ['agents']
-      facets_to_sort.each do |f|
-        sorted = @facets[f].sort_by { |k,v| v }
-        sorted.reverse!
-        sorted_hash = {}
-        sorted.each { |x| sorted_hash[x[0]] = x[1] }
-        @facets[f] = sorted_hash
-      end
-      @facets
     end
+    # Sort select facets by count
+    facets_to_sort = ['agents']
+    facets_to_sort.each do |f|
+      sorted = @facets[f].sort_by { |k,v| v }
+      sorted.reverse!
+      sorted_hash = {}
+      sorted.each { |x| sorted_hash[x[0]] = x[1] }
+      @facets[f] = sorted_hash
+    end
+    @facets
+  end
 
 
-    # Included here so that it can be overridden in SearchControllerCustom
-    def process_custom_facets(params)
-      @facets
-    end
+  # Included here so that it can be overridden in SearchControllerCustom
+  def process_custom_facets(params)
+    @facets
+  end
 
 
   public

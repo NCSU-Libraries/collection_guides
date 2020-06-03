@@ -11,6 +11,14 @@
   color: #666;
 }
 
+// Foundation overrides
+.thumbnail-viewer .thumbnail {
+  margin-bottom: 0;
+  border: none;
+  line-height: inherit;
+  box-shadow: none;
+}
+
 .thumbnail-viewer .thumbnail-viewer-inner {
   position: relative;
   width: 100%;
@@ -48,19 +56,47 @@
   padding-left: 0.25em;
 }
 
-.thumbnail-viewer .visibility-toggle {
+// .thumbnail-viewer .thumbnail-visibility-toggle {
+//   text-transform: uppercase;
+//   font-size: 0.8em;
+//   color: #4a7aa9;
+
+//   a, .link {
+//     text-decoration: none !important;
+//   }
+
+//   i {
+//     padding-right: 0.5em;
+//   }
+
+//   &:hover {
+//     cursor: pointer;
+//     text-decoration: underline;
+//   }
+// }
+
+
+
+.thumbnail-visibility-toggle {
+  width: 12rem;
+  float: right;
+  font-size: 70%;
   text-transform: uppercase;
-  font-size: 0.8em;
-  color: #4a7aa9;
-}
+  white-space: nowrap;
+  padding-top: 1rem;
+  line-height: 1em;
 
-.thumbnail-viewer .visibility-toggle i {
-  padding-right: 0.5em;
-}
+  .link {
+    background: $blue2;
+    padding: 0.25em 0.4em;
+    color: $white;
+    text-decoration: none;
+    &:hover {
 
-.thumbnail-viewer .visibility-toggle:hover {
-  cursor: pointer;
-  text-decoration: underline;
+      background: $blue;
+      color: $white;
+    }
+  }
 }
 
 
@@ -109,7 +145,7 @@
 }
 
 .thumbnail-viewer .thumbnail-label {
-  font-size: 0.75rem;
+  font-size: 10px;
   margin-bottom: 0.25rem;
   color: #999;
   text-transform: uppercase;
@@ -121,26 +157,4 @@
   }
 }
 
-.thumbnail-visibility-toggle {
-  width: 12rem;
-  float: right;
-}
 
-.thumbnail-visibility-toggle {
-  font-size: 70%;
-  text-transform: uppercase;
-  white-space: nowrap;
-  padding-top: 1rem;
-  line-height: 1em;
-}
-
-.thumbnail-visibility-toggle .link {
-  background: $blue2;
-  padding: 0.25em 0.4em;
-  color: $white;
-  &:hover {
-    text-decoration: none;
-    background: $blue;
-    color: $white;
-  }
-}

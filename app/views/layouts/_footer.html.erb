@@ -1,1 +1,10 @@
-<%= render '/layouts/spinner' %>
+<% if user_signed_in? %>
+<div class="admin-nav">
+  <div class="admin-nav-inner">
+    <ul class="inline-list">
+      <li><%= link_to('Sign out', destroy_user_session_path, method: :delete) %></li>
+      <li><%= link_to('Resque web', "#{root_path}resque_web", target: '_blank') %></li>
+    </ul>
+  </div>
+</div>
+<% end %>

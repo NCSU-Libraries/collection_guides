@@ -1,12 +1,10 @@
 <%= form_tag(searches_path, method: 'get', class: 'search-form', id: 'search-form') do %>
 
-  <div class="row collapse">
+  <div class="input-group">
 
-    <div class="small-9 columns">
-      <%= search_field_tag(:q, params[:q] || "", placeholder: "Enter terms to search all collection guides", class: "search-query") %>
-    </div>
+    <%= search_field_tag(:q, params[:q] || "", placeholder: "Enter terms to search all collection guides", class: "input-group-field search-query") %>
 
-    <div class="small-3 columns">
+    <div class="input-group-button">
       <%= submit_tag("Search", class: "button postfix", name: nil) %>
     </div>
 

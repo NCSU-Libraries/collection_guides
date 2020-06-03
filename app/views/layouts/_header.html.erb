@@ -1,30 +1,42 @@
 <div class="project-header" id="project-header">
 
-  <div class="row">
+  <div class="project-header-content">
 
-    <div class="small-12 columns project-name-column">
-      <div class="project-name">
-        <%= link_to "Collection Guides", root_path %>
+    <div class="project-name">
+      <%= link_to "Collection Guides", root_path %>
+      <div class="subhead show-for-medium">
+        Archival Collections at <span class="nowrap">NC State University Libraries</span>
+      </div>
+    </div>
+
+
+    <div class="project-nav show-for-medium">
+      <ul class="inline-list" id="project-nav">
+        <li><%= link_to 'Special Collections Research Center', 'http://www.lib.ncsu.edu/scrc' %></li>
+        <li><%= link_to 'Contact', 'http://www.lib.ncsu.edu/scrc/request' %></li>
+        <li><%= link_to 'Get help', help_path %></li>
+      </ul>
+    </div>
+
+
+    <div class="grid-x row">
+      <div class="cell small-12 medium-8">
+        <%= render 'search/search_form' %>
+      </div>
+
+      <div class="cell show-for-medium medium-4">
+        <div class="browse-all">
+          <%= link_to('Browse all collections', "#{root_path}resources") %>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="show-for-small-only">
+      <div class="browse-all browse-all-block">
+        <%= link_to('Browse all collections', "#{root_path}resources") %>
       </div>
     </div>
 
   </div>
-
-
-  <div class="row">
-    <div class="small-12 medium-8 columns">
-      <%= render 'search/search_form' %>
-    </div>
-    <div class="show-for-medium-up medium-4 columns">
-      <%= link_to('Browse all collections', "#{root_path}resources", class: 'browse-all') %>
-    </div>
-  </div>
-
-
-  <div class="row show-for-small-only">
-    <%= link_to('Browse all collections', "#{root_path}resources", class: 'browse-all browse-all-block') %>
-  </div>
-
 </div>
-
-

@@ -7,7 +7,8 @@ main #search-results {
   h1 {
     font-size: $h2-font-size;
     margin-bottom: 1.5rem;
-    @media #{$small-only} {
+
+    @include breakpoint(small only) {
       margin-bottom: 0.5rem;
       padding-top: 0.5rem;
     }
@@ -17,32 +18,40 @@ main #search-results {
     font-weight: bold;
   }
 
-  .pagination {
+  .pagination, ul.pagination {
     margin-top: -0.5rem;
     margin-bottom: 1.75rem;
-    @media #{$small-only} {
+
+    @include breakpoint(small only) {
       margin-top: 0;
     }
+
     .arrow.unavailable {
       color: #e6e6e6;
+    }
+
+    li {
+      &:before {
+        content: none;
+        margin: 0;
+        padding: 0;
+      }
     }
   }
 
   #search-facets-options {
-
-
     margin-top: 2rem;
     font-size: 90%;
     padding-right: 1rem;
 
-    @media #{$small-only} {
+    @include breakpoint(small only) {
       margin-top: 0;
     }
 
     h2 {
       text-transform: uppercase;
       font-size: 1em;
-      border-bottom: 1px solid $grayLightest;
+      // border-bottom: 1px solid $grayLightest;
     }
 
     h3 {
@@ -69,13 +78,21 @@ main #search-results {
           padding: 0.25em 0;
           list-style: none;
 
+          &:before {
+            content: none;
+            margin: 0;
+            padding: 0;
+          }
+
           &:last-child {
             border: 0;
           }
+
           &:first-child {
             padding-top: 0;
           }
         }
+
         &.date-range-options li {
           margin: 0;
         }
@@ -88,9 +105,7 @@ main #search-results {
         }
       }
     }
-
   }
-
 
   #mobile-facets {
     margin-bottom: 1rem;
@@ -98,7 +113,6 @@ main #search-results {
 
     .f-dropdown.content {
       border: 1px solid $gray;
-
 
       &:before {
         border: inset 6px;
@@ -109,6 +123,7 @@ main #search-results {
         left: 10px;
         z-index: 99;
       }
+
       &:after {
         border: inset 7px;
         border-color: transparent transparent $gray transparent;
@@ -118,9 +133,6 @@ main #search-results {
         left: 9px;
         z-index: 98;
       }
-
-
-
     }
 
     .dropdown-trigger {
@@ -148,6 +160,7 @@ main #search-results {
 
       .scrollable {
         max-height: 5.5rem;
+
         li a {
           padding: 0.1rem 0.25rem;;
         }
@@ -169,32 +182,32 @@ main #search-results {
         }
       }
     }
-
   }
-
 
   #active-filters {
     font-size: 0.9em;
     margin-top: -0.5rem;
     margin-bottom: 1.5rem;
-    .label {
-      @extend .simple-label;
+
+    .active-filter-label {
       text-transform: uppercase;
       font-size: 0.9em;
+      font-weight: bold;
     }
+
     .active-facet {
       padding-right: 0.5rem;
     }
-    @media #{$small-only} {
+
+    @include breakpoint(small only) {
       margin-top: 0;
     }
   }
 
-
   a.remove-facet-link {
     color: $red;
     padding-left: 0.25em;
-    font-size: 150%;
+    font-size: 16px !important;
     vertical-align: -0.08em;
 
     &:hover {
@@ -208,6 +221,10 @@ main #search-results {
     padding-bottom: 1.5rem;
     border-bottom: 1px solid $grayLightest;
     position: relative;
+
+    div {
+      width: 100%;
+    }
 
     &:last-child, &.last {
       padding-bottom: 0.5rem;
@@ -223,6 +240,7 @@ main #search-results {
     .resource-title {
       margin: 0;
       font-size: 1.25rem;
+      line-height: 1.25em;
     }
 
     .resource-details {
@@ -239,13 +257,11 @@ main #search-results {
       }
     }
 
-
-    .resource-component-results, &.row {
-      .columns {
-        padding-left: 0;
-      }
-    }
-
+    // .resource-component-results, &.row {
+    //   .columns {
+    //     padding-left: 0;
+    //   }
+    // }
 
     .resource-digital-content {
       color: $gray;
@@ -294,13 +310,8 @@ main #search-results {
           font-weight: bold;
         }
       }
-
     }
   }
-
-
-
-
 
   &.resource-results {
     .search-result {
@@ -326,10 +337,7 @@ main #search-results {
       .containers {
         font-size: 90%;
       }
-
     }
-
-
   }
 }
 

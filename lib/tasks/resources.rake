@@ -17,12 +17,13 @@ namespace :resources do
 
   desc "update_tree_unit_data"
   task :update_tree_unit_data, [:id] => :environment do |t, args|
-    if args[:id]
-      r = Resource.find args[:id]
-      r.update_tree_unit_data
-    else
-      Resource.find_each { |r| r.update_tree_unit_data }
-    end
+    UpdateResourceTreeUnitDataJob.perform_later(args[:id])
+    # if args[:id]
+    #   r = Resource.find args[:id]
+    #   r.update_tree_unit_data
+    # else
+    #   Resource.find_each { |r| r.update_tree_unit_data }
+    # end
   end
 
   desc "update_from_api"
@@ -39,17 +40,17 @@ namespace :resources do
   task :create_from_api, [:uri] => :environment do |t, args|
     if args[:uri]
       r = Resource.create_or_update_from_api(args[:uri])
-      r.update_tree_from_api
+      UpdateResourceTree.call(r.id)
     end
   end
 
-  desc "update_tree_from_api"
-  task :update_tree_from_api, [:id] => :environment do |t, args|
+  desc "update_tree"
+  task :update_tree, [:id] => :environment do |t, args|
     if args[:id]
       r = Resource.find args[:id]
-      r.update_tree_from_api
+      UpdateResourceTree.call(r.id)
     else
-      Resource.find_each { |r| r.update_tree_from_api }
+      Resource.find_each { |r| UpdateResourceTree.call(r.id) }
     end
   end
 
@@ -71,6 +72,13 @@ namespace :resources do
       Resource.find_each { |r| update_eadid.call(r) }
     end
     puts
+  end
+
+  desc "delete resource and all of its associations"
+  task :delete, [:id] => :environment do |t, args|
+    if args[:id]
+      DeleteResource.call(args[:id])
+    end
   end
 
 end
