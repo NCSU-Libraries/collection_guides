@@ -53,7 +53,7 @@ gem 'newrelic_rpm'
 gem 'whenever', :require => false
 
 # security vulnerabilities in loofah <2.2.3
-gem 'loofah', '~> 2.2.3'
+gem 'loofah', '~> 2.3.1'
 
 # security vulnerabilities in rails-html-sanitizer 1.0.3
 gem 'rails-html-sanitizer', '~> 1.0.4'
