@@ -154,7 +154,7 @@ GEM
       mini_mime (>= 0.1.1)
     method_source (0.9.0)
     mini_mime (1.0.0)
-    mini_portile2 (2.3.0)
+    mini_portile2 (2.4.0)
     minitest (5.11.3)
     modernizr-rails (2.7.1)
     multi_json (1.13.1)
@@ -164,8 +164,8 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (4.2.0)
     newrelic_rpm (4.8.0.341)
-    nokogiri (1.8.2)
-      mini_portile2 (~> 2.3.0)
+    nokogiri (1.10.8)
+      mini_portile2 (~> 2.4.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -289,7 +289,7 @@ DEPENDENCIES
   guard-livereload
   jbuilder (~> 1.2)
   jquery-rails (~> 4.0.4)
-  loofah (~> 2.2.1)
+  loofah (~> 2.2.3)
   modernizr-rails
   newrelic_rpm
   nokogiri
