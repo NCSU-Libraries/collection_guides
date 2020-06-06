@@ -1,12 +1,4 @@
 GIT
-  remote: git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git
-  revision: 8adfb433d014bfadecd9f861ffe41645ac21e239
-  specs:
-    ncsul_web (0.10.4)
-      rails (>= 4.1.11)
-      sass-rails
-
-GIT
   remote: https://github.com/NCSU-Libraries/archivesspace-api-utility.git
   revision: 0df30fd9d5885d402e128c44b0e15c5682bcffaf
   specs:
@@ -359,7 +351,7 @@ GEM
       rack (>= 2.0.6)
     websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
     whenever (0.10.0)
       chronic (>= 0.6.3)
     will_paginate (3.1.6)
@@ -389,7 +381,6 @@ DEPENDENCIES
   loofah (>= 2.2.3)
   modernizr-rails
   mysql2
-  ncsul_web!
   net-ldap
   nokogiri
   rails (~> 5.2.4.3)
