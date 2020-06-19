@@ -1,0 +1,2 @@
+module SearchHelperCustom
+end

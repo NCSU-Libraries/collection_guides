@@ -35,6 +35,7 @@ gem 'foundation-rails'
 gem 'font-awesome-sass'
 gem 'foundation-will_paginate'
 gem 'will_paginate'
+
 gem 'rsolr'
 gem 'nokogiri'
 gem 'truncate_html'
@@ -59,6 +60,9 @@ gem 'devise', '~> 4.7.1'
 
 # https://github.com/rails/rails/security/advisories/GHSA-65cv-r6x7-79hv
 gem 'actionview', '~> 5.2.4.2'
+
+# https://blog.jcoglan.com/2020/06/02/redos-vulnerability-in-websocket-extensions/
+gem 'websocket-extensions', '~> 0.1.5'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -49,15 +49,22 @@ main #search-results {
     }
 
     h2 {
-      text-transform: uppercase;
+      // text-transform: uppercase;
       font-size: 1em;
       // border-bottom: 1px solid $grayLightest;
+
+      &.filter-heading {
+        border-bottom: 1px solid $grayLighter;
+        padding: 0 0 0.15rem 0;
+        margin-bottom: 1rem;
+      }
     }
+
 
     h3 {
       font-size: 1em;
       margin-bottom: 0.25em;
-      font-weight: bold;
+      font-weight: 400;
       margin-top: 1.375rem;
       text-transform: uppercase;
     }
@@ -154,6 +161,7 @@ main #search-results {
     }
 
     #filter-drop {
+
       h2.filter-heading {
         display: none;
       }
@@ -233,7 +241,7 @@ main #search-results {
 
     .creator {
       font-style: italic;
-      color: $grayLight;
+      color: $gray;
       margin-bottom: 0.25rem;
     }
 
@@ -250,7 +258,7 @@ main #search-results {
       .element-label {
         font-size: 75%;
         text-transform: uppercase;
-        color: $grayLight;
+        color: $gray;
       }
       .detail-data {
         padding-right: 0.5rem;
@@ -307,7 +315,7 @@ main #search-results {
       li {
         margin-bottom: .5rem;
         .component-title {
-          font-weight: bold;
+          font-weight: 400;
         }
       }
     }
@@ -322,7 +330,7 @@ main #search-results {
       line-height: 1.25rem;
 
       .component-title {
-        font-weight: bold;
+        font-weight: 400;
       }
 
       .archival-object-link {

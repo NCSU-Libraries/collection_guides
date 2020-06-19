@@ -2,12 +2,16 @@ class SearchController < ApplicationController
 
   include SearchHelper
 
+  # Load custom methods if they exist
+  begin
+    include SearchControllerCustom
+  rescue
+  end
+
+
   def index
-
     params.permit!
-
     @title = "Search results"
-
     @q = params[:q]
 
     ######################################################################
@@ -32,19 +36,25 @@ class SearchController < ApplicationController
 
     # @filters only include facet values included in the request. Additional filters will be added to the query.
     @filters = !params[:filters].blank? ? params[:filters].clone : {}
-
     # process special filters (i.e. keys don't correspond to Solr fields)
     params[:filters][:agents] ||= []
-    params[:filters].each do |k,v|
-      case k
-      when 'inclusive_years'
-        # values are year ranges in the form YYYY-YYYY
-        ranges = []
-        v.each do |range|
-          dates = range.split('-').map { |x| x.to_i }
-          ranges << "[#{dates[0]} TO #{dates[1]}]"
-        end
-        params[:filters][:inclusive_years] = ranges
+
+
+    if params[:filters]['inclusive_years']
+      ranges = []
+      params[:filters]['inclusive_years'].each do |range|
+        dates = range.split('-').map { |x| x.to_i }
+        ranges << "[#{dates[0]} TO #{dates[1]}]"
+      end
+      params[:filters][:inclusive_years] = ranges
+    end
+
+    # NC State functionality that should not interfere with anyone else's business
+    if params[:filters]['ncsu_subjects']
+      params[:filters]['ncsu_subjects'].each do |subject|
+        params[:filters][:agents] << subject
+      end
+      params[:filters].delete('ncsu_subjects')
     end
 
 
@@ -100,10 +110,8 @@ class SearchController < ApplicationController
     # custom facets
     process_custom_facets(params)
 
-
     # Prepare pagination variables
     set_pagination_vars(params)
-
 
     respond_to do |format|
       format.html
@@ -184,16 +192,5 @@ class SearchController < ApplicationController
   def process_custom_facets(params)
     @facets
   end
-
-
-  public
-
-
-  # Load custom methods if they exist
-  begin
-    include SearchControllerCustom
-  rescue
-  end
-
 
 end

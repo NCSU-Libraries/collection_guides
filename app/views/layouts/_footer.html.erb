@@ -1,3 +1,5 @@
+<%= render '/layouts/footer_before' %>
+
 <% if user_signed_in? %>
 <div class="admin-nav">
   <div class="admin-nav-inner">
@@ -8,3 +10,5 @@
   </div>
 </div>
 <% end %>
+
+<%= render '/layouts/footer_after' %>

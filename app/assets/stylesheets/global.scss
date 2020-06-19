@@ -1,10 +1,11 @@
 body {
-  font-family: "UniversLight", sans-serif !important;
+  font-family: "Univers", "Helvetica", "Arial", sans-serif !important;
   // line-height: 1.33em;
   padding: 0;
   margin: 0;
   color: $text-color;
   background: #111;
+  font-weight: 300;
 }
 
 .app-content {
@@ -32,10 +33,9 @@ main {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: "UniversRoman", sans-serif !important;
     color: $gray !important;
     line-height: 1.2em;
-    font-weight: normal;
+    font-weight: 400;
   }
 
   h1 {
@@ -46,7 +46,7 @@ main {
 
   h2 {
     font-size: $h2-font-size;
-    margin-top: $default-block-spacing * 1.5;
+    margin-top: $default-block-spacing * 1.25;
     margin-bottom: 0;
   }
 
@@ -72,7 +72,7 @@ main {
   }
 
   p, ul, dl, ol, blockquote, .chronlist {
-    margin: $default-block-spacing 0;
+    margin: ($default-block-spacing * 0.75) 0 $default-block-spacing 0;
   }
 
   /* Links */

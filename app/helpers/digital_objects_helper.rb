@@ -4,23 +4,21 @@ module DigitalObjectsHelper
   include ActionView::Helpers::UrlHelper
 
   # Load custom methods if they exist
-  # if DigitalObjectsHelperCustom exists it MUST include a custom definition for get_digital_object_url()
-  # use the version in the rescue block as an example
   begin
-    include DigitalObjectsHelperCustom
+    prepend DigitalObjectsHelperCustom
   rescue
+  end
 
-    def get_digital_object_url(digital_object)
-      if digital_object[:files]
-        file = digital_object[:files].first
-        url = file[:file_uri]
-        if !(url.match(/^http/))
-          url = 'http://' + url
-        end
-        url
+
+  def get_digital_object_url(digital_object)
+    if digital_object[:files]
+      file = digital_object[:files].first
+      url = file[:file_uri]
+      if !(url.match(/^http/))
+        url = 'http://' + url
       end
+      url
     end
-
   end
 
 
@@ -28,30 +26,7 @@ module DigitalObjectsHelper
     output = ''
 
     # if (!thumbnail_enabled_for_digital_object(digital_object))
-      if !digital_object[:digital_object_volumes].blank?
-
-        # filesystem_browse_link = Proc.new do |url|
-        #   label = "View contents"
-        #   link_to(label, url, class: 'filesystem-browse-link')
-        # end
-
-        filesystem_browse_link = lambda do |volume_id|
-          return "<span class=\"link filesystem-browse-link\" data-volume-id=\"#{ volume_id }\">View contents</span>"
-        end
-
-        if digital_object[:digital_object_volumes].length > 1
-          volume_links = []
-          digital_object[:digital_object_volumes].each do |v|
-            volume_id = v[:volume_id]
-            volume_links << filesystem_browse_link.call(volume_id)
-          end
-          output = volume_links.join("<br>\n")
-        else
-          volume_id = digital_object[:digital_object_volumes].first[:volume_id]
-          output = filesystem_browse_link.call(volume_id)
-        end
-
-      elsif digital_object[:files]
+      if digital_object[:files]
         file = digital_object[:files].first
         url = file[:file_uri]
         if !(url.match(/^http/))
@@ -69,6 +44,7 @@ module DigitalObjectsHelper
 
     output
   end
+
 
   def digital_object_link_multi(digital_objects, label=nil)
     output = ''
@@ -99,15 +75,10 @@ module DigitalObjectsHelper
   end
 
 
+  # NCSU custom
+  # override this in digital_objects_helper_custom.rb
   def iiif_manifest_url(digital_object)
-    url = get_digital_object_url(digital_object)
-    if url && (url =~ /d\.lib\.ncsu\.edu\/collections\/catalog\//)
-      url.gsub!(/^http:/,'https:')
-      url.gsub!(/#?\?.*$/,'')
-      url + '/manifest'
-    else
-      nil
-    end
+    nil
   end
 
 
@@ -215,8 +186,5 @@ module DigitalObjectsHelper
   #   output << "<div class=\"digital-object-link\">#{resource_digital_object_link()}</div>"
   #   output << '</div>'
   # end
-
-
-
 
 end

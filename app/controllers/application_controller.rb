@@ -5,6 +5,13 @@ class ApplicationController < ActionController::Base
 
   include SitemapGenerator
 
+  # Load custom methods if they exist
+  begin
+    include ApplicationControllerCustom
+  rescue
+  end
+
+
   def index
     render
   end
@@ -23,12 +30,6 @@ class ApplicationController < ActionController::Base
 
   def not_found
     render status: 404
-  end
-
-  # Load custom methods if they exist
-  begin
-    include ApplicationControllerCustom
-  rescue
   end
 
 end

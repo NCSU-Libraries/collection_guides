@@ -2,6 +2,12 @@ module ArchivalObjectsHelper
   include ApplicationHelper
   include DigitalObjectsHelper
 
+  # Load custom methods if they exist
+  begin
+    prepend ArchivalObjectsHelperCustom
+  rescue
+  end
+
   def archival_object_html(record, options={})
     p = record.presenter
     if p.containers || (p.digital_objects && p.level != 'series')
@@ -23,7 +29,6 @@ module ArchivalObjectsHelper
   def archival_object_description(presenter, options={})
     output = ''
     p = presenter
-
     heading = p.title || ''
 
     if !p.date_statement.blank?
@@ -46,21 +51,23 @@ module ArchivalObjectsHelper
       output << inline_description_element('abstract', p.abstract)
     end
 
-    note_elements.map { |x| x.to_sym}.each do |e|
-      if p.notes[e]
-        previous_label = ''
-        p.notes[e].each do |note|
-          note_content = ''
-          label = note_label(e, note)
-          if label == previous_label
-            note_content << "<div class=\"element-heading\">#{label}</div>"
-          end
-          previous_label = label
-          note_content << note[:content]
-          output << content_tag('div', note_content.html_safe, class: "description-element #{e}")
-        end
-      end
-    end
+    output << archival_object_notes(p)
+
+    # note_elements.map { |x| x.to_sym}.each do |e|
+    #   if p.notes[e]
+    #     previous_label = ''
+    #     p.notes[e].each do |note|
+    #       note_content = ''
+    #       label = note_label(e, note)
+    #       if label == previous_label
+    #         note_content << "<div class=\"element-heading\">#{label}</div>"
+    #       end
+    #       previous_label = label
+    #       note_content << note[:content]
+    #       output << content_tag('div', note_content.html_safe, class: "description-element #{e}")
+    #     end
+    #   end
+    # end
 
     if p.subjects || p.agents
       access_terms_output = '<div class="description-element access-terms">'
@@ -99,6 +106,28 @@ module ArchivalObjectsHelper
   end
 
 
+  def archival_object_notes(presenter)
+    output = ''
+    p = presenter
+    note_elements.map { |x| x.to_sym}.each do |e|
+      if p.notes[e]
+        previous_label = ''
+        p.notes[e].each do |note|
+          note_content = ''
+          label = note_label(e, note)
+          if label == previous_label
+            note_content << "<div class=\"element-heading\">#{label}</div>"
+          end
+          previous_label = label
+          note_content << note[:content]
+          output << content_tag('div', note_content.html_safe, class: "description-element #{e}")
+        end
+      end
+    end
+    output
+  end
+
+
   def container_info(record, options={})
     output = ''
     p = record.presenter
@@ -114,10 +143,5 @@ module ArchivalObjectsHelper
   end
 
 
-  # Load custom methods if they exist
-  begin
-    include ArchivalObjectsHelperCustom
-  rescue
-  end
 
 end

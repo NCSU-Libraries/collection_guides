@@ -2,6 +2,13 @@ class EadController < ApplicationController
 
   include EadExport
 
+  # Load custom methods if they exist
+  begin
+    include EadControllerCustom
+  rescue
+  end
+
+
   def index
     puts params[:format]
     case params[:format]
@@ -39,13 +46,6 @@ class EadController < ApplicationController
       @ead = EadRecord.new(resource_id: @resource.id)
       render xml: @ead.generate
     end
-  end
-
-
-  # Load custom methods if they exist
-  begin
-    include EadControllerCustom
-  rescue
   end
 
 end

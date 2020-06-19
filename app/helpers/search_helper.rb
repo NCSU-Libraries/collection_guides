@@ -1,6 +1,14 @@
-module SearchHelper
+ module SearchHelper
 
   include ApplicationHelper
+
+
+  # Load custom methods if they exist
+  begin
+    prepend SearchHelperCustom
+  rescue
+  end
+
 
   def render_group(group, options={})
     output = ''
@@ -247,7 +255,8 @@ module SearchHelper
 
 
   def filters_heading
-    "Filter#{ @all_resources ? '' : ' results'}:"
+    # "Filter #{ @all_resources ? 'resources' : 'results' }:"
+    "Filter #{ @all_resources ? 'resources' : 'results' }:"
   end
 
 
@@ -255,6 +264,12 @@ module SearchHelper
     output = '<div id="search-facets-options">'
     output << "<h2 class=\"filter-heading\">#{ filters_heading }</h2>"
     ignore_facets = ['resource_uri']
+
+
+    if @facets['inclusive_years']
+
+    end
+
 
     @facets.each do |k,v|
       if !ignore_facets.include?(k) && !v.empty?
@@ -275,6 +290,8 @@ module SearchHelper
         output << '</div>'
       end
     end
+
+
 
     output << '</div>'
     output.html_safe
@@ -488,13 +505,5 @@ module SearchHelper
     response_data[:total] = @response['facet_counts']['facet_fields']['resource_uri'].length / 2
     response_data
   end
-
-
-  # Load custom methods if they exist
-  begin
-    include SearchHelperCustom
-  rescue
-  end
-
 
 end

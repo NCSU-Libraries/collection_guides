@@ -3,6 +3,13 @@ class ArchivalObjectsController < ApplicationController
   include ArchivalObjectsHelper
 
 
+  # Load custom methods if they exist
+  begin
+    include ArchivalObjectsControllerCustom
+  rescue
+  end
+
+
   # Not a traditional show action. If params[:layout] == '0' will return raw HTML.
   def show
     @archival_object = ArchivalObject.find params[:id]
@@ -37,13 +44,6 @@ class ArchivalObjectsController < ApplicationController
       end
       render :json => @data, :layout => false
     end
-  end
-
-
-  # Load custom methods if they exist
-  begin
-    include ArchivalObjectsControllerCustom
-  rescue
   end
 
 end

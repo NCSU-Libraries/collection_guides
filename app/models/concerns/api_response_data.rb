@@ -60,7 +60,6 @@ module ApiResponseData
 
       if self.class == Resource
         @data[:id_0] = !@data[:identifiers].empty? ? @data[:identifiers].first : nil
-        # collection_id is NCSU-specific - consider moving
         @data[:collection_id] = @data[:id_0]
       end
 

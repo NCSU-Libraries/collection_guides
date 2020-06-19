@@ -2,7 +2,7 @@
 @import "variables";
 @import "foundation_and_overrides";
 @import "font-awesome-sprockets";
-@import "font-awesome";                        // FontAwesome
+@import "font-awesome";
 @import "global";
 @import "header";
 @import "tabs";
@@ -11,6 +11,6 @@
 @import "search";
 @import "resources";
 @import "pagination";
-@import "filesystem_browser";
 @import "iiif_thumbnail_viewer";
 @import "admin";
+@import "custom";

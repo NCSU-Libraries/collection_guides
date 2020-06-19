@@ -51,7 +51,7 @@
        semantics.  It should not normally be changed by applications.
 
        1.0: cloned from multicore example inclouded in Solr 4.8 distribution
-       1.1: modified for use by NCSU collections guides
+       1.1: modified for use by NCSU collections guides system (aspace_public)
      -->
 
     <!-- Valid attributes for fields:

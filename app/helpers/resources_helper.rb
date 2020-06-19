@@ -3,6 +3,14 @@ module ResourcesHelper
   include ArchivalObjectsHelper
   include DigitalObjectsHelper
 
+
+  # Load custom methods if they exist
+  begin
+    include ResourcesHelperCustom
+  rescue
+  end
+
+
   def resource_overview
     if @presenter
       overview = '<dl class="inline-dl resource-overview">'
@@ -32,6 +40,27 @@ module ResourcesHelper
     overview.html_safe
   end
 
+
+  def standard_access_note
+    "<p>This collection is open for research; access requires at least 48 hours advance notice.
+    Because of the nature of certain archival formats, including digital and audio-visual materials,
+    access to digital files may require additional advanced notice.<p>"
+  end
+
+
+  def standard_citation
+    "<p>[Identification of item], #{@presenter.title}, #{ @presenter.collection_id ? @presenter.collection_id + ', ' : '' }
+    #{t('repository_citation')}</p>"
+  end
+
+
+  def standard_use_note
+    "<p>The materials from our collections are made available for use in research, teaching,
+    and private study, pursuant to U.S. Copyright law. The user must assume full responsibility
+    for any use of the materials, including but not limited to, infringement of copyright and publication
+    rights of reproduced materials. Any materials used for academic research or otherwise should be fully
+    credited with the source.<p>"
+  end
 
 
   def access_info_output
@@ -239,13 +268,6 @@ module ResourcesHelper
     end
 
     output.html_safe
-  end
-
-
-  # Load custom methods if they exist
-  begin
-    include ResourcesHelperCustom
-  rescue
   end
 
 end

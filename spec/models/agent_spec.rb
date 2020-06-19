@@ -58,18 +58,18 @@ describe Agent do
     "title"=>"Baumgarten, William Ludwig", "is_linked_to_published_record"=>true}
 
 
-    it "generates display name with dates" do
-      agent1 = create(:agent)
-      agent1.api_response = JSON.generate($agent_data1)
-      expect(agent1.display_name_from_data).to eq('Baumgarten, William Ludwig, 1885-1959')
-      # should ignore use dates
-      agent2 = create(:agent)
-      agent2.api_response = JSON.generate($agent_data2)
-      expect(agent2.display_name_from_data).to eq('Baumgarten, William Ludwig')
-      # should prefer name defined as display name
-      agent3 = create(:agent)
-      agent3.api_response = JSON.generate($agent_data3)
-      expect(agent3.display_name_from_data).to eq('Baumgarten, William Ludwig, 1885-1959')
-    end
+    # it "generates display name with dates" do
+    #   agent1 = create(:agent)
+    #   agent1.api_response = JSON.generate($agent_data1)
+    #   expect(agent1.display_name_from_data).to eq('Baumgarten, William Ludwig, 1885-1959')
+    #   # should ignore use dates
+    #   agent2 = create(:agent)
+    #   agent2.api_response = JSON.generate($agent_data2)
+    #   expect(agent2.display_name_from_data).to eq('Baumgarten, William Ludwig')
+    #   # should prefer name defined as display name
+    #   agent3 = create(:agent)
+    #   agent3.api_response = JSON.generate($agent_data3)
+    #   expect(agent3.display_name_from_data).to eq('Baumgarten, William Ludwig, 1885-1959')
+    # end
 
 end

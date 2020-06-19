@@ -1,11 +1,8 @@
 #project-header {
 
   background: $grayGhost; /* Old browsers */
-
   color: $gray;
   padding: 0.5rem 0;
-  // border-bottom: 1px solid $black;
-  // border-top: 3px solid $black;
   margin: 0 0 1.25rem 0;
 
   @include breakpoint(small only) {
@@ -20,9 +17,6 @@
     list-type: none;
     margin: 1rem 0;
     padding: 0;
-    // position: relative;
-    // overflow: hidden;
-    // width: 100%;
 
     li {
       display: inline;
@@ -49,22 +43,20 @@
 
   .project-name {
     font-size: 1.6rem;
-    // font-weight: bold;
-    // padding: $line-height-half 0 ($line-height-half / 2) 0 ;
     margin: 0;
     text-transform: uppercase;
 
     a {
-      color: $gray;
+      color: $grayDark;
       text-decoration: none;
     }
 
     .subhead {
-      font-family: "UniversLight", Helvetica, Arial, sans-serif;
+      font-family: "Univers", Helvetica, Arial, sans-serif;
       display: inline-block;
       font-size: 1.2rem;
-      color: $grayLight;
-      font-weight: normal;
+      color: $gray;
+      font-weight: 300;
       padding: 0.5rem 0 0 0.25rem;
       text-transform: none;
       @include breakpoint(small only) {

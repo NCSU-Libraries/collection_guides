@@ -2,6 +2,12 @@ module DescriptionHelper
   include AspaceContentUtilities
   include ActionView::Helpers::TagHelper
 
+  # Load custom methods if they exist
+  begin
+    prepend DescriptionHelperCustom
+  rescue
+  end
+
 
   # Defines order of fields in summary display
   def note_elements
@@ -181,18 +187,5 @@ module DescriptionHelper
 
   #   output
   # end
-
-
-
-
-
-
-
-  # Load custom methods if they exist
-  begin
-    include DescriptionHelperCustom
-  rescue
-  end
-
 
 end

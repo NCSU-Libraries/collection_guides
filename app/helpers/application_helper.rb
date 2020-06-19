@@ -6,6 +6,35 @@ module ApplicationHelper
   include DescriptionHelper
   include GeneralUtilities
 
+  # Load custom methods if they exist
+  begin
+    prepend ApplicationHelperCustom
+  rescue
+  end
+
+
+  def site_nav
+    config_path = Pathname.new(Rails.root) + 'config/site_nav.yml'
+    if !File.exist?(config_path)
+      nil
+    else
+      links = YAML.load_file(config_path)
+      if links.empty?
+        nil
+      else
+        output = '<div class="project-nav show-for-medium">'
+        output +=  '<ul class="inline-list" id="project-nav">'
+        links.each do |l|
+          link = link_to(l['label'], l['url']).html_safe
+          output += "<li>#{ link }</li>"
+        end
+        output +=  '</ul></div>'
+        output.html_safe
+      end
+    end
+  end
+
+
   def collection_guide_path_from_resource_uri(uri)
     if uri.match(/^\/repositories\/\d+\/resources\/\d+$/)
       path = uri.clone
@@ -91,13 +120,6 @@ module ApplicationHelper
       end
     end
     is_bot
-  end
-
-
-  # Load custom methods if they exist
-  begin
-    include ApplicationHelperCustom
-  rescue
   end
 
 end

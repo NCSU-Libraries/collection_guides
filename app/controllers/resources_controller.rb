@@ -3,6 +3,13 @@ class ResourcesController < ApplicationController
   include AspaceContentUtilities
   include ResourcesHelper
 
+  # Load custom methods if they exist
+  begin
+    include ResourcesControllerCustom
+  rescue
+  end
+
+
   def index
   end
 
@@ -42,11 +49,5 @@ class ResourcesController < ApplicationController
     end
   end
 
-
-  # Load custom methods if they exist
-  begin
-    include ResourcesControllerCustom
-  rescue
-  end
 
 end
