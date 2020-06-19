@@ -37,7 +37,7 @@ module DigitalObjectsHelper
             'external hidden' : 'external'
         id = "digital-object-link-#{ digital_object[:id] }"
         # output = link_to(label, url, class: link_class, id: id)
-        link = link_to(label, url, class: 'external')
+        link = link_to(label, url, class: 'external', target: '_blank')
         output = "<div id=\"#{id}\" class=\"#{link_class}\">#{link}</div>".html_safe
       end
     # end
@@ -150,7 +150,7 @@ module DigitalObjectsHelper
       elsif @presenter.has_descendant_digital_objects
         # output << link_to(standard_label, sal_collection_url(@presenter.collection_id), class: 'external')
         if @presenter.alt_digital_object_url
-          output << link_to(standard_label, @presenter.alt_digital_object_url, class: 'external')
+          output << link_to(standard_label, @presenter.alt_digital_object_url, class: 'external', target: '_blank')
         else
           output << standard_label
         end
