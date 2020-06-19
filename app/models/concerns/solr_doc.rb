@@ -6,7 +6,11 @@ module SolrDoc
   included do
 
     include ActionView::Helpers::SanitizeHelper
+
+    begin
     include SolrDocCustom
+    rescue
+    end
 
     before_destroy :delete_from_index
 

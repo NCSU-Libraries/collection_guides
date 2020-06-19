@@ -122,4 +122,12 @@ module ApplicationHelper
     is_bot
   end
 
+
+  def header_before
+  end
+
+
+  def footer_after
+  end
+
 end

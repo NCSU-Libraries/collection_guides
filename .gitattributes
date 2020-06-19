@@ -1,0 +1,6 @@
+app/custom/**/* merge=ours
+Gemfile merge=ours
+config/locales/**/* merge=ours
+config/site_nav.yml merge=ours
+app/views/layouts/_footer_* merge=ours
+app/views/layouts/_header_* merge=ours
