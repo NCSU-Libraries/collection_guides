@@ -1,9 +1,9 @@
 -
-  label: 'Nav item 1'
-  url: '#'
+  label: 'Special Collections Research Center'
+  url: 'http://www.lib.ncsu.edu/scrc'
 -
-  label: 'Nav item 2'
-  url: '#'
+  label: 'Contact'
+  url: 'http://www.lib.ncsu.edu/scrc/request'
 -
-  label: 'nav item 3'
-  url: '#'
+  label: 'Get help'
+  url: '/help'

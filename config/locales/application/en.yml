@@ -25,9 +25,8 @@
 
 en:
   hello: "Hello world"
-  header_title: ""
-  html_title: "Collection Guides"
+  header_title: "Archival Collections at <span class=\"nowrap\">NC State University Libraries</span>"
+  html_title: "NC State University Libraries Collection Guides"
   browse_all_label: "Browse all collections"
   organization_name: "NC State University"
   repository_name: "Special Collections Research Center"
-  repository_citation: "Special Collections Research Center, North Carolina State University Libraries, Raleigh, NC"

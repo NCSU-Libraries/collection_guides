@@ -22,4 +22,5 @@
 //= require contents_list_thumbnails
 //= require contents_list_filesystem_browse
 //= require custom
+//= require ncsul_web
 //= require on_load
