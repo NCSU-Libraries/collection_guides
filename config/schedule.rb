@@ -26,7 +26,7 @@ if @environment == 'production'
   every "0 0 * * 7" do
     rake "aspace_import:weekly"
   end
-  
+
   every "0 0 * * 1" do
     rake "aspace_import:truncate_imports_table"
   end
