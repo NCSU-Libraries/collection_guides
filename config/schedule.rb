@@ -19,38 +19,32 @@ if @environment == 'production'
     rake "aspace_import:hourly"
   end
 
-  # every "40 6-23 * * 1-6" do
-  #   rake "search_index:hourly"
-  # end
-
   every "0 0 * * 2-6" do
     rake "aspace_import:daily"
   end
+
+  every "0 0 * * 7" do
+    rake "aspace_import:weekly"
+  end
+  
+  every "0 0 * * 1" do
+    rake "aspace_import:truncate_imports_table"
+  end
+
+  # every "40 6-23 * * 1-6" do
+  #   rake "search_index:hourly"
+  # end
 
   # every "0 3 * * 2-6" do
   #   rake "search_index:daily"
   # end
 
-  every "0 0 * * 7" do
-    rake "aspace_import:weekly"
-  end
-
-  every "0 12 * * 2" do
-    rake "marc_export:execute"
-  end
+  #   every "0 12 * * 2" do
+  #     rake "marc_export:execute"
+  #   end
 
   # every "0 0 * * 1" do
   #   rake "search_index:full"
-  # end
-
-  every "0 0 * * 1" do
-    rake "aspace_import:truncate_imports_table"
-  end
-
-  # added after ArchivesSpace update - update date/time next time this is needed
-
-  # every "0 13 25 9 *" do
-  #   rake "aspace_import:full"
   # end
 
 end
