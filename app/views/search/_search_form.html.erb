@@ -2,7 +2,7 @@
 
   <div class="input-group">
 
-    <%= search_field_tag(:q, params[:q] || "", placeholder: "Enter terms to search all collection guides", class: "input-group-field search-query", title: "Search term", 'aria-labelledby' => 'Search term') %>
+    <%= search_field_tag(:q, params[:q] || "", placeholder: "Enter terms to search all collection guides", class: "input-group-field search-query", title: "Search term") %>
 
     <div class="input-group-button">
       <%= submit_tag("Search", class: "button postfix", name: nil) %>
