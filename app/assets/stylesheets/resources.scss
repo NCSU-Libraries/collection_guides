@@ -93,7 +93,7 @@ main {
 
     .description-element.date {
       font-weight: bold;
-      color: $grayLight;
+      color: $gray;
       margin-top: 0.25rem;
     }
 
@@ -150,7 +150,7 @@ main {
         line-height: 1.25em;
 
         .date, .component-id {
-          color: $grayLight;
+          color: $gray;
           padding-left: 0.25rem;
           // &:before {
           //   content: ', ';
@@ -296,7 +296,7 @@ main {
     .date {
       font-size: rem-calc(12) * 0.85;
       font-weight: normal;
-      color: $grayLight;
+      color: $gray;
 
       @include breakpoint(small only) {
         font-size: rem-calc(12) * 0.65;
