@@ -166,7 +166,15 @@ class SearchIndex < ApplicationRecord
 
   def update_batch(records)
     batch = []
-    records.each { |r| batch << r.solr_doc_data }
+
+    records.each do |r|
+      begin
+        batch << r.solr_doc_data
+      rescue Exception => e
+        puts "FAILED: #{r.class.to_s} #{r.id}"
+        raise e
+      end
+    end
 
     if @solr.add batch
       @updated += batch.length
