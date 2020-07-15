@@ -283,9 +283,13 @@ ThumbnailViewer.prototype.getThumbnailData = function(manifest) {
 
 
 ThumbnailViewer.prototype.createAnchorElement = function(href) {
+  var linkText = document.createElement("span");
+  linkText.classList.add('sr-only');
+  linkText.innerHTML = "View larger image and details"
   var aElement = document.createElement("a");
   aElement.setAttribute('href', href);
   aElement.setAttribute('target', this.thumbnailLinkTarget);
+  aElement.appendChild(linkText);
   return aElement;
 }
 
@@ -374,11 +378,9 @@ ThumbnailViewer.prototype.generate = function() {
         }
         var thumbnailWrapper = document.createElement("div");
         thumbnailWrapper.classList.add('thumbnail-wrapper');
-
-        aElement.appendChild(imgElement);
+        // aElement.appendChild(imgElement);
         thumbnailWrapper.appendChild(aElement);
-        // thumbnailWrapper.appendChild(imgElement);
-
+        thumbnailWrapper.appendChild(imgElement);
         thumbnailElement.appendChild(thumbnailWrapper);
         thumbnailElement.appendChild(textElement);
         // element.appendChild(thumbnailElement);
