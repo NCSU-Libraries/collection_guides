@@ -374,9 +374,11 @@ ThumbnailViewer.prototype.generate = function() {
         }
         var thumbnailWrapper = document.createElement("div");
         thumbnailWrapper.classList.add('thumbnail-wrapper');
-        // aElement.appendChild(imgElement);
+
+        aElement.appendChild(imgElement);
         thumbnailWrapper.appendChild(aElement);
-        thumbnailWrapper.appendChild(imgElement);
+        // thumbnailWrapper.appendChild(imgElement);
+
         thumbnailElement.appendChild(thumbnailWrapper);
         thumbnailElement.appendChild(textElement);
         // element.appendChild(thumbnailElement);
