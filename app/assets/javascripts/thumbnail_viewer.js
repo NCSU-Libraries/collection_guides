@@ -353,6 +353,8 @@ ThumbnailViewer.prototype.generate = function() {
 
       var imgElement = document.createElement("img");
       imgElement.setAttribute('src', src);
+      var alt = thumbnailData['title'] ? thumbnailData['title'].replace(/"/,"'") : 'thumbnail image';
+      imgElement.setAttribute('alt', alt);
 
       var textElement = document.createElement("div");
       textElement.classList.add('thumbnail-label');
