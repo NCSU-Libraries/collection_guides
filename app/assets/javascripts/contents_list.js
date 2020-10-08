@@ -46,7 +46,9 @@ ContentsList.prototype.deepLinkToTarget = function() {
   if (this.targetArchivalObjectId) {
     var id = 'archival-object-' + this.targetArchivalObjectId;
     var target = document.querySelector('#' + id);
-    return this.deepLink(target, { highlight: true });
+    if (target) {
+      return this.deepLink(target, { highlight: true });
+    }
   }
 }
 
@@ -143,12 +145,14 @@ ContentsList.prototype.loadResourceTree = function(element, level) {
   }
 
   function executeDeepLink(element, options) {
-    if (priorElementsLoaded()) {
-      _this.deepLink(element, options);
-      _this.loadIndicator.waitOff();
-    }
-    else {
-      setTimeout(function() { executeDeepLink(element); }, 500);
+    if (element) {
+      if (priorElementsLoaded()) {
+        _this.deepLink(element, options);
+        _this.loadIndicator.waitOff();
+      }
+      else {
+        setTimeout(function() { executeDeepLink(element); }, 500);
+      }
     }
   }
 
