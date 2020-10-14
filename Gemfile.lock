@@ -137,6 +137,12 @@ GEM
     et-orbi (1.1.4)
       tzinfo
     eventmachine (1.2.7)
+    exception_notification (4.4.3)
+      actionmailer (>= 4.0, < 7)
+      activesupport (>= 4.0, < 7)
+    exception_notification-rake (0.3.1)
+      exception_notification (~> 4.3)
+      rake (>= 0.9.0)
     execjs (2.7.0)
     factory_bot (4.11.0)
       activesupport (>= 3.0.0)
@@ -392,6 +398,8 @@ DEPENDENCIES
   database_cleaner (>= 1.0.0)
   devise (~> 4.7.1)
   devise_wolftech_authenticatable!
+  exception_notification (~> 4.2, >= 4.2.2)
+  exception_notification-rake
   factory_bot_rails
   font-awesome-sass
   foundation-rails

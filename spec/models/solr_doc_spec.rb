@@ -76,7 +76,6 @@ describe SolrDoc do
   end
 
 
-
   it "records all subjects and uris" do
     r = create(:resource, :api_response => JSON.generate(test_response_data[:resource]) )
     subjects = create_list(:subject,3)
@@ -90,14 +89,13 @@ describe SolrDoc do
   end
 
 
-
-
   it "generates a hash of values for an archival object" do
     r = create(:resource, :api_response => JSON.generate(test_response_data[:resource]) )
     a = create(:archival_object, :resource_id => r.id, :parent_id => nil, :position => 0)
     ad = a.solr_doc_data
     expect(ad).to be_a_kind_of(Hash)
   end
+
 
   it "records resource attributes with an archival object or resource" do
     r = create(:resource, :api_response => JSON.generate(test_response_data[:resource]) )
@@ -127,7 +125,6 @@ describe SolrDoc do
     expect(d[:resource_date_statement]).to eq(date_statement_expected)
     expect(d[:resource_extent_statement]).to eq(mixed_extent_expected)
   end
-
 
 
 end

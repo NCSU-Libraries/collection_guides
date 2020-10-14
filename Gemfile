@@ -55,6 +55,11 @@ gem 'resque-scheduler'
 
 gem 'net-ldap'
 
+# Exception Notifications
+gem 'exception_notification', '~> 4.2', '>= 4.2.2'
+gem 'exception_notification-rake'
+
+
 # https://nvd.nist.gov/vuln/detail/CVE-2019-16109
 gem 'devise', '~> 4.7.1'
 

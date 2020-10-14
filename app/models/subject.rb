@@ -2,6 +2,8 @@ class Subject < ApplicationRecord
 
   include AspaceConnect
 
+  self.primary_key = "id"
+
   has_many :subject_associations
   has_many :records, through: :subject_associations
 

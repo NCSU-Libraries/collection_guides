@@ -46,11 +46,17 @@ namespace :resources do
 
   desc "update_tree"
   task :update_tree, [:id] => :environment do |t, args|
+
+    call = lambda do |resource_id|
+      UpdateResourceTreeJob.perform_later(r.id)
+      puts "UpdateResourceTreeJob queued for Resource #{r.id}"
+    end
+
     if args[:id]
       r = Resource.find args[:id]
-      UpdateResourceTree.call(r.id)
+      UpdateResourceTreeJob.call(r.id)
     else
-      Resource.find_each { |r| UpdateResourceTree.call(r.id) }
+      Resource.find_each { |r| UpdateResourceTreeJob.perform_later(r.id) }
     end
   end
 

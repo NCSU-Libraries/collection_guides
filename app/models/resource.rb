@@ -7,6 +7,7 @@ class Resource < ApplicationRecord
   include Presentation
   include GeneralUtilities
 
+  self.primary_key = "id"
 
   validates :uri, uniqueness: true
 

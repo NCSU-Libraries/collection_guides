@@ -3,7 +3,7 @@ require 'spec_helper'
 DatabaseCleaner.start
 
 describe Repository do
-  
+
   $resource_response = $session.get(aspace_sample_paths[:resource])
   $resource_data = JSON.parse($resource_response.body)
   $repository_path = aspace_sample_paths[:repository]
@@ -20,7 +20,10 @@ describe Repository do
 
   it "updates repository from api" do
     Repository.create_from_api($repository_path, $options)
-    r = Repository.find_by_uri($repository_path)
+    r = Repository.find_by(uri: $repository_path)
+
+    puts r.inspect
+
     old_name = r.name
     r.update_attribute(:name, 'TEST')
     r.reload

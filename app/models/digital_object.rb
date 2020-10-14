@@ -5,6 +5,8 @@ class DigitalObject < ApplicationRecord
   include Associations
   include Presentation
 
+  self.primary_key = "id"
+
   validates :uri, uniqueness: true
 
   belongs_to :repository

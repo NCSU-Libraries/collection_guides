@@ -2,6 +2,8 @@ class Repository < ApplicationRecord
 
   include AspaceConnect
 
+  self.primary_key = "id"
+
   validates :uri, uniqueness: true
 
   has_many :resources
