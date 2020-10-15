@@ -30,8 +30,9 @@ class SearchIndexResourceTreeService < SearchIndexServiceBase
         puts
       end
     end
-    puts "#{@response[:records_indexed][:resources]} resource,
-      #{@response[:records_indexed][:archival_objects]} archival objects indexed"
+    resource_count = @response[:records_indexed][:resources]
+    ao_count = @response[:records_indexed][:archival_objects]
+    puts "indexed resources: #{resource_count}, indexed archival objects: #{ao_count}"
     @response
   end
 

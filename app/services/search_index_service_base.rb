@@ -67,7 +67,6 @@ class SearchIndexServiceBase
       if i == @@batch_size
         @solr.add batch
         @solr.commit
-        batch.length.times { |n| print '.' }
         batch = []
         i = 0
       end
