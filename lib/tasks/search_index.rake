@@ -64,7 +64,7 @@ namespace :search_index do
     if !args[:resource_id]
       puts ":resource_id is required"
     else
-      SearchIndexResourceTreeJob.perform_later(r.id)
+      SearchIndexResourceTreeJob.perform_later(args[:resource_id].to_i)
     end
   end
 

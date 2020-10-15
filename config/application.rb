@@ -42,8 +42,7 @@ module CollectionGuides
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
-    config.autoload_paths += %W(#{config.root}/app/custom)
-    config.autoload_paths += Dir["#{config.root}/app/custom/**/"]
+    config.autoload_paths += Dir["#{config.root}/app/**/"]
 
     if Rails.env == 'test'
       config.autoload_paths += %W(#{config.root}/spec)
