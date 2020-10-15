@@ -54,7 +54,7 @@ describe SearchIndex do
 
   it "adds archival_object records to Solr index" do
     resource = create(:resource)
-    $archival_objects = create_list(:archival_object, 3, :resource_id => resource.id)
+    archival_objects = create_list(:archival_object, 3, :resource_id => resource.id)
     s = SearchIndex.new
     s.execute_delta
     expect(s.records_updated).to eq(4)

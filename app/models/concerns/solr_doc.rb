@@ -15,9 +15,9 @@ module SolrDoc
     before_destroy :delete_from_index
 
     # Updates the record in the Solr index
-    def update_index
-      SearchIndex.update_record(self)
-    end
+    # def update_index
+    #   SearchIndex.update_record(self)
+    # end
 
     # Remove the record from the Solr index
     def delete_from_index

@@ -59,6 +59,15 @@ namespace :search_index do
     SearchIndex.update_record(r)
   end
 
+  desc "index resource tree"
+  task :resource_tree, [:resource_id] => :environment do |t, args|
+    if !args[:resource_id]
+      puts ":resource_id is required"
+    else
+      SearchIndexResourceTreeJob.perform_later(r.id)
+    end
+  end
+
   desc "index single archival_object"
   task :archival_object, [:id] => :environment do |t, args|
     r = ArchivalObject.find args[:id]
