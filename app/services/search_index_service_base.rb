@@ -64,7 +64,7 @@ class SearchIndexServiceBase
     records.each do |r|
       batch << r.solr_doc_data
       i += 1
-      if i == @@batch_size
+      if (i == @@batch_size) || (i == records.length)
         @solr.add batch
         @solr.commit
         print '.'
