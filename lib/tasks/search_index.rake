@@ -5,22 +5,14 @@ namespace :search_index do
 
   desc "full clean index"
   task :full_clean => :environment do |t, args|
-    # if add_task_pid('search_index')
-    #   s = SearchIndex.new
-    #   s.execute_full(clean: true)
-    #   remove_task_pid('search_index')
-    # end
-    SearchIndexFullJob.perform_later(clean: true)
+    # SearchIndexFullJob.perform_later(clean: true)
+    SearchIndexFullService.call(clean: true)
   end
 
   desc "full index"
   task :full => :environment do |t, args|
-    # if add_task_pid('search_index')
-    #   s = SearchIndex.new
-    #   s.execute_full
-    #   remove_task_pid('search_index')
-    # end
-    SearchIndexFullJob.perform_later
+    # SearchIndexFullJob.perform_later
+    SearchIndexFullService.call
   end
 
   desc "delta index"
