@@ -164,6 +164,7 @@ class SearchIndex < ApplicationRecord
 
   private
 
+
   def update_batch(records)
     batch = []
 

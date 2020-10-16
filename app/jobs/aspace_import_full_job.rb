@@ -5,6 +5,6 @@ class AspaceImportFullJob < ApplicationJob
     options = args[0]
     ExecuteAspaceFullImport.call(options)
     AspaceImport.purge_deleted
-    SearchIndexFullJob.perform_later
+    SearchIndexFullService.call
   end
 end
