@@ -112,10 +112,16 @@ class Search
         else
           case v
           when String
-            @fq << "#{k}: \"#{v}\"" if !v.blank?
+            if !v.blank?
+              value = SolrStringSanitizer.sanitize(v)
+              @fq << "#{k}: \"#{value}\""
+            end
           when Array
             if !v.empty?
-              v.each { |f| @fq << "#{k}: \"#{f}\"" }
+              v.each do |f|
+                value = SolrStringSanitizer.sanitize(f)
+                @fq << "#{k}: \"#{value}\""
+              end
             end
           end
         end

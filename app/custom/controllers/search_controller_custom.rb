@@ -14,7 +14,7 @@ module SearchControllerCustom
       end
 
       # Move NCSU subjects from agents to ncsu_subjects
-      def process_custom_facets(params)
+      def process_custom_facets()
         if @facets['agents']
           @facets['ncsu_subjects'] = {}
           @facets['agents'].each do |agent,count|

@@ -10,51 +10,52 @@ class SearchController < ApplicationController
 
 
   def index
-    params.permit!
+    @params = search_params
+
     @title = "Search results"
-    @q = params[:q]
+    @q = @params[:q]
 
     ######################################################################
     # Process request params
     ######################################################################
 
-    if params[:reset_filters]
-      params[:filters] = {}
+    if @params[:reset_filters]
+      @params[:filters] = {}
     else
-      params[:filters] ||= {}
+      @params[:filters] ||= {}
     end
 
     # remove filters with no value
-    params[:filters].delete_if { |k,v| v.blank? }
+    @params[:filters].delete_if { |k,v| v.blank? }
 
     # convert values of '0' to false
-    params.each do |k,v|
+    @params.each do |k,v|
       if v == '0'
-        params[k] = false
+        @params[k] = false
       end
     end
 
     # @filters only include facet values included in the request. Additional filters will be added to the query.
-    @filters = !params[:filters].blank? ? params[:filters].clone : {}
+    @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
     # process special filters (i.e. keys don't correspond to Solr fields)
-    params[:filters][:agents] ||= []
+    @params[:filters][:agents] ||= []
 
 
-    if params[:filters]['inclusive_years']
+    if @params[:filters]['inclusive_years']
       ranges = []
-      params[:filters]['inclusive_years'].each do |range|
-        dates = range.split('-').map { |x| x.to_i }
+      @params[:filters]['inclusive_years'].each do |range|
+        dates = range.split('-').map { |x| sanitize_integer(x).to_i }
         ranges << "[#{dates[0]} TO #{dates[1]}]"
       end
-      params[:filters][:inclusive_years] = ranges
+      @params[:filters][:inclusive_years] = ranges
     end
 
     # NC State functionality that should not interfere with anyone else's business
-    if params[:filters]['ncsu_subjects']
-      params[:filters]['ncsu_subjects'].each do |subject|
-        params[:filters][:agents] << subject
+    if @params[:filters]['ncsu_subjects']
+      @params[:filters]['ncsu_subjects'].each do |subject|
+        @params[:filters][:agents] << subject
       end
-      params[:filters].delete('ncsu_subjects')
+      @params[:filters].delete('ncsu_subjects')
     end
 
 
@@ -62,28 +63,33 @@ class SearchController < ApplicationController
     @base_href_options = {
       q: !@q.blank? ? @q : nil,
       filters: @filters.empty? ? nil : @filters.clone,
-      per_page: params[:per_page] ? params[:per_page] : nil
+      per_page: @params[:per_page] ? sanitize_integer(@params[:per_page]) : nil
     }
 
     # process special parameters for specific views
-    if params[:resource_id]
-      params[:filters]['record_type'] = 'archival_object'
-      params[:filters]['resource_id'] = params[:resource_id]
-      params[:group] = false
-      @resource = Resource.find params[:resource_id]
-      @base_href_options[:resource_id] = params[:resource_id]
-    elsif params[:subject_id]
-      params[:filters]['subjects_id'] = params[:subject_id]
-      @subject = Subject.find params[:subject_id]
-      @base_href_options[:subject_id] = params[:subject_id]
-    elsif params[:agent_id]
-      params[:filters]['agents_id'] = params[:agent_id]
-      @agent = Agent.find params[:agent_id]
-      @base_href_options[:agent_id] = params[:agent_id]
-    elsif params[:all_resources]
+
+    # sanitize id fields
+    id_keys = @params.keys.select { |f| f.match?(/\_id$/) }
+    id.keys.each { |k| @params[k] = sanitize_integer(@params[k]) }
+
+    if @params[:resource_id]
+      @params[:filters]['record_type'] = 'archival_object'
+      @params[:filters]['resource_id'] = @params[:resource_id]
+      @params[:group] = false
+      @resource = Resource.find @params[:resource_id]
+      @base_href_options[:resource_id] = @params[:resource_id]
+    elsif @params[:subject_id]
+      @params[:filters]['subjects_id'] = @params[:subject_id]
+      @subject = Subject.find @params[:subject_id]
+      @base_href_options[:subject_id] = @params[:subject_id]
+    elsif @params[:agent_id]
+      @params[:filters]['agents_id'] = @params[:agent_id]
+      @agent = Agent.find @params[:agent_id]
+      @base_href_options[:agent_id] = @params[:agent_id]
+    elsif @params[:all_resources]
       @all_resources = true
       @base_href_options[:all_resources] = true
-      params[:filters]['record_type'] = 'resource'
+      @params[:filters]['record_type'] = 'resource'
     end
 
     puts '***'
@@ -95,7 +101,7 @@ class SearchController < ApplicationController
     # Execute query
     ######################################################################
 
-    s = Search.new(params)
+    s = Search.new(@params)
     @response = s.execute
 
     # puts @response['grouped']['resource_uri']['groups'].length
@@ -105,18 +111,18 @@ class SearchController < ApplicationController
     ######################################################################
 
     # prepare facets
-    process_facets(params)
+    process_facets()
 
     # custom facets
-    process_custom_facets(params)
+    process_custom_facets()
 
     # Prepare pagination variables
-    set_pagination_vars(params)
+    set_pagination_vars()
 
     respond_to do |format|
       format.html
       format.json do
-        if params[:simple_response]
+        if @params[:simple_response]
           @response = simple_response
         end
         render :json => @response
@@ -128,10 +134,20 @@ class SearchController < ApplicationController
   private
 
 
-  def set_pagination_vars(params)
-    @per_page = params[:per_page] ? params[:per_page].to_i : 20
+  def search_params
+    params.permit!
+  end
 
-    if params[:resource_id]
+
+  # returns a string
+  def sanitize_integer(value)
+    value.to_s.gsub(/^\n/,'')
+  end
+
+  def set_pagination_vars()
+    @per_page = @params[:per_page] ? @params[:per_page].to_i : 20
+
+    if @params[:resource_id]
       @total_components = @response['response']['numFound']
       @pages = (@total_components.to_f / @per_page.to_f).ceil
     else
@@ -139,7 +155,7 @@ class SearchController < ApplicationController
       @pages = (@total_collections.to_f/@per_page.to_f).ceil
     end
 
-    @page = params[:page] ? params[:page].to_i : 1
+    @page = @params[:page] ? @params[:page].to_i : 1
 
     if @page <= 6
       @page_list_start = 1
@@ -157,7 +173,7 @@ class SearchController < ApplicationController
   end
 
 
-  def process_facets(params)
+  def process_facets()
     raw_facets = @response['facet_counts']['facet_fields']
     @facets = {}
     # Convert facet_counts array to hash
@@ -189,7 +205,7 @@ class SearchController < ApplicationController
 
 
   # Included here so that it can be overridden in SearchControllerCustom
-  def process_custom_facets(params)
+  def process_custom_facets()
     @facets
   end
 
