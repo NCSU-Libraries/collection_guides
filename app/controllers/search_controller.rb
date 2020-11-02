@@ -37,10 +37,10 @@ class SearchController < ApplicationController
     end
 
     # @filters only include facet values included in the request. Additional filters will be added to the query.
-    @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
     # process special filters (i.e. keys don't correspond to Solr fields)
+    @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
     @params[:filters][:agents] ||= []
-
+    @params[:filters][:agents].uniq!
 
     if @params[:filters]['inclusive_years']
       ranges = []
