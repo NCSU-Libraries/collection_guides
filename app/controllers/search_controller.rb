@@ -1,6 +1,7 @@
 class SearchController < ApplicationController
 
   include SearchHelper
+  require 'solr_sanitizer'
 
   # Load custom methods if they exist
   begin
@@ -63,14 +64,14 @@ class SearchController < ApplicationController
     @base_href_options = {
       q: !@q.blank? ? @q : nil,
       filters: @filters.empty? ? nil : @filters.clone,
-      per_page: @params[:per_page] ? sanitize_integer(@params[:per_page]) : nil
+      per_page: @params[:per_page] ? SolrSanitizer.sanitize_integer(@params[:per_page]) : nil
     }
 
     # process special parameters for specific views
 
     # sanitize id fields
     id_keys = @params.keys.select { |f| f.match?(/\_id$/) }
-    id_keys.each { |k| @params[k] = sanitize_integer(@params[k]) }
+    id_keys.each { |k| @params[k] = SolrSanitizer.sanitize_integer(@params[k]) }
 
     if @params[:resource_id]
       @params[:filters]['record_type'] = 'archival_object'
@@ -138,11 +139,6 @@ class SearchController < ApplicationController
     params.permit!
   end
 
-
-  # returns a string
-  def sanitize_integer(value)
-    value.to_s.gsub(/^\n/,'')
-  end
 
   def set_pagination_vars()
     @per_page = @params[:per_page] ? @params[:per_page].to_i : 20

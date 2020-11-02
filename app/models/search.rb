@@ -1,6 +1,6 @@
 class Search
 
-  require 'solr_string_sanitizer'
+  require 'solr_sanitizer'
 
   def initialize(options = {})
     @q = options[:q]
@@ -106,28 +106,29 @@ class Search
     # process filters (selected facets)
     @fq = []
     if !@filters.blank?
+
       @filters.each do |k,v|
-        if k == 'collection_id' || v =~ /^\[.*\]$/
-          @fq << "#{k}: #{v}" if !v.blank?
-        elsif k == 'inclusive_years'
-          @fq << "#{k}: (#{v.join(' ')})" if !v.blank?
-        else
-          case v
-          when String
-            if !v.blank?
-              value = SolrStringSanitizer.sanitize(v)
+        if !v.blank?
+          if k == 'collection_id' || v =~ /^\[.*\]$/
+            @fq << "#{k}: #{SolrSanitizer.sanitize_integer(v)}" if !v.blank?
+          elsif k == 'inclusive_years'
+            value = SolrSanitizer.sanitize_numeric_range(v)
+            @fq << "#{k}: #{v}" if v
+          else
+            case v
+            when String
+              value = SolrSanitizer.sanitize_query_string(v)
               @fq << "#{k}: \"#{value}\""
-            end
-          when Array
-            if !v.empty?
+            when Array
               v.each do |f|
-                value = SolrStringSanitizer.sanitize(f)
+                value = SolrSanitizer.sanitize_query_string(f)
                 @fq << "#{k}: \"#{value}\""
               end
             end
           end
         end
       end
+
     end
     @solr_params['fq'] = @fq
 
