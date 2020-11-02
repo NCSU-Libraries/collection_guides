@@ -45,7 +45,7 @@ class SearchController < ApplicationController
     if @params[:filters]['inclusive_years']
       ranges = []
       @params[:filters]['inclusive_years'].each do |range|
-        dates = range.split('-').map { |x| sanitize_integer(x).to_i }
+        dates = range.split('-').map { |x| SolrSanitizer.sanitize_integer(x).to_i }
         ranges << "[#{dates[0]} TO #{dates[1]}]"
       end
       @params[:filters][:inclusive_years] = ranges
