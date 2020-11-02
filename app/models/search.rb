@@ -123,6 +123,7 @@ class Search
               value = SolrSanitizer.sanitize_query_string(v)
               @fq << "#{k}: \"#{value}\""
             when Array
+              v.uniq!
               v.each do |f|
                 value = SolrSanitizer.sanitize_query_string(f)
                 @fq << "#{k}: \"#{value}\""
