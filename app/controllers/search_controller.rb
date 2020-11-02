@@ -70,7 +70,7 @@ class SearchController < ApplicationController
 
     # sanitize id fields
     id_keys = @params.keys.select { |f| f.match?(/\_id$/) }
-    id.keys.each { |k| @params[k] = sanitize_integer(@params[k]) }
+    id_keys.each { |k| @params[k] = sanitize_integer(@params[k]) }
 
     if @params[:resource_id]
       @params[:filters]['record_type'] = 'archival_object'
