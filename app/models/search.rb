@@ -1,5 +1,7 @@
 class Search
 
+  require 'solr_string_sanitizer'
+
   def initialize(options = {})
     @q = options[:q]
     @filters = !options[:filters].blank? ? options[:filters] : {}
