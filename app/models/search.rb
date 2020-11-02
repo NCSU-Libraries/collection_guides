@@ -81,7 +81,6 @@ class Search
       end
       @solr_params[:qf].strip!
 
-
       # facets
       @solr_params['facet'] = true
       @solr_params['facet.field'] = ['resource_uri','resource_digital_content','resource_category','inclusive_years','agents']
@@ -105,8 +104,8 @@ class Search
 
     # process filters (selected facets)
     @fq = []
-    if !@filters.blank?
 
+    if !@filters.blank?
       @filters.each do |k,v|
         if !v.blank?
           if k == 'collection_id' || v =~ /^\[.*\]$/
@@ -132,14 +131,11 @@ class Search
           end
         end
       end
-
     end
-    @solr_params['fq'] = @fq
 
+    @solr_params['fq'] = @fq.uniq
     custom_solr_params()
-
     puts @solr_params
-
     @solr_params
   end
 
