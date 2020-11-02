@@ -111,9 +111,13 @@ class Search
         if !v.blank?
           if k == 'collection_id' || v =~ /^\[.*\]$/
             @fq << "#{k}: #{SolrSanitizer.sanitize_integer(v)}" if !v.blank?
+          # 'inclusive_years' is expected to be an array of strings
           elsif k == 'inclusive_years'
-            value = SolrSanitizer.sanitize_numeric_range(v)
-            @fq << "#{k}: #{v}" if v
+            if v.is_a? Array
+              values = v.map { |vv| SolrSanitizer.sanitize_numeric_range(vv) }
+              values.reject! { |vv| vv.nil? }
+              @fq << "#{k}: (#{values.join(' ')})" if !values.blank?
+            end
           else
             case v
             when String
