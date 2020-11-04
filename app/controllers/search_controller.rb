@@ -43,11 +43,14 @@ class SearchController < ApplicationController
     @params[:filters][:agents].uniq!
 
     if @params[:filters]['inclusive_years']
+      values = @params[:filters]['inclusive_years']
       ranges = []
-      @params[:filters]['inclusive_years'].each do |range|
-        dates = range.split('-').map { |x| SolrSanitizer.sanitize_year(x) }
-        dates.map! { |d| (d =~ /^\d{3,4}$/) ? d : '*' }
-        ranges << "[#{dates[0]} TO #{dates[1]}]"
+      values.each do |range|
+        if range =~ /\d{3,4}\-\d{3,4}/
+          dates = range.split('-').map { |x| SolrSanitizer.sanitize_year(x) }
+          dates.map! { |d| (d =~ /^\d{3,4}$/) ? d : '*' }
+          ranges << "[#{dates[0]} TO #{dates[1]}]"
+        end
       end
       @params[:filters][:inclusive_years] = ranges
     end
