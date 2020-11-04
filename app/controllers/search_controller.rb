@@ -38,6 +38,7 @@ class SearchController < ApplicationController
 
     # @filters only include facet values included in the request. Additional filters will be added to the query.
     # process special filters (i.e. keys don't correspond to Solr fields)
+    @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
 
     @params[:filters][:agents] ||= []
     @params[:filters][:agents].uniq!
@@ -45,17 +46,18 @@ class SearchController < ApplicationController
     if @params[:filters]['inclusive_years']
       values = @params[:filters]['inclusive_years']
       ranges = []
+      display_ranges = []
       values.each do |range|
         if range =~ /\d{3,4}\-\d{3,4}/
           dates = range.split('-').map { |x| SolrSanitizer.sanitize_year(x) }
           dates.map! { |d| (d =~ /^\d{3,4}$/) ? d : '*' }
           ranges << "[#{dates[0]} TO #{dates[1]}]"
+          display_ranges << "#{dates[0]}-#{dates[1]}"
         end
       end
       @params[:filters][:inclusive_years] = ranges
+      @filters[:inclusive_years] = display_ranges
     end
-
-    @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
 
     # NC State functionality that should not interfere with anyone else's business
     if @params[:filters]['ncsu_subjects']
