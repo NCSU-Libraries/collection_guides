@@ -38,7 +38,7 @@ class SearchController < ApplicationController
 
     # @filters only include facet values included in the request. Additional filters will be added to the query.
     # process special filters (i.e. keys don't correspond to Solr fields)
-    @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
+
     @params[:filters][:agents] ||= []
     @params[:filters][:agents].uniq!
 
@@ -54,6 +54,8 @@ class SearchController < ApplicationController
       end
       @params[:filters][:inclusive_years] = ranges
     end
+
+    @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
 
     # NC State functionality that should not interfere with anyone else's business
     if @params[:filters]['ncsu_subjects']
