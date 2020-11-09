@@ -12,6 +12,7 @@ class SearchController < ApplicationController
 
   def index
     @params = search_params
+    sanitize_params
 
     @title = "Search results"
     @q = @params[:q]
@@ -82,15 +83,19 @@ class SearchController < ApplicationController
     id_keys.each { |k| @params[k] = SolrSanitizer.sanitize_integer(@params[k]) }
 
     if @params[:resource_id]
-      @params[:filters]['record_type'] = 'archival_object'
-      @params[:filters]['resource_id'] = @params[:resource_id]
-      @params[:group] = false
-      @resource = Resource.find @params[:resource_id]
-      @base_href_options[:resource_id] = @params[:resource_id]
+      @resource = Resource.find_by(id: @params[:resource_id])
+      if @resource
+        @params[:filters]['record_type'] = 'archival_object'
+        @params[:filters]['resource_id'] = @params[:resource_id]
+        @params[:group] = false
+        @base_href_options[:resource_id] = @params[:resource_id]
+      end
     elsif @params[:subject_id]
-      @params[:filters]['subjects_id'] = @params[:subject_id]
-      @subject = Subject.find @params[:subject_id]
-      @base_href_options[:subject_id] = @params[:subject_id]
+      @subject = Subject.find_by(id: @params[:subject_id])
+      if @subject
+        @params[:filters]['subjects_id'] = @params[:subject_id]
+        @base_href_options[:subject_id] = @params[:subject_id]
+      end
     elsif @params[:agent_id]
       @params[:filters]['agents_id'] = @params[:agent_id]
       @agent = Agent.find @params[:agent_id]
@@ -112,6 +117,8 @@ class SearchController < ApplicationController
 
     s = Search.new(@params)
     @response = s.execute
+
+    # puts @response.inspect
 
     # puts @response['grouped']['resource_uri']['groups'].length
 
@@ -148,10 +155,66 @@ class SearchController < ApplicationController
   end
 
 
+  def sanitize_params
+    if @params[:q]
+      @params[:q] = SolrSanitizer.sanitize_query_string(@params[:q])
+    end
+
+    # there are no sort options available, so if there are any get rid of them!
+    # If you ever add the ability to sort results, specify permitted fields and sanitize here
+    @params[:sort] = nil
+
+    numbers = [:per_page, :start, :page, :resource_id, :subject_id, :agent_id]
+    numbers.each do |key|
+      @params[key] = SolrSanitizer.sanitize_integer(@params[key])
+      @params[key] = nil if @params[key].blank?
+    end
+
+    # if @params[:filters]
+    #   @params[:filters] = sanitize_filters(@params[:filters])
+    # end
+  end
+
+
+  # def sanitize_filters(filters)
+  #   sanitized = {}
+
+  #   if !filters.blank?
+  #     filters.each do |k,v|
+  #       if !v.blank?
+  #         if k == 'collection_id' || v =~ /^\[[^\]]*\]$/
+  #           sanitized[k] = SolrSanitizer.sanitize_integer(v)
+  #         # 'inclusive_years' is expected to be an array of strings
+  #         elsif k == 'inclusive_years'
+  #           if v.is_a? Array
+  #             values = v.map { |vv| SolrSanitizer.sanitize_numeric_range(vv) }
+  #             values.reject! { |vv| vv.nil? }
+  #             sanitized[k] = values
+  #           end
+  #         else
+  #           case v
+  #           when String
+  #             sanitized[k] = SolrSanitizer.sanitize_query_string(v)
+  #           when Array
+  #             v.uniq!
+  #             values = v.map { |vv| SolrSanitizer.sanitize_query_string(vv) }
+  #             sanitized[k] = values
+  #           end
+  #         end
+  #       end
+  #     end
+  #   end
+
+  #   sanitized.blank? ? nil : sanitized
+  # end
+
+
+
+
   def set_pagination_vars()
     @per_page = @params[:per_page] ? @params[:per_page].to_i : 20
 
-    if @params[:resource_id]
+    if @params[:resource_id] && @response['response']
       @total_components = @response['response']['numFound']
       @pages = (@total_components.to_f / @per_page.to_f).ceil
     else

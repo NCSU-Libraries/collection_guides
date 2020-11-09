@@ -8,7 +8,7 @@ class Search
     @page = options[:page] || 1
     @per_page = options[:per_page] ? options[:per_page].to_i : 20
     @simple = options[:simple] || nil
-    @wt = options[:wt] || :ruby
+    @wt = :ruby
     @start = options[:start] || ((@page.to_i - 1) * @per_page)
     @sort = options[:sort]
     @group = options[:group] === false ? false : true
@@ -136,7 +136,7 @@ class Search
 
     @solr_params['fq'] = @fq.uniq
     custom_solr_params()
-    puts @solr_params
+    # puts @solr_params
     @solr_params
   end
 
