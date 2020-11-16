@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render status: 404
+    redirect_to root_url, alert: "Page not found.", status: 404
   end
 
 end
