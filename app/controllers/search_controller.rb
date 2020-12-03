@@ -164,11 +164,21 @@ class SearchController < ApplicationController
     # If you ever add the ability to sort results, specify permitted fields and sanitize here
     @params[:sort] = nil
 
-    numbers = [:per_page, :start, :page, :resource_id, :subject_id, :agent_id]
-    numbers.each do |key|
+    ids = [:resource_id, :subject_id, :agent_id]
+    ids.each do |key|
       @params[key] = SolrSanitizer.sanitize_integer(@params[key])
       @params[key] = nil if @params[key].blank?
     end
+
+    # Reject start or per_page in request
+    @params[:start] = nil
+    @params[:per_page] = nil
+
+    # if page isn't a number set it to 1
+    if @params[:page] && !(@params[:page].match(/^\d+$/))
+      @params[:page] = 1
+    end
+
 
     # if @params[:filters]
     #   @params[:filters] = sanitize_filters(@params[:filters])
