@@ -6,4 +6,4 @@
   url: 'http://www.lib.ncsu.edu/scrc/request'
 -
   label: 'Get help'
-  url: '/help'
+  url: '/findingaids/help'

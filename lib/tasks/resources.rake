@@ -54,7 +54,7 @@ namespace :resources do
 
     if args[:id]
       r = Resource.find args[:id]
-      UpdateResourceTreeJob.call(r.id)
+      UpdateResourceTreeJob.perform_later(r.id)
     else
       Resource.find_each { |r| UpdateResourceTreeJob.perform_later(r.id) }
     end
