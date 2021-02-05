@@ -120,12 +120,14 @@ class Search
           else
             case v
             when String
-              value = SolrSanitizer.sanitize_query_string(v)
+              # value = SolrSanitizer.sanitize_query_string(v)
+              value = RSolr.solr_escape(v)
               @fq << "#{k}: \"#{value}\""
             when Array
               v.uniq!
               v.each do |f|
-                value = SolrSanitizer.sanitize_query_string(f)
+                # value = SolrSanitizer.sanitize_query_string(f)
+                value = RSolr.solr_escape(v)
                 @fq << "#{k}: \"#{value}\""
               end
             end
