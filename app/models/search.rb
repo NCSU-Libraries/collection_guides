@@ -127,7 +127,7 @@ class Search
               v.uniq!
               v.each do |f|
                 # value = SolrSanitizer.sanitize_query_string(f)
-                value = RSolr.solr_escape(v)
+                value = RSolr.solr_escape(f)
                 @fq << "#{k}: \"#{value}\""
               end
             end
