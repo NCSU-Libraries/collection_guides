@@ -374,8 +374,6 @@
 
 
   def filter_link(facet,value,options={})
-
-    puts value.inspect
     
     output = ''
     label = options[:label] || value
@@ -450,7 +448,7 @@
         #   end
         else
           v.each do |value|
-            output << filter_link(k, display_safe(value), multivalued: true)
+            output << filter_link(k, value, multivalued: true)
           end
         end
       end
