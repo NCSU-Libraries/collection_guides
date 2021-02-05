@@ -374,6 +374,9 @@
 
 
   def filter_link(facet,value,options={})
+
+    puts value.inspect
+    
     output = ''
     label = options[:label] || value
     href_options = @base_href_options.clone
