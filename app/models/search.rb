@@ -152,16 +152,20 @@ class Search
 
 
   def execute
-    solr_url = "http://#{ENV['solr_host']}:#{ENV['solr_port']}#{ENV['solr_core_path']}"
-    Rails.logger.info "SOLR URL: #{solr_url}"
-    Rails.logger.debug ENV.keys.inspect
-    puts "SOLR URL: #{solr_url}"
+    begin
+      solr_url = "http://#{ENV['solr_host']}:#{ENV['solr_port']}#{ENV['solr_core_path']}"
+      Rails.logger.info "SOLR URL: #{solr_url}"
+      Rails.logger.debug ENV.keys.inspect
+      puts "SOLR URL: #{solr_url}"
 
-    @solr = RSolr.connect :url => solr_url
-    set_solr_params()
+      @solr = RSolr.connect :url => solr_url
+      set_solr_params()
 
-    @response = @solr.paginate self.page, self.per_page, "select", :params => @solr_params
-
+      @response = @solr.paginate self.page, self.per_page, "select", :params => @solr_params
+    rescue Exception => e
+      puts @response.inspect
+      raise e
+    end
   end
 
 
