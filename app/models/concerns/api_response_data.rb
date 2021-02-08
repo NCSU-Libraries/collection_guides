@@ -42,6 +42,8 @@ module ApiResponseData
 
       @data[:notes] = parse_notes(response_data['notes'])
 
+      add_language_and_script_to_notes
+
       if response_data['finding_aid_sponsor']
         @data[:notes] ||= {}
         @data[:notes][:sponsor] = [ { content: "<p>#{response_data['finding_aid_sponsor']}</p>" } ]
@@ -82,6 +84,37 @@ module ApiResponseData
       touch
     end
   end
+
+
+  def add_language_and_script_to_notes
+    data = JSON.parse(api_response)
+    if data['lang_materials'].is_a?(Array) && !data['lang_materials'].empty?
+      langs =[]
+      data['lang_materials'].each do |l|
+        if l['language_and_script']
+          lang_code = l['language_and_script']['language']
+          script_code = l['language_and_script']['script']
+          if lang_code != 'eng'
+            language = language_string_to_code.key(lang_code)
+            if language  
+              if script_code != 'Latn'
+                script = script_code_to_label[script_code]
+                if script
+                  language += " (#{script})"
+                end
+              end
+              langs << language
+            end
+          end
+        end
+      end
+      if !langs.empty?
+        note = { content: langs.join('; '), position: 0, label: 'Language of materials' }
+        @data[:notes][:langmaterial] = note
+      end
+    end
+  end
+
 
   # Included to enable custom additions to update_unit_data()
   def update_unit_data_custom

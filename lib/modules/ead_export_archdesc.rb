@@ -74,7 +74,6 @@ module EadExportArchdesc
   end
 
 
-
   def add_controlaccess(parent_element, record)
     if (record.agent_associations.length + record.subject_associations.length) > 0
       controlaccess = create_element('controlaccess')
