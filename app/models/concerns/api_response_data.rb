@@ -110,7 +110,7 @@ module ApiResponseData
       end
       if !langs.empty?
         note = { content: langs.join('; '), position: 0, label: 'Language of materials' }
-        @data[:notes][:langmaterial] = note
+        @data[:notes][:langmaterial] = [note]
       end
     end
   end
