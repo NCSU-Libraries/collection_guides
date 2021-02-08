@@ -27,7 +27,7 @@ module AspaceContentUtilities
       note = { content: '', position: i }
       note[:label] = n['label'] if n['label']
       case n['jsonmodel_type']
-      when "note_singlepart"
+      when "note_singlepart", 'note_langmaterial'
         note[:content] << parse_text_note(n)
       when "note_multipart"
         n['subnotes'].each do |nn|
@@ -35,7 +35,7 @@ module AspaceContentUtilities
             note[:content] << "<div class=\"subelement-heading subnote-heading\">#{ nn['title'] }</div>"
           end
           case nn['jsonmodel_type']
-          when 'note_text', 'note_langmaterial'
+          when 'note_text'
             note[:content] << parse_text_note(nn)
           when 'note_chronology'
             note[:content] << parse_chronlist_note(nn)

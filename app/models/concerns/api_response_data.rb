@@ -92,9 +92,10 @@ module ApiResponseData
       langs = []
       notes = nil
       data['lang_materials'].each do |l|
+
         if l['notes'] && !l['notes'].blank?
           parsed_notes = parse_notes(l['notes']);
-          notes = parsed_notes['langmaterial']
+          notes = parsed_notes[:langmaterial]
         end
 
         if l['language_and_script']
@@ -114,7 +115,7 @@ module ApiResponseData
           end
         end
       end
-      
+
       if notes && notes.is_a?(Array)
          @data[:notes][:langmaterial] = notes 
       elsif !langs.empty?
