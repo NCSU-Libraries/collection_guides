@@ -426,7 +426,7 @@ module ControlledVocabularyUtilities
       'Ital' => 'Old Italic (Etruscan, Oscan, etc.)',
       'Jamo' => 'Jamo (alias for Jamo subset of Hangul)',
       'Java' => 'Javanese',
-      'Jpan' => 'Japanese (alias for Han + Hiragana + Katakana)',
+      'Jpan' => 'Japanese',
       'Jurc' => 'Jurchen',
       'Kali' => 'Kayah Li',
       'Kana' => 'Katakana',
@@ -475,14 +475,14 @@ module ControlledVocabularyUtilities
       'Narb' => 'Old North Arabian (Ancient North Arabian)',
       'Nbat' => 'Nabataean',
       'Newa' => 'Newa, Newar, Newari, Nepāla lipi',
-      'Nkdb' => 'Naxi Dongba (na²¹ɕi³³ to³³ba²¹, Nakhi Tomba)',
-      'Nkgb' => 'Naxi Geba (na²¹ɕi³³ gʌ²¹ba²¹, 'Na-'Khi ²Ggŏ-¹baw, Nakhi Geba)',
+      'Nkdb' => 'Naxi Dongba',
+      'Nkgb' => 'Naxi Geba',
       'Nkoo' => 'N’Ko',
       'Nshu' => 'Nüshu',
       'Ogam' => 'Ogham',
-      'Olck' => 'Ol Chiki (Ol Cemet’, Ol, Santali)',
+      'Olck' => 'Ol Chiki',
       'Orkh' => 'Old Turkic, Orkhon Runic',
-      'Orya' => 'Oriya (Odia)',
+      'Orya' => 'Oriya',
       'Osge' => 'Osage',
       'Osma' => 'Osmanya',
       'Ougr' => 'Old Uyghur',
@@ -500,8 +500,6 @@ module ControlledVocabularyUtilities
       'Piqd' => 'Klingon (KLI pIqaD)',
       'Prti' => 'Inscriptional Parthian',
       'Psin' => 'Proto-Sinaitic',
-      'Qaaa' => 'Reserved for private use (start)',
-      'Qabx' => 'Reserved for private use (end)',
       'Ranj' => 'Ranjana',
       'Rjng' => 'Rejang (Redjang, Kaganga)',
       'Rohg' => 'Hanifi Rohingya',
@@ -559,9 +557,7 @@ module ControlledVocabularyUtilities
       'Zmth' => 'Mathematical notation',
       'Zsye' => 'Symbols (Emoji variant)',
       'Zsym' => 'Symbols',
-      'Zxxx' => nil,
-      'Zyyy' => 'Unknown script',
-      'Zzzz' => nil
+      'Zyyy' => 'Unknown script'
     }
   end
 
