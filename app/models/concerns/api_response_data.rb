@@ -119,7 +119,7 @@ module ApiResponseData
       if notes && notes.is_a?(Array)
          @data[:notes][:langmaterial] = notes 
       elsif !langs.empty?
-        note = { content: langs.join('; '), position: 0, label: 'Language of materials' }
+        note = { content: "Materials in #{langs.join('; ')}", position: 0, label: 'Language of materials' }
         @data[:notes][:langmaterial] = [note]
       end
     end
