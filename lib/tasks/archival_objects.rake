@@ -4,6 +4,7 @@ namespace :archival_objects do
   task :update_unit_data, [:id] => :environment do |t, args|
     if args[:id]
       r = ArchivalObject.find args[:id]
+      r.update_unit_data
     else
       ArchivalObject.update_unit_data
     end
