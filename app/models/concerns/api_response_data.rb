@@ -89,8 +89,14 @@ module ApiResponseData
   def add_language_and_script_to_notes
     data = JSON.parse(api_response)
     if data['lang_materials'].is_a?(Array) && !data['lang_materials'].empty?
-      langs =[]
+      langs = []
+      notes = nil
       data['lang_materials'].each do |l|
+        if l['notes'] && !l['notes'].blank?
+          parsed_notes = parse_notes(l['notes']);
+          notes = parsed_notes['langmaterial']
+        end
+
         if l['language_and_script']
           lang_code = l['language_and_script']['language']
           script_code = l['language_and_script']['script']
@@ -108,7 +114,10 @@ module ApiResponseData
           end
         end
       end
-      if !langs.empty?
+      
+      if notes && notes.is_a?(Array)
+         @data[:notes][:langmaterial] = notes 
+      elsif !langs.empty?
         note = { content: langs.join('; '), position: 0, label: 'Language of materials' }
         @data[:notes][:langmaterial] = [note]
       end

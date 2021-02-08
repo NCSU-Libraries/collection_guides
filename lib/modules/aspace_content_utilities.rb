@@ -35,7 +35,7 @@ module AspaceContentUtilities
             note[:content] << "<div class=\"subelement-heading subnote-heading\">#{ nn['title'] }</div>"
           end
           case nn['jsonmodel_type']
-          when 'note_text'
+          when 'note_text', 'note_langmaterial'
             note[:content] << parse_text_note(nn)
           when 'note_chronology'
             note[:content] << parse_chronlist_note(nn)
