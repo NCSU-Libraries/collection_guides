@@ -157,7 +157,7 @@ class SearchController < ApplicationController
 
   def sanitize_params
     if @params[:q]
-      @params[:q].gsub!(/[\/\+\=\~\?\(\)\{\}\[\](\&+)]/," ")
+      @params[:q].gsub!(/[\/\\\+\=\~\?\(\)\{\}\[\](\&+)]/," ")
       @params[:q].strip!
     end
 
