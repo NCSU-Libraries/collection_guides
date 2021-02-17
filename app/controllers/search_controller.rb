@@ -181,43 +181,43 @@ class SearchController < ApplicationController
     end
 
 
-    # if @params[:filters]
-    #   @params[:filters] = sanitize_filters(@params[:filters])
-    # end
+    if @params[:filters]
+      @params[:filters] = sanitize_filters(@params[:filters])
+    end
   end
 
 
-  # def sanitize_filters(filters)
-  #   sanitized = {}
+  def sanitize_filters(filters)
+    sanitized = {}
 
-  #   if !filters.blank?
-  #     filters.each do |k,v|
-  #       if !v.blank?
-  #         if k == 'collection_id' || v =~ /^\[[^\]]*\]$/
-  #           sanitized[k] = SolrSanitizer.sanitize_integer(v)
-  #         # 'inclusive_years' is expected to be an array of strings
-  #         elsif k == 'inclusive_years'
-  #           if v.is_a? Array
-  #             values = v.map { |vv| SolrSanitizer.sanitize_numeric_range(vv) }
-  #             values.reject! { |vv| vv.nil? }
-  #             sanitized[k] = values
-  #           end
-  #         else
-  #           case v
-  #           when String
-  #             sanitized[k] = SolrSanitizer.sanitize_query_string(v)
-  #           when Array
-  #             v.uniq!
-  #             values = v.map { |vv| SolrSanitizer.sanitize_query_string(vv) }
-  #             sanitized[k] = values
-  #           end
-  #         end
-  #       end
-  #     end
-  #   end
+    if !filters.blank?
+      filters.each do |k,v|
+        if !v.blank?
+          if k == 'collection_id' || v =~ /^\[[^\]]*\]$/
+            sanitized[k] = SolrSanitizer.sanitize_integer(v)
+          # 'inclusive_years' is expected to be an array of strings
+          elsif k == 'inclusive_years'
+            if v.is_a? Array
+              values = v.map { |vv| SolrSanitizer.sanitize_numeric_range(vv) }
+              values.reject! { |vv| vv.nil? }
+              sanitized[k] = values
+            end
+          else
+            case v
+            when String
+              sanitized[k] = SolrSanitizer.sanitize_query_string(v)
+            when Array
+              v.uniq!
+              values = v.map { |vv| SolrSanitizer.sanitize_query_string(vv) }
+              sanitized[k] = values
+            end
+          end
+        end
+      end
+    end
 
-  #   sanitized.blank? ? nil : sanitized
-  # end
+    sanitized.blank? ? nil : sanitized
+  end
 
 
 
