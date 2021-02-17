@@ -67,7 +67,6 @@ module SearchHelperCustom
 
 
   def facet_options
-
     output = '<div id="search-facets-options">'
     output << "<h2 class=\"filter-heading\">#{ filters_heading }</h2>"
     ignore_facets = ['resource_uri']
@@ -85,7 +84,6 @@ module SearchHelperCustom
         when 'resource_digital_content'
           link = filter_link(k, true, label: t('digital_content_filter_label'))
           output << "<ul><li>" + link + "</li></ul>"
-
         when 'resource_category'
           output << '<h3>Collection</h3>'
           output << '<ul>'
@@ -103,7 +101,6 @@ module SearchHelperCustom
         when 'inclusive_years'
           output << '<h3>Dates</h3>'
           output << inclusive_years_facet_options
-
         else
           output << "<h3>#{facet_headings[k]}</h3>"
           output << facet_option_values(k, v)
@@ -113,6 +110,7 @@ module SearchHelperCustom
     end
 
     output << '</div>'
+
     output.html_safe
   end
 

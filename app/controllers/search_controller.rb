@@ -12,6 +12,12 @@ class SearchController < ApplicationController
 
   def index
     @params = search_params
+
+    if @params[:filters]
+      @params[:filters].permit!
+      @params[:filters] = @params[:filters].to_h
+    end
+
     sanitize_params
 
     @title = "Search results"
@@ -38,7 +44,12 @@ class SearchController < ApplicationController
     end
 
     # @filters only include facet values included in the request. Additional filters will be added to the query.
+    
     @filters = !@params[:filters].blank? ? @params[:filters].clone : {}
+    if @filters.respond_to?(:permit!)
+      @filters.permit!
+      @filters = @filters.to_h
+    end
 
     # process special filters (i.e. keys don't correspond to Solr fields)
     @params[:filters][:agents] ||= []
@@ -46,6 +57,7 @@ class SearchController < ApplicationController
 
     if @params[:filters]['inclusive_years']
       values = @params[:filters]['inclusive_years']
+
       ranges = []
       display_ranges = []
       values.each do |range|
@@ -56,6 +68,7 @@ class SearchController < ApplicationController
           display_ranges << "#{dates[0]}-#{dates[1]}"
         end
       end
+
       @params[:filters][:inclusive_years] = ranges
       @filters[:inclusive_years] = display_ranges
     end
@@ -75,6 +88,10 @@ class SearchController < ApplicationController
       filters: @filters.empty? ? nil : @filters.clone,
       per_page: @params[:per_page] ? SolrSanitizer.sanitize_integer(@params[:per_page]) : nil
     }
+
+    # if @base_href_options[:filters]
+    #   @base_href_options[:filters].permit!
+    # end
 
     # process special parameters for specific views
 
@@ -105,9 +122,6 @@ class SearchController < ApplicationController
       @base_href_options[:all_resources] = true
       @params[:filters]['record_type'] = 'resource'
     end
-
-    puts '***'
-    puts @base_href_options.inspect
 
     @base_href = searches_path(@base_href_options)
 
@@ -198,7 +212,7 @@ class SearchController < ApplicationController
           # 'inclusive_years' is expected to be an array of strings
           elsif k == 'inclusive_years'
             if v.is_a? Array
-              values = v.map { |vv| SolrSanitizer.sanitize_numeric_range(vv) }
+              values = v.map { |vv| vv.gsub(/[^\d\-]/,'') }
               values.reject! { |vv| vv.nil? }
               sanitized[k] = values
             end

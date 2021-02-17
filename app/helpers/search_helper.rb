@@ -266,9 +266,9 @@
     ignore_facets = ['resource_uri']
 
 
-    if @facets['inclusive_years']
+    # if @facets['inclusive_years']
 
-    end
+    # end
 
 
     @facets.each do |k,v|
@@ -303,7 +303,7 @@
   end
 
 
-  def facet_option_values(facet, values)
+  def facet_option_values(facet, values)    
     content = ''
     content << '<ul>'
     values.each do |v,count|
@@ -356,9 +356,6 @@
 
       content = ''
 
-      puts "range_values"
-      puts range_values.inspect
-
       if !range_values.empty?
         content << '<ul class="date-range-options facet">'
         range_values.reverse.each do |r|
@@ -373,22 +370,49 @@
   end
 
 
+
+  def remove_filter_link(facet,value,options)
+    output = ''
+    href_options = @base_href_options.clone
+    label = options[:label] || value
+
+    if @filters[facet].kind_of? Array
+      href_options[:filters][facet].delete(value)
+    else
+      href_options[:filters].delete(facet)
+    end
+
+    output << '<span class="active-facet">'
+    output << label
+    remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
+    
+    href = searches_path(href_options)
+    output << link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
+    output << '</span>'
+    output
+  end
+
+
   def filter_link(facet,value,options={})
     
     output = ''
     label = options[:label] || value
     href_options = @base_href_options.clone
 
-    filters = @filters.dup.to_h
+    # if @filters.respond_to?(:permit!)
+    #   @filters.permit!
+    # end
 
-    if filters.respond_to?(:permit!)
-      filters.permit!
-    end
+    # filters = @filters.clone.to_h
+    # filters = {}
+    # @filters.each { |k,v| filters[k] = v }
+
+
 
     active_facet_value = nil
 
-    if filters[facet]
-      if (options[:multivalued] && filters[facet].include?(value)) || (filters[facet] == value || value === true)
+    if @filters[facet]
+      if (options[:multivalued] && @filters[facet].include?(value)) || (@filters[facet] == value || value === true)
         active_facet_value = true
       end
     end
@@ -396,31 +420,44 @@
     # TODO - push selected to top of list, but not for dates
 
     if active_facet_value
-      if filters[facet].kind_of? Array
-        filters[facet].delete(value)
-      else
-        filters.delete(facet)
-      end
 
-      output << '<span class="active-facet">'
-      output << label
-      remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
-      href_options[:filters] = filters
-      href = searches_path(href_options)
+      # if @filters[facet].kind_of? Array
+      #   href_options[:filters][facet].delete(value)
+      # else
+      #   href_options[:filters].delete(facet)
+      # end
 
-      output << link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
-      output << '</span>'
-    elsif filters[facet] && !options[:multivalued] && !active_facet_value
+      # output << '<span class="active-facet">'
+      # output << label
+      # remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
+      
+      # href = searches_path(href_options)
+      # output << link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
+      # output << '</span>'
+
+      output << remove_filter_link(facet,value,options)
+
+    elsif @filters[facet] && !options[:multivalued] && !active_facet_value
       # skip
     else
+      # filters = {}
+      # if options[:multivalued]
+      #   filters[facet] ||= []
+      #   filters[facet] << value
+      # else
+      #   filters[facet] = value
+      # end
+
+      href_options[:filters] = {}
+
       if options[:multivalued]
-        filters[facet] ||= []
-        filters[facet] << value
+        href_options[:filters][facet] = []
+        href_options[:filters][facet] << value
       else
-        filters[facet] = value
+        href_options[:filters][facet] = value
       end
 
-      href_options[:filters] = filters
+      # href_options[:filters] = filters
       href = searches_path(href_options)
       output << link_to(label, href, class: 'search-filter-link')
     end
@@ -430,29 +467,39 @@
 
 
   def active_filters
+
     if !@filters.blank?
 
       output = '<div id="active-filters">'
-      output << "<span class=\"active-filter-label\">#{'Filter'.pluralize(@filters.permit!.to_h.length)}:</span> "
+      
+      # output << "<span class=\"active-filter-label\">#{'Filter'.pluralize(@filters.permit!.to_h.length)}:</span> "
+      output << "<span class=\"active-filter-label\">#{'Filter'.pluralize(@filters.length)}:</span> "
+
       @filters.each do |k,v|
         case k
         when 'resource_digital_content'
-          output << filter_link(k, true, label: 'Has digitial content')
+          # output << filter_link(k, true, label: 'Has digitial content')
+          output << remove_filter_link(k, true, label: 'Has digitial content')
         when 'university_archives'
-          output << filter_link(k, display_safe(v), label: 'University Archives')
+          # output << filter_link(k, display_safe(v), label: 'University Archives')
+          output << remove_filter_link(k, display_safe(v), label: 'University Archives')
         when 'resource_category'
-          output << filter_link(k, display_safe(v), label: resource_categories[v])
-        # when 'inclusive_years'
-        #   v.each do |range|
-        #     output << filter_link(k, range, multivalued: true)
-        #   end
+          # output << filter_link(k, display_safe(v), label: resource_categories[v])
+          output << remove_filter_link(k, display_safe(v), label: resource_categories[v])
+        when 'inclusive_years'
+          v.each do |range|
+            # output << filter_link(k, range, multivalued: true)
+            output << remove_filter_link(k, range, multivalued: true)
+          end
         else
           v.each do |value|
-            output << filter_link(k, value, multivalued: true)
+            # output << filter_link(k, value, multivalued: true)
+            output << remove_filter_link(k, value, multivalued: true)
           end
         end
       end
       output << '</div>'
+
       output.html_safe
     end
   end
