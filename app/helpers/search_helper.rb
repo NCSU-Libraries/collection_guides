@@ -265,12 +265,6 @@
     output << "<h2 class=\"filter-heading\">#{ filters_heading }</h2>"
     ignore_facets = ['resource_uri']
 
-
-    # if @facets['inclusive_years']
-
-    # end
-
-
     @facets.each do |k,v|
       if !ignore_facets.include?(k) && !v.empty?
         output << '<div class="facet">'
@@ -291,8 +285,6 @@
       end
     end
 
-
-
     output << '</div>'
     output.html_safe
   end
@@ -303,7 +295,7 @@
   end
 
 
-  def facet_option_values(facet, values)    
+  def facet_option_values(facet, values)
     content = ''
     content << '<ul>'
     values.each do |v,count|
@@ -370,23 +362,23 @@
   end
 
 
-
   def remove_filter_link(facet,value,options)
     output = ''
-    href_options = @base_href_options.clone
+    href_opts = deep_copy(@base_href_options)
+
     label = options[:label] || value
 
-    if @filters[facet].kind_of? Array
-      href_options[:filters][facet].delete(value)
+    if href_opts[:filters][facet].kind_of? Array
+      href_opts[:filters][facet].delete(value)
     else
-      href_options[:filters].delete(facet)
+      href_opts[:filters].delete(facet)
     end
 
     output << '<span class="active-facet">'
     output << label
     remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
     
-    href = searches_path(href_options)
+    href = searches_path(href_opts)
     output << link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
     output << '</span>'
     output
@@ -394,21 +386,8 @@
 
 
   def filter_link(facet,value,options={})
-    
     output = ''
     label = options[:label] || value
-    href_options = @base_href_options.clone
-
-    # if @filters.respond_to?(:permit!)
-    #   @filters.permit!
-    # end
-
-    # filters = @filters.clone.to_h
-    # filters = {}
-    # @filters.each { |k,v| filters[k] = v }
-
-
-
     active_facet_value = nil
 
     if @filters[facet]
@@ -420,38 +399,15 @@
     # TODO - push selected to top of list, but not for dates
 
     if active_facet_value
-
-      # if @filters[facet].kind_of? Array
-      #   href_options[:filters][facet].delete(value)
-      # else
-      #   href_options[:filters].delete(facet)
-      # end
-
-      # output << '<span class="active-facet">'
-      # output << label
-      # remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
-      
-      # href = searches_path(href_options)
-      # output << link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
-      # output << '</span>'
-
       output << remove_filter_link(facet,value,options)
-
     elsif @filters[facet] && !options[:multivalued] && !active_facet_value
       # skip
     else
-      # filters = {}
-      # if options[:multivalued]
-      #   filters[facet] ||= []
-      #   filters[facet] << value
-      # else
-      #   filters[facet] = value
-      # end
-
-      href_options[:filters] = {}
+      href_options = deep_copy(@base_href_options)
+      href_options[:filters] ||= {}
 
       if options[:multivalued]
-        href_options[:filters][facet] = []
+        href_options[:filters][facet] ||= []
         href_options[:filters][facet] << value
       else
         href_options[:filters][facet] = value
@@ -467,12 +423,8 @@
 
 
   def active_filters
-
     if !@filters.blank?
-
       output = '<div id="active-filters">'
-      
-      # output << "<span class=\"active-filter-label\">#{'Filter'.pluralize(@filters.permit!.to_h.length)}:</span> "
       output << "<span class=\"active-filter-label\">#{'Filter'.pluralize(@filters.length)}:</span> "
 
       @filters.each do |k,v|
