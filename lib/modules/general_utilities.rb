@@ -3,21 +3,8 @@ module GeneralUtilities
   include ActiveSupport::Inflector
 
   def deep_copy(obj)
-    clone_value = lambda do |value|
-      case value
-      when Hash
-        cloned = {}
-        value.each { |k,v| cloned[k] = clone_value.(v) }
-      when Array
-        cloned = []
-        value.each_index { |i| cloned[i] = clone_value.(value[i]) }
-      else
-        cloned = value.clone
-      end
-      return cloned
-    end
-
-    clone_value.(obj)
+    data = Marshal.dump(obj)
+    Marshal.load(data)
   end
 
 
@@ -25,10 +12,12 @@ module GeneralUtilities
     receiver.extend self
   end
 
+
   def cleanup_newlines(string)
     string.gsub!(/[\n\r]+/,"\n")
     string
   end
+
 
   def remove_blank_values(hash)
     hash.each do |k,v|
