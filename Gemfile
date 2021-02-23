@@ -37,7 +37,8 @@ gem 'foundation-will_paginate'
 gem 'will_paginate'
 
 gem 'rsolr'
-gem 'nokogiri'
+# security vulnerabilities fix - https://github.com/sparklemotion/nokogiri/security/advisories/GHSA-vr8q-g5c7-m54m
+gem "nokogiri", "~> 1.11.0"
 gem 'truncate_html'
 gem 'chronic'
 
