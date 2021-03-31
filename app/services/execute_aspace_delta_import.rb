@@ -84,7 +84,7 @@ class ExecuteAspaceDeltaImport
       query += ' AND types:(-pui)'
     end
 
-    response = AspaceImport.execute_query(query, rows: @rows, start: start)
+    response = AspaceImport.execute_solr_query(query, rows: @rows, start: start)
     num_found = response['response']['numFound']
     @total_updates += num_found
 
@@ -123,7 +123,7 @@ class ExecuteAspaceDeltaImport
         query += batch.join('","')
         query += '")'
 
-        response = AspaceImport.execute_query(query)
+        response = AspaceImport.execute_solr_query(query)
         response['response']['docs'].each do |d|
           if d['resource']
             @update_resource_trees << d['resource']

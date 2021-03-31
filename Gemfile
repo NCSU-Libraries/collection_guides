@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.5'
+gem 'rails', '~> 5.2.5'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -65,13 +65,13 @@ gem 'exception_notification-rake'
 gem 'devise', '~> 4.7.1'
 
 # https://github.com/rails/rails/security/advisories/GHSA-65cv-r6x7-79hv
-gem 'actionview', '~> 5.2.4.4'
+# gem 'actionview', '~> 5.2.4.4'
 
 # https://blog.jcoglan.com/2020/06/02/redos-vulnerability-in-websocket-extensions/
-gem 'websocket-extensions', '~> 0.1.5'
+# gem 'websocket-extensions', '~> 0.1.5'
 
 # https://github.com/advisories/GHSA-j6w9-fv6q-3q52
-gem "rack", ">= 2.2.3"
+# gem "rack", ">= 2.2.3"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

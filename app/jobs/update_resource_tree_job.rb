@@ -1,9 +1,10 @@
 class UpdateResourceTreeJob < ApplicationJob
   queue_as :update
 
-  def perform(resource_id)
+  def perform(resource_id, aspace_import_id=nil)
     r = Resource.find resource_id
-    UpdateResourceTree.call(r.id)
+    update_response = UpdateResourceTree.call(r.id)
+    
   end
 
 end

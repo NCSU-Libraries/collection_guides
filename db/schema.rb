@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_18_141027) do
+ActiveRecord::Schema.define(version: 2021_03_31_215447) do
 
   create_table "agent_associations", force: :cascade do |t|
     t.string "record_type"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2018_09_18_141027) do
     t.string "import_type"
     t.integer "resources_updated"
     t.integer "import_errors"
+    t.integer "total_updates"
   end
 
   create_table "digital_object_associations", force: :cascade do |t|

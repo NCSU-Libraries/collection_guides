@@ -135,7 +135,7 @@ class AspaceImport < ApplicationRecord
       end
       query << ')'
 
-      response = execute_query(query,query_params)
+      response = execute_solr_query(query,query_params)
 
       if response['response']['numFound'] == 0
         puts query
@@ -174,7 +174,7 @@ class AspaceImport < ApplicationRecord
   end
 
 
-  def self.execute_query(query, params={})
+  def self.execute_solr_query(query, params={})
     solr_url = "#{ENV['archivesspace_https'] ? 'https' : 'http'}://#{ENV['archivesspace_solr_host']}#{ENV['archivesspace_solr_core_path']}"
     @solr = RSolr.connect :url => solr_url
     @solr_params = {:q => query }
@@ -185,7 +185,7 @@ class AspaceImport < ApplicationRecord
 
   def self.solr_doc_exists?(uri,params)
     query = "id:#{escape_uri(uri)}"
-    response = execute_query(query,params)
+    response = execute_solr_query(query,params)
     return (response['response']['numFound'] == 0) ? false : true
   end
 
@@ -222,7 +222,7 @@ class AspaceImport < ApplicationRecord
 
   def self.test_solr_connection
     query = '*:*'
-    puts execute_query(query, rows: 1).inspect
+    puts execute_solr_query(query, rows: 1).inspect
   end
 
 
@@ -230,7 +230,7 @@ class AspaceImport < ApplicationRecord
     linked_resources = []
     @rows = 50
     query = "id:\"#{digital_object_uri}\""
-    response = AspaceImport.execute_query(query)
+    response = AspaceImport.execute_solr_query(query)
     puts response.inspect
     response['response']['docs'].each do |d|
       linked_resources += get_digital_object_linked_resources(d)

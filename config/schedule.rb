@@ -15,7 +15,7 @@
 
 if @environment == 'production'
 
-  every "0 6-23 * * 1-6" do
+  every "0 8-19 * * 1-6" do
     rake "aspace_import:hourly"
   end
 
@@ -23,7 +23,7 @@ if @environment == 'production'
   #   rake "search_index:hourly"
   # end
 
-  every "0 0 * * 2-6" do
+  every "0 23 * * 2-6" do
     rake "aspace_import:daily"
   end
 
@@ -31,7 +31,7 @@ if @environment == 'production'
   #   rake "search_index:daily"
   # end
 
-  every "0 0 * * 7" do
+  every "0 23 * * 0" do
     rake "aspace_import:weekly"
   end
 
