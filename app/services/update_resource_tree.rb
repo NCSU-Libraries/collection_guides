@@ -34,6 +34,8 @@ class UpdateResourceTree
 
   def update_tree
     @resource.reload
+
+    # THIS ENDPOINT IS DEPRICATED!
     tree_response = @session.get("#{@resource.uri}/tree")
 
     if tree_response.code.to_i == 200
