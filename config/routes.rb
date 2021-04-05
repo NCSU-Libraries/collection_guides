@@ -4,7 +4,7 @@ CollectionGuides::Application.routes.draw do
 
   # config/routes.rb
   resque_web_constraint = lambda do |request|
-    current_user = request.env['warden'].user
+    Rails.env == 'development' || request.env['warden'].user
     # current_user.present? && current_user.respond_to?(:is_admin?) && current_user.is_admin?
   end
 

@@ -19,7 +19,6 @@ class ExecuteAspacePeriodicImport
 
   include GeneralUtilities
 
-
   @@rows = 50
 
 
@@ -28,11 +27,9 @@ class ExecuteAspacePeriodicImport
     object.call
   end
 
-  def initialize(options)
+  def initialize(options={})
     @options = options
     @response = {}
-    
-    
   end
 
   def call
@@ -46,7 +43,7 @@ class ExecuteAspacePeriodicImport
   def execute
     log_info "Running periodic update from ArchivesSpace..."
     @import_type = @options[:import_type] || 'periodic'
-    @since = options[:since] || 25.hours.ago
+    @since = @options[:since] || 25.hours.ago
     # format last_datetime to look like this: 2014-05-21T15:20:37Z
     @since = @since.to_datetime.new_offset(0).strftime('%Y-%m-%dT%H:%M:%SZ')
     @since.gsub!(/\:/,'\:')
@@ -65,7 +62,6 @@ class ExecuteAspacePeriodicImport
       else
         log_info "#{ @update_resource_trees.length } resources will be updated:"
         log_info "#{ @update_resource_trees.join(', ') }"
-        
       end
       
 
@@ -73,9 +69,9 @@ class ExecuteAspacePeriodicImport
         import_resource(uri)
       end
 
-      if @total_updates > 0
-        AspaceImport.create(import_type: @import_type, resources_updated: @resources_updated, import_errors: @errors)
-      end
+      # if @total_updates > 0
+      #   AspaceImport.create(import_type: @import_type, resources_updated: @resources_updated, import_errors: @errors)
+      # end
 
       log_info "ExecuteAspacePeriodicImport complete"
 
@@ -86,24 +82,24 @@ class ExecuteAspacePeriodicImport
 
 
   # system_mtime must be a DateTime, not a String
-  def resource_needs_update?(uri, system_mtime)
-    if r = Resource.find_by(uri: uri)
-      u = r.updated_at
-      return system_mtime > u
-    else
-      return true
-    end
-  end
+  # def resource_needs_update?(uri, system_mtime)
+  #   if r = Resource.find_by(uri: uri)
+  #     u = r.updated_at
+  #     system_mtime > u
+  #   else
+  #     true
+  #   end
+  # end
 
 
-  def archival_object_needs_update?(uri, system_mtime)
-    if ao = ArchivalObject.find_by(uri: uri)
-      u = ao.updated_at
-      return system_mtime > u
-    else
-      return true
-    end
-  end
+  # def archival_object_needs_update?(uri, system_mtime)
+  #   if ao = ArchivalObject.find_by(uri: uri)
+  #     u = ao.updated_at
+  #     system_mtime > u
+  #   else
+  #     true
+  #   end
+  # end
 
 
   def process_resources
@@ -111,9 +107,7 @@ class ExecuteAspacePeriodicImport
     records.each do |r|
       uri = r['id']
       system_mtime = DateTime.parse(r['system_mtime'])
-      if resource_needs_update?(uri, system_mtime)
-        @update_resource_trees << uri
-      end
+      @update_resource_trees << uri
     end
     @update_resource_trees.uniq!
   end
@@ -150,9 +144,7 @@ class ExecuteAspacePeriodicImport
       when 'archival_object'
         uri = r['resource']
       end
-      if resource_needs_update?(uri, system_mtime)
-        @update_resource_trees << uri
-      end
+      @update_resource_trees << uri
     end
     @update_resource_trees.uniq!
   end
@@ -162,9 +154,7 @@ class ExecuteAspacePeriodicImport
     records = []
     query = @base_query + " AND primary_type:#{record_type}"
 
-    if start == 0
-      puts "*** #{ record_type.gsub(/_/, ' ') } ***"
-    end
+
 
     case record_type
     when 'resource'
@@ -173,7 +163,10 @@ class ExecuteAspacePeriodicImport
       query += ' AND types:(-pui)'
     end
 
-    get_records_from_solr = lambda |start|
+    get_records_from_solr = lambda do |start|
+      if start == 0
+        puts "*** #{ record_type.gsub(/_/, ' ') } ***"
+      end
       response = AspaceImport.execute_solr_query(query, rows: @@rows, start: start)
       num_found = response['response']['numFound']
       records += response['response']['docs']
@@ -188,46 +181,6 @@ class ExecuteAspacePeriodicImport
   end
 
 
-
-
-
-
-
-
-
-  # def update_digital_object_instance_refs(response_data)
-  #   if response_data['linked_instance_uris']
-  #     @digital_object_instance_refs += response_data['linked_instance_uris']
-  #   end
-  #   @digital_object_instance_refs.uniq!
-  # end
-
-
-  # def get_resources_for_digital_objects
-  #   batch = []
-
-  #   @digital_object_instance_refs.each_index do |i|
-  #     batch << @digital_object_instance_refs[i]
-
-  #     if (i > 0 && i % 10 == 0) || (i == @digital_object_instance_refs.length - 1)
-  #       query = @base_query.clone
-  #       query += ' AND id:("'
-  #       query += batch.join('","')
-  #       query += '")'
-
-  #       response = AspaceImport.execute_solr_query(query)
-  #       response['response']['docs'].each do |d|
-  #         if d['resource']
-  #           @update_resource_trees << d['resource']
-  #         end
-  #       end
-  #       batch = []
-  #     end
-  #   end
-  #   @update_resource_trees.uniq!
-  # end
-
-
   def import_resource(uri)
     resource_data = Resource.get_data_from_api(uri, @options)
     begin
@@ -236,8 +189,8 @@ class ExecuteAspacePeriodicImport
       if resource_data[:finding_aid_status].match(/[Cc]ompleted/) && resource_data[:publish]
         resource = Resource.create_or_update_from_data(resource_data)
         resource.reload
-        UpdateResourceTree.call(resource.id)
-        SearchIndexResourceTreeJob.perform_later(resource.id)
+        UpdateResourceTreeJob.perform_later(resource.uri)
+        # SearchIndexResourceTreeJob.perform_later(resource.id)
       else
         log_info "*** Resource #{uri} is not published/completed ***"
         @resources_updated -= 1

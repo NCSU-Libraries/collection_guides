@@ -145,7 +145,6 @@ class ExecuteAspaceDeltaImport
         resource = Resource.create_or_update_from_data(resource_data)
         resource.reload
         UpdateResourceTree.call(resource.id)
-        SearchIndexResourceTreeJob.perform_later(resource.id)
       else
         log_info "*** Resource #{uri} is not published/completed ***"
         @resources_updated -= 1

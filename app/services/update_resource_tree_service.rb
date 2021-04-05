@@ -56,7 +56,7 @@ class UpdateResourceTreeService
     @resource.reload
     @resource.update_tree_unit_data
 
-
+    SearchIndexResourceTreeJob.perform_later(@resource.id)
   end
 
 

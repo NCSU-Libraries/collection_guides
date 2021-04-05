@@ -42,6 +42,22 @@ namespace :resque do
   end
 
 
+  desc "start multiple workers with CG-specific queues"
+  task :start_collection_guides_workers => :environment do
+    run_worker('index',1)
+    run_worker('import',1)
+  end
+
+
+  desc "restart multiple workers with CG-specific queues"
+  task :restart_collection_guides_workers => :environment do
+    kill_unregistered_workers
+    stop_workers
+    run_worker('index',1)
+    run_worker('import',1)
+  end
+
+
   desc "Kill processes associated with unregistered workers"
   task :kill_unregistered_workers => :environment do
     kill_unregistered_workers
