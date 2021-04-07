@@ -1,4 +1,7 @@
 FactoryBot.define do
+  factory :resource_tree_update do
+    
+  end
 
   factory :resource do
     sequence( :title ) { |n| "Test resource #{n}" }

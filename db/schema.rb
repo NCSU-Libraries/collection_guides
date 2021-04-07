@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_215447) do
+ActiveRecord::Schema.define(version: 2021_04_06_140405) do
 
   create_table "agent_associations", force: :cascade do |t|
     t.string "record_type"
@@ -39,8 +39,7 @@ ActiveRecord::Schema.define(version: 2021_03_31_215447) do
     t.index ["uri"], name: "index_agents_on_uri"
   end
 
-  create_table "archival_objects", id: false, force: :cascade do |t|
-    t.integer "id", null: false
+  create_table "archival_objects", force: :cascade do |t|
     t.string "uri", null: false
     t.string "title", limit: 8704
     t.boolean "publish"
@@ -68,7 +67,6 @@ ActiveRecord::Schema.define(version: 2021_03_31_215447) do
     t.string "import_type"
     t.integer "resources_updated"
     t.integer "import_errors"
-    t.integer "total_updates"
   end
 
   create_table "digital_object_associations", force: :cascade do |t|
@@ -89,8 +87,7 @@ ActiveRecord::Schema.define(version: 2021_03_31_215447) do
     t.integer "volume_id"
   end
 
-  create_table "digital_objects", id: false, force: :cascade do |t|
-    t.integer "id", null: false
+  create_table "digital_objects", force: :cascade do |t|
     t.string "uri", null: false
     t.integer "repository_id", null: false
     t.string "title", limit: 8704
@@ -116,8 +113,16 @@ ActiveRecord::Schema.define(version: 2021_03_31_215447) do
     t.index ["repo_code"], name: "index_repositories_on_repo_code"
   end
 
-  create_table "resources", id: false, force: :cascade do |t|
-    t.integer "id", null: false
+  create_table "resource_tree_updates", force: :cascade do |t|
+    t.integer "resource_id"
+    t.datetime "completed_at"
+    t.integer "exit_status"
+    t.text "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "resources", force: :cascade do |t|
     t.string "uri", null: false
     t.integer "repository_id", null: false
     t.string "title", limit: 8704
@@ -156,8 +161,7 @@ ActiveRecord::Schema.define(version: 2021_03_31_215447) do
     t.index ["subject_id"], name: "index_subject_associations_on_subject_id"
   end
 
-  create_table "subjects", id: false, force: :cascade do |t|
-    t.integer "id", null: false
+  create_table "subjects", force: :cascade do |t|
     t.string "uri"
     t.string "subject"
     t.string "subject_root"

@@ -25,12 +25,7 @@ class UpdateResourceTreeService
 
 
   def execute
-    @resource = Resource.find_by(uri: @resource_uri)
-
-    if !@resource
-      log_info "Resource does not exist: #{@resource_uri} - creating"
-      @resource = Resource.create_from_api(@resource_uri)
-    end
+    @resource = Resource.create_or_update_from_api(@resource_uri)
 
     @session = ArchivesSpaceApiUtility::ArchivesSpaceSession.new(read_timeout: 360)
     # track existing components not included in tree response
@@ -86,19 +81,12 @@ class UpdateResourceTreeService
     path = Pathname.new(@resource_uri) + 'tree/waypoint'
     api_response = @session.get(path.to_s, params)
 
-    puts "api_response from get_waypoint_children:"
-    puts api_response.inspect
-
     JSON.parse(api_response.body)
   end
 
 
   # data is a record that may or may not include precomputed_waypoints
   def process_children(data, parent_uri='')
-    
-    puts "data from process_children:"
-    puts data.inspect
-
     if data['child_count'] > 0
       if parent_uri.blank?
         parent = @resource
@@ -118,16 +106,7 @@ class UpdateResourceTreeService
           children = get_waypoint_children(parent_uri, i)
         end 
 
-        puts "children from process_children:"
-        puts children.inspect
-
-        children.each do |child|
-
-          puts "child from process_children:"
-          puts child.inspect
-
-          process_child(child, parent)
-        end
+        children.each { |child| process_child(child, parent) }
 
         i += 1
       end
@@ -139,10 +118,6 @@ class UpdateResourceTreeService
   # child is the hash of attributes included for each child in computed waypoints (api response)
   # parent is a Collection Guides ArchivalObject record
   def process_child(child, parent)
-
-    puts "child from process_child:"
-    puts child.inspect
-
     uri = child['uri']
     has_children = child['child_count'] > 0
     # get full AS record to make sure it's published and not supressed
@@ -237,71 +212,5 @@ class UpdateResourceTreeService
       end
     end
   end
-
-
-  # def update_children(children, parent_id)
-  #   # base_attrs = { resource_id: @resource_id, parent_id: parent_id, publish: true }
-  #   children.each_index do |i|
-  #     print '.'
-  #     child = children[i]
-
-  #     # check for !publish or supressed
-  #     if child['publish'] && !child['supressed']
-  #       child_record = ArchivalObject.where(id: child['id']).first
-
-  #       if child_record
-  #         child_record.update_from_api
-  #       else
-  #         child_record = ArchivalObject.create_from_api(child['record_uri'])
-  #       end
-
-  #       # Update parent_id here because it is not included in individual responses per archival_object
-  #       child_record.update_attributes(parent_id: parent_id)
-
-  #       if child['has_children']
-  #         # recursion
-  #         update_children(child['children'], child['id'])
-  #       end
-
-  #     elsif !child['publish'] && @existing_archival_object_ids.include?(child['id'])
-  #       @removed_archival_objects[:unpublished] << child['id']
-  #     elsif child['supressed'] && @existing_archival_object_ids.include?(child['id'])
-  #       @emoved_archival_objects[:supressed] << child['id']
-  #     end
-
-  #     @existing_archival_object_ids.delete(child['id'])
-  #   end
-  #   puts
-  # end
-
-
-  # def update_tree_old
-  #   @resource.reload
-
-  #   # THIS ENDPOINT IS DEPRICATED!
-  #   tree_response = @session.get("#{@resource.uri}/tree")
-
-  #   if tree_response.code.to_i == 200
-  #     tree = JSON.parse(tree_response.body)
-  #     resource_children = tree['children']
-  #     update_children(resource_children, nil)
-
-  #     @removed_archival_objects[:missing] = @existing_archival_object_ids
-  #     @removed_archival_objects.delete_if { |k,v| v.blank? }
-  #     process_removed()
-
-  #     # @resource.reload
-  #     # @resource.update_hierarchy_attributes
-  #     # @resource.reload
-  #     # @resource.update_tree_unit_data
-  #   elsif tree_response.code.to_i == 412
-  #     puts "SESSION LOST - ESTABLISHING NEW"
-  #     @session = ArchivesSpaceApiUtility::ArchivesSpaceSession.new(read_timeout: 360)
-  #     update_tree
-  #   else
-  #     puts "RESPONSE CODE: #{tree_response.code}"
-  #     raise tree_response.body
-  #   end
-  # end
 
 end

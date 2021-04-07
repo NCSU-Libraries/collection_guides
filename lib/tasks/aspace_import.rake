@@ -55,6 +55,12 @@ namespace :aspace_import do
   # end
 
 
+  desc "periodic import"
+  task :periodic, [:num_hours] => :environment do |t, args|
+    ExecuteAspacePeriodicImport.call
+  end
+
+
   desc "daily import"
   task :daily => :environment do |t, args|
     AspaceImportDailyJob.perform_later

@@ -24,6 +24,7 @@ class Resource < ApplicationRecord
   has_many :digital_object_associations, -> { order('position ASC') }, as: :record, dependent: :destroy
   has_many :digital_objects, through: :digital_object_associations
   has_many :children, -> { where('parent_id IS NULL').order('position ASC') }, class_name: 'ArchivalObject'
+  has_many :resource_tree_updates
 
 
   @@uri_format = /^\/repositories\/[\d]+\/resources\/[\d]+$/
