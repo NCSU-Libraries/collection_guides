@@ -57,29 +57,33 @@ namespace :aspace_import do
 
   desc "periodic import"
   task :periodic, [:num_hours] => :environment do |t, args|
-    ExecuteAspacePeriodicImport.call
+    options = {}
+    if args[:num_hours]
+       options[:since] = args[:num_hours].to_i.hours.ago
+    end
+    ExecuteAspacePeriodicImport.call(options)
   end
 
 
-  desc "daily import"
-  task :daily => :environment do |t, args|
-    AspaceImportDailyJob.perform_later
-    puts "AspaceImportDailyJob added to the Resque import queue"
-  end
+  # desc "daily import"
+  # task :daily => :environment do |t, args|
+  #   AspaceImportDailyJob.perform_later
+  #   puts "AspaceImportDailyJob added to the Resque import queue"
+  # end
 
 
-  desc "hourly import"
-  task :hourly, [:num_hours] => :environment do |t, args|
-    AspaceImportHourlyJob.perform_later
-    puts "AspaceImportHourlyJob added to the Resque import queue"
-  end
+  # desc "hourly import"
+  # task :hourly, [:num_hours] => :environment do |t, args|
+  #   AspaceImportHourlyJob.perform_later
+  #   puts "AspaceImportHourlyJob added to the Resque import queue"
+  # end
 
 
-  desc "weekly import"
-  task :weekly, [:num_hours] => :environment do |t, args|
-    AspaceImportWeeklyJob.perform_later
-    puts "AspaceImportWeeklyJob added to the Resque import queue"
-  end
+  # desc "weekly import"
+  # task :weekly, [:num_hours] => :environment do |t, args|
+  #   AspaceImportWeeklyJob.perform_later
+  #   puts "AspaceImportWeeklyJob added to the Resque import queue"
+  # end
 
 
   desc "purge deleted"

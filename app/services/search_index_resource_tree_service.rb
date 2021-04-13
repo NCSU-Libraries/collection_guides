@@ -16,7 +16,7 @@ class SearchIndexResourceTreeService < SearchIndexServiceBase
       }
 
       @r = Resource.find @options[:resource_id]
-      puts "Updating tree for Resource #{@options[:resource_id]}..."
+      puts "Indexing tree for Resource #{@options[:resource_id]}..."
 
       if update_record(@r)
         @response[:records_indexed][:resources] += 1

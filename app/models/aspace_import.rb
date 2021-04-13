@@ -3,6 +3,8 @@ class AspaceImport < ApplicationRecord
   require 'modules/general_utilities.rb'
   include GeneralUtilities
 
+  serialize :resource_list
+
   # Import all records from ArchivesSpace
   def self.execute_full(options={})
 
@@ -77,26 +79,26 @@ class AspaceImport < ApplicationRecord
   end
 
 
-  def self.get_page_of_records(options)
-    session = options[:session] || ArchivesSpaceSession.new
-    model = options[:model]
+  # def self.get_page_of_records(options)
+  #   session = options[:session] || ArchivesSpaceSession.new
+  #   model = options[:model]
 
-    response = session.get(options[:path], page: options[:page], page_size: options[:page_size], resolve: ['linked_agents','subjects'])
+  #   response = session.get(options[:path], page: options[:page], page_size: options[:page_size], resolve: ['linked_agents','subjects'])
 
-    puts "Requesting page #{options[:page]} (#{Time.now.to_s})"
+  #   puts "Requesting page #{options[:page]} (#{Time.now.to_s})"
 
-    if response.code.to_i == 200
-      response = JSON.parse(response.body)
-      records = response['results']
-      records.each do |r|
-        if r['publish'] && !(model == Resource && r['finding_aid_status'] != "completed")
-          model.create_or_update_from_data(r, options)
-        end
-      end
-    else
-      raise response.body
-    end
-  end
+  #   if response.code.to_i == 200
+  #     response = JSON.parse(response.body)
+  #     records = response['results']
+  #     records.each do |r|
+  #       if r['publish'] && !(model == Resource && r['finding_aid_status'] != "completed")
+  #         model.create_or_update_from_data(r, options)
+  #       end
+  #     end
+  #   else
+  #     raise response.body
+  #   end
+  # end
 
 
   # Delete resources not found in ArchivesSpace Solr

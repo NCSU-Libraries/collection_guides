@@ -52,6 +52,8 @@ class UpdateResourceTreeService
     @resource.update_tree_unit_data
 
     SearchIndexResourceTreeJob.perform_later(@resource.id)
+
+    { resource: @resource }
   end
 
 
@@ -76,8 +78,8 @@ class UpdateResourceTreeService
   end
 
 
-  def get_waypoint_children(parent_uri='',offset=0)
-    params = { offset: 0, parent_node: parent_uri }
+  def get_waypoint_children(parent_uri=nil, offset=0)
+    params = { offset: offset, parent_node: parent_uri }
     path = Pathname.new(@resource_uri) + 'tree/waypoint'
     api_response = @session.get(path.to_s, params)
 
@@ -86,9 +88,9 @@ class UpdateResourceTreeService
 
 
   # data is a record that may or may not include precomputed_waypoints
-  def process_children(data, parent_uri='')
+  def process_children(data, parent_uri=nil)
     if data['child_count'] > 0
-      if parent_uri.blank?
+      if !parent_uri
         parent = @resource
         log_info "Processing children of root (#{@resource_uri})..."
       else
@@ -100,13 +102,18 @@ class UpdateResourceTreeService
       waypoints = data['waypoints']
     
       while i < waypoints
-        if data['precomputed_waypoints'] && data['precomputed_waypoints'][parent_uri] && data['precomputed_waypoints'][parent_uri][i.to_s]
-          children = data['precomputed_waypoints'][parent_uri][i.to_s]
+        parent_key = parent_uri || ''
+        if data['precomputed_waypoints'] && data['precomputed_waypoints'][parent_key] && data['precomputed_waypoints'][parent_key][i.to_s]
+          log_info "Processing precomuted_waypoints..."
+          children = data['precomputed_waypoints'][parent_key][i.to_s]
         else
+          log_info "Fethcing/processing waypoint #{i} for #{parent_uri || 'root'}..."
           children = get_waypoint_children(parent_uri, i)
         end 
 
-        children.each { |child| process_child(child, parent) }
+        children.each do |child|
+          process_child(child, parent)
+        end
 
         i += 1
       end
@@ -118,35 +125,37 @@ class UpdateResourceTreeService
   # child is the hash of attributes included for each child in computed waypoints (api response)
   # parent is a Collection Guides ArchivalObject record
   def process_child(child, parent)
-    uri = child['uri']
-    has_children = child['child_count'] > 0
-    # get full AS record to make sure it's published and not supressed
-    child_api_response = @session.get(uri)
-    child_data = JSON.parse(child_api_response.body)
-    child_record = ArchivalObject.find_by(uri: uri)
 
-    if child_data['publish'] && !child_data['supressed']
-      if child_record
-        child_record.update_from_api
-      else
-        child_record = ArchivalObject.create_from_api(uri)
+      uri = child['uri']
+      has_children = child['child_count'] > 0
+      # get full AS record to make sure it's published and not supressed
+      child_api_response = @session.get(uri)
+      child_data = JSON.parse(child_api_response.body)
+      child_record = ArchivalObject.find_by(uri: uri)
+
+      if child_data['publish'] && !child_data['supressed']
+        if child_record
+          child_record.update_from_api
+        else
+          child_record = ArchivalObject.create_from_api(uri)
+        end
+
+        # Update parent_id here because it is not included in individual responses per archival_object
+        child_record.update_attributes(parent_id: parent.id) if parent.is_a?(ArchivalObject)
+
+        if has_children
+          # recursion
+          process_children(child, uri)
+        end
+
+      elsif !child_data['publish'] && child_record
+        @removed_archival_objects[:unpublished] << child_record.id
+      elsif child_data['supressed'] && child_record
+        @removed_archival_objects[:supressed] << child_record.id
       end
 
-      # Update parent_id here because it is not included in individual responses per archival_object
-      child_record.update_attributes(parent_id: parent.id) if parent.is_a?(ArchivalObject)
+      @existing_archival_object_ids.delete(child['id'])
 
-      if has_children
-        # recursion
-        process_children(child, uri)
-      end
-
-    elsif !child_data['publish'] && child_record
-      @removed_archival_objects[:unpublished] << child_record.id
-    elsif child_data['supressed'] && child_record
-      @removed_archival_objects[:supressed] << child_record.id
-    end
-
-    @existing_archival_object_ids.delete(child['id'])
   end
 
 

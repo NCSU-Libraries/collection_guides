@@ -40,7 +40,9 @@ class ExecuteAspacePeriodicImport
 
 
   def execute
-    log_info "Running periodic update from ArchivesSpace..."
+    log_info "Running periodic update from ArchivesSpace"
+    log_info "with options: #{@options.inspect}"
+
     @since = @options[:since] || 25.hours.ago
     # format last_datetime to look like this: 2014-05-21T15:20:37Z
     @since = @since.to_datetime.new_offset(0).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -49,28 +51,27 @@ class ExecuteAspacePeriodicImport
     @base_query = "system_mtime:[#{ @since } TO NOW] AND publish:true"
 
     begin
-
       process_resources
       process_digital_objects
-
       @update_resource_trees.uniq!
       @update_resource_trees.delete_if { |uri| uri.blank? }
-      @update_resource_trees.delete_if do |uri|
-        id = resource_id_from_uri(uri)
-        ResourceTreeUpdate.in_progress_for_resource(id)
-      end
 
       if @update_resource_trees.empty?
         log_info "No required updates were found"
       else
+        
         @update_resource_trees.each do |uri|
-          import_resource(uri)
+          if !ResourceTreeUpdate.in_progress_for_resource?(resource_id_from_uri(uri))
+            import_resource(uri)
+          end
         end
+
         log_info "ExecuteAspacePeriodicImport queued #{@update_resource_trees.length} resource tree updates:"
         log_info @update_resource_trees.join(', ')
+        AspaceImport.create!(import_type: 'periodic', resources_updated: @update_resource_trees.length, resource_list: @update_resource_trees)
       end
-
     rescue Exception => e
+      log_info(e)
       @response = { error: e }
     end
   end
@@ -86,7 +87,9 @@ class ExecuteAspacePeriodicImport
     records.each do |r|
       uri = r['id']
       system_mtime = DateTime.parse(r['system_mtime'])
-      @update_resource_trees << uri
+      if resource_needs_update?(uri, system_mtime)
+        @update_resource_trees << uri
+      end
     end
     @update_resource_trees.uniq!
   end
@@ -123,7 +126,10 @@ class ExecuteAspacePeriodicImport
       when 'archival_object'
         uri = r['resource']
       end
-      @update_resource_trees << uri
+
+      if resource_needs_update?(uri, system_mtime)
+        @update_resource_trees << uri
+      end
     end
     @update_resource_trees.uniq!
   end
@@ -163,10 +169,24 @@ class ExecuteAspacePeriodicImport
 
     if resource_data[:finding_aid_status].match(/[Cc]ompleted/) && resource_data[:publish]
       log_info "Queueing resource tree update for #{uri}"
-      UpdateResourceTreeJob.perform_later(uri)
+      resource_id = resource_id_from_uri(uri)
+      resource_tree_update = ResourceTreeUpdate.create!(resource_id: resource_id, resource_uri: uri)
+      UpdateResourceTreeJob.perform_later(resource_tree_update)
     else
       log_info "*** Resource #{uri} is not published/completed ***"
     end
+  end
+
+
+  def resource_needs_update?(resource_uri, datetime)
+    if ResourceTreeUpdate.in_progress_for_resource?(resource_uri)
+      update = false
+    elsif ResourceTreeUpdate.completed_after_for_resource?(resource_uri, datetime)
+      update = false
+    else
+      update = true
+    end
+    update
   end
 
 end

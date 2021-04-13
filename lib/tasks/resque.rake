@@ -45,7 +45,7 @@ namespace :resque do
   desc "start multiple workers with CG-specific queues"
   task :start_collection_guides_workers => :environment do
     run_worker('index',1)
-    run_worker('import',1)
+    run_worker('update',1)
   end
 
 
@@ -54,7 +54,8 @@ namespace :resque do
     kill_unregistered_workers
     stop_workers
     run_worker('index',1)
-    run_worker('import',1)
+    run_worker('update',1)
+    run_worker('*',1)
   end
 
 

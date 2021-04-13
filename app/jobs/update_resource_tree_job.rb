@@ -6,11 +6,9 @@ class UpdateResourceTreeJob < ApplicationJob
   #   update_response = UpdateResourceTreeService.call(r.id)
   # end
 
-  def perform(resource_uri)
-    resource_id = Pathname.new(resource_uri).basename.to_s.to_i
-    resource_tree_update = ResourceTreeUpdate.create!(resource_id: resource_id)
+  def perform(resource_tree_update)
     begin
-      service_response = UpdateResourceTreeService.call(resource_uri)
+      service_response = UpdateResourceTreeService.call(resource_tree_update.resource_uri)
       if !service_response['error']
         resource_tree_update.complete
       else
