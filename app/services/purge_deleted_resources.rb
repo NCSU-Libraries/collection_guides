@@ -46,7 +46,8 @@ class PurgeDeletedResources
       end
       query << ')'
 
-      response = execute_solr_query(query,query_params)
+      # response = execute_solr_query(query,query_params)
+      response = ExecuteAspaceSolrQuery.call(query: query, params: query_params)
 
       if response['response']['numFound'] == 0
         puts query
@@ -75,26 +76,30 @@ class PurgeDeletedResources
     end
 
     if @resources_deleted > 0
-      create(import_type: 'purge_deleted', resources_updated: @resources_deleted)
+      AspaceImport.create(import_type: 'purge_deleted', resources_updated: @resources_deleted)
     end
+
     ArchivalObject.delete_orphans
 
     Rails.logger.info "AspaceImport.purge_deleted complete"
   end
 
 
-  def execute_solr_query(query, params={})
-    solr_url = "#{ENV['archivesspace_https'] ? 'https' : 'http'}://#{ENV['archivesspace_solr_host']}#{ENV['archivesspace_solr_core_path']}"
-    @solr = RSolr.connect :url => solr_url
-    @solr_params = {:q => query }
-    @solr_params.merge! params
-    @response = @solr.get 'select', :params => @solr_params
-  end
+  # def execute_solr_query(query, params={})
+  #   solr_url = "#{ENV['archivesspace_https'] ? 'https' : 'http'}://#{ENV['archivesspace_solr_host']}#{ENV['archivesspace_solr_core_path']}"
+  #   @solr = RSolr.connect :url => solr_url
+  #   @solr_params = {:q => query }
+  #   @solr_params.merge! params
+  #   @response = @solr.get 'select', :params => @solr_params
+  # end
 
 
   def solr_doc_exists?(uri,params)
     query = "id:#{escape_uri(uri)}"
-    response = execute_solr_query(query,params)
+
+    # response = execute_solr_query(query,params)
+    response = ExecuteAspaceSolrQuery.call(query: query, params: params)
+
     return (response['response']['numFound'] == 0) ? false : true
   end
 

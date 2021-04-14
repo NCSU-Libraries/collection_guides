@@ -9,10 +9,11 @@ class UpdateResourceTreeJob < ApplicationJob
   def perform(resource_tree_update)
     begin
       service_response = UpdateResourceTreeService.call(resource_tree_update.resource_uri)
-      if !service_response['error']
+      if !service_response[:error]
         resource_tree_update.complete
       else
-        raise service_response[:error]
+        msg = "UpdateResourceTreeJob: error received from UpdateResourceTreeService: #{service_response[:error]}"
+        raise msg
       end
     rescue Exception => e
       resource_tree_update.complete_with_error(e)

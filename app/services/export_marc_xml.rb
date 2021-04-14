@@ -58,7 +58,11 @@ class ExportMarcXml
   def get_updated_records(start=0)
     rows = 100
     query = "user_mtime:[#{ @since } TO NOW] AND publish:true AND primary_type:resource AND finding_aid_status:completed"
-    response = AspaceImport.execute_solr_query(query, rows: rows, start: start)
+
+    # response = AspaceImport.execute_solr_query(query, rows: rows, start: start)
+    solr_params = { rows: rows, start: start }
+    response = ExecuteAspaceSolrQuery.call(query: query, params: solr_params)
+
     num_found = response['response']['numFound']
     response['response']['docs'].each { |d| @ids << d['id'].split('/').last }
     if (start + rows) < num_found

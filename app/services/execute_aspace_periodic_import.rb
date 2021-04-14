@@ -107,7 +107,10 @@ class ExecuteAspacePeriodicImport
       uri_batch << linked_record_uris[i]
       if i == @@rows - 1
         query = "id:(\"#{uri_batch.join('","')}\")"
-        response = AspaceImport.execute_solr_query(query)
+        
+        # response = AspaceImport.execute_solr_query(query)
+        response = ExecuteAspaceSolrQuery.call(query: query)
+
         if linked_records = response['response']['docs']
           process_linked_records(linked_records)
         end
@@ -150,7 +153,11 @@ class ExecuteAspacePeriodicImport
       if start == 0
         puts "*** #{ record_type.gsub(/_/, ' ') } ***"
       end
-      response = AspaceImport.execute_solr_query(query, rows: @@rows, start: start)
+      # response = execute_solr_query(query, rows: @@rows, start: start)
+      
+      solr_params = { rows: @@rows, start: start }
+      response = ExecuteAspaceSolrQuery.call(query: query, params: solr_params)
+
       num_found = response['response']['numFound']
       records += response['response']['docs']
       if (start + @@rows) < num_found
@@ -162,6 +169,15 @@ class ExecuteAspacePeriodicImport
 
     records
   end
+
+
+  # def execute_solr_query(query, params={})
+  #   solr_url = "#{ENV['archivesspace_https'] ? 'https' : 'http'}://#{ENV['archivesspace_solr_host']}#{ENV['archivesspace_solr_core_path']}"
+  #   @solr = RSolr.connect :url => solr_url
+  #   @solr_params = {:q => query }
+  #   @solr_params.merge! params
+  #   @response = @solr.get 'select', :params => @solr_params
+  # end
 
 
   def import_resource(uri)
