@@ -1,3 +1,6 @@
+# This service has been placed in "Reporting mode"!
+@@reporting_mode = true
+
 class PurgeDeletedResources
 
   include GeneralUtilities
@@ -28,12 +31,15 @@ class PurgeDeletedResources
     i = 0;
     start_id = 0
 
+
+    # *** REPORTING MODE ***
+    @missing_resources = []
+
     while i < @resource_count
 
       batch = Resource.where("id > #{ start_id }").order("id ASC").limit(@batch_size).pluck(:id, :uri)
-
-      # Resource.find_in_batches(batch_size: batch_size) do |batch|
       expect_count = (batch.length == @batch_size) ? @batch_size : batch.length
+
       query = 'id:('
       batch.each do |fields|
         id, uri = fields
@@ -46,7 +52,6 @@ class PurgeDeletedResources
       end
       query << ')'
 
-      # response = execute_solr_query(query,query_params)
       response = ExecuteAspaceSolrQuery.call(query: query, params: query_params)
 
       if response['response']['numFound'] == 0
@@ -59,9 +64,16 @@ class PurgeDeletedResources
           id, uri = fields
           if !solr_doc_exists?(uri,query_params)
             log_info "#{uri} no longer exists - deleting..."
-            # DELETE IT!
-            r = Resource.find_by_uri(uri)
-            r.destroy
+
+            # *** REPORTING MODE - REMOVED THE CALL TO DELETE *** 
+            ## DELETE IT!
+            ## r = Resource.find_by_uri(uri)
+            ## r.destroy
+
+            # *** REPORTING MODE ***
+            log_info "Not found in ArchivesSpace index: #{uri}"
+            @missing_resources << uri
+
             @resources_deleted += 1
             num_deleted -= 1
             if num_deleted == 0
@@ -75,23 +87,21 @@ class PurgeDeletedResources
       end
     end
 
-    if @resources_deleted > 0
-      AspaceImport.create(import_type: 'purge_deleted', resources_updated: @resources_deleted)
-    end
 
-    ArchivalObject.delete_orphans
+    # *** REPORTING MODE - REMOVED THE CALL TO CREATE AspaceImport record *** 
+    # if @resources_deleted > 0
+    #   AspaceImport.create(import_type: 'purge_deleted', resources_updated: @resources_deleted)
+    # end
 
-    Rails.logger.info "AspaceImport.purge_deleted complete"
+
+    # *** REPORTING MODE - REMOVED THE CALL TO DELETE ORPHANED RECORDS ***
+    # ArchivalObject.delete_orphans
+
+
+    log_info "AspaceImport.purge_deleted complete"
+    log_info "Missing resources:"
+    log_info @missing_resources.inspect
   end
-
-
-  # def execute_solr_query(query, params={})
-  #   solr_url = "#{ENV['archivesspace_https'] ? 'https' : 'http'}://#{ENV['archivesspace_solr_host']}#{ENV['archivesspace_solr_core_path']}"
-  #   @solr = RSolr.connect :url => solr_url
-  #   @solr_params = {:q => query }
-  #   @solr_params.merge! params
-  #   @response = @solr.get 'select', :params => @solr_params
-  # end
 
 
   def solr_doc_exists?(uri,params)
