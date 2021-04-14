@@ -72,6 +72,14 @@ class PurgeDeletedResources
         print '.'
         sleep(1)
       end
+    end
+
+    if @resources_deleted > 0
+      create(import_type: 'purge_deleted', resources_updated: @resources_deleted)
+    end
+    ArchivalObject.delete_orphans
+
+    Rails.logger.info "AspaceImport.purge_deleted complete"
   end
 
 
