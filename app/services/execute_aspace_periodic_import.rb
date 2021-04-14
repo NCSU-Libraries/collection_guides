@@ -98,19 +98,19 @@ class ExecuteAspacePeriodicImport
   def process_digital_objects
     records = get_updated_records('digital_object')
     linked_record_uris = []
+    
     records.each do |r|
       linked_record_uris += r['linked_instance_uris']
     end
+
     linked_record_uris.uniq!
     uri_batch = []
+
     linked_record_uris.each_index do |i|
       uri_batch << linked_record_uris[i]
       if i == @@rows - 1
         query = "id:(\"#{uri_batch.join('","')}\")"
-        
-        # response = AspaceImport.execute_solr_query(query)
         response = ExecuteAspaceSolrQuery.call(query: query)
-
         if linked_records = response['response']['docs']
           process_linked_records(linked_records)
         end
@@ -153,11 +153,8 @@ class ExecuteAspacePeriodicImport
       if start == 0
         puts "*** #{ record_type.gsub(/_/, ' ') } ***"
       end
-      # response = execute_solr_query(query, rows: @@rows, start: start)
-      
       solr_params = { rows: @@rows, start: start }
       response = ExecuteAspaceSolrQuery.call(query: query, params: solr_params)
-
       num_found = response['response']['numFound']
       records += response['response']['docs']
       if (start + @@rows) < num_found
@@ -166,23 +163,12 @@ class ExecuteAspacePeriodicImport
     end
 
     get_records_from_solr.call(0)
-
     records
   end
 
 
-  # def execute_solr_query(query, params={})
-  #   solr_url = "#{ENV['archivesspace_https'] ? 'https' : 'http'}://#{ENV['archivesspace_solr_host']}#{ENV['archivesspace_solr_core_path']}"
-  #   @solr = RSolr.connect :url => solr_url
-  #   @solr_params = {:q => query }
-  #   @solr_params.merge! params
-  #   @response = @solr.get 'select', :params => @solr_params
-  # end
-
-
   def import_resource(uri)
     resource_data = Resource.get_data_from_api(uri, @options)
-
     if resource_data[:finding_aid_status].match(/[Cc]ompleted/) && resource_data[:publish]
       log_info "Queueing resource tree update for #{uri}"
       resource_id = resource_id_from_uri(uri)

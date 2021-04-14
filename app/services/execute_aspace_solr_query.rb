@@ -31,7 +31,7 @@ class ExecuteAspaceSolrQuery
       @solr_params.merge! @params
       @solr.get 'select', :params => @solr_params
     else
-      { error: "ExecuteAspaceSolrQuery: no query passed in options to call()"}
+      { error: "ExecuteAspaceSolrQuery: no query passed in options to call()" }
     end
   end
 

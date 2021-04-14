@@ -186,7 +186,7 @@ module GeneralUtilities
 
   def log_info(message)
     Rails.logger.info message
-    puts "#{DateTime.now.to_s} - #{message}"
+    puts "#{DateTime.now.to_s} - #{Process.pid} - #{message}"
   end
 
 end
