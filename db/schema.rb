@@ -39,7 +39,8 @@ ActiveRecord::Schema.define(version: 2021_04_13_183930) do
     t.index ["uri"], name: "index_agents_on_uri"
   end
 
-  create_table "archival_objects", force: :cascade do |t|
+  create_table "archival_objects", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri", null: false
     t.string "title", limit: 8704
     t.boolean "publish"
@@ -67,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_183930) do
     t.string "import_type"
     t.integer "resources_updated"
     t.integer "import_errors"
+    t.integer "total_updates"
     t.text "resource_list"
   end
 
@@ -88,7 +90,8 @@ ActiveRecord::Schema.define(version: 2021_04_13_183930) do
     t.integer "volume_id"
   end
 
-  create_table "digital_objects", force: :cascade do |t|
+  create_table "digital_objects", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri", null: false
     t.integer "repository_id", null: false
     t.string "title", limit: 8704
@@ -124,7 +127,8 @@ ActiveRecord::Schema.define(version: 2021_04_13_183930) do
     t.string "resource_uri"
   end
 
-  create_table "resources", force: :cascade do |t|
+  create_table "resources", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri", null: false
     t.integer "repository_id", null: false
     t.string "title", limit: 8704
@@ -163,7 +167,8 @@ ActiveRecord::Schema.define(version: 2021_04_13_183930) do
     t.index ["subject_id"], name: "index_subject_associations_on_subject_id"
   end
 
-  create_table "subjects", force: :cascade do |t|
+  create_table "subjects", id: false, force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri"
     t.string "subject"
     t.string "subject_root"

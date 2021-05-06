@@ -5,7 +5,7 @@ describe SolrSanitizer do
 
   it "sanitizes strings" do
      dirty_string = "\",x:window.top._arachni_js_namespace_taint_tracer.log_execution_flow_sink(),y:\""
-     clean_string = ",xwindow.top._arachni_js_namespace_taint_tracer.log_execution_flow_sink,y"
+     clean_string = ",x window.top._arachni_js_namespace_taint_tracer.log_execution_flow_sink ,y"
      expect(SolrSanitizer.sanitize_query_string(dirty_string)).to eq(clean_string)
   end
 
