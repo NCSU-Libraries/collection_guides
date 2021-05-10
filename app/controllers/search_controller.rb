@@ -8,7 +8,7 @@ class SearchController < ApplicationController
     include SearchControllerCustom
   rescue
   end
-  
+
 
   def index
     @params = search_params
@@ -166,12 +166,6 @@ class SearchController < ApplicationController
 
 
   private
-
-
-  def bad_request
-    flash[:error] = "Bad request"
-    redirect_to '/'
-  end
 
 
   def search_params
