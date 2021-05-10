@@ -81,6 +81,10 @@ class SearchController < ApplicationController
       @params[:filters].delete('ncsu_subjects')
     end
 
+    if @params[:filters]['resource_digital_content']
+      @params[:filters]['resource_digital_content'] = true
+    end
+
 
     # define base href used for pagination and filtering
     @base_href_options = {
