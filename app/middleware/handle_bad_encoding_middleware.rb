@@ -5,14 +5,16 @@ class HandleBadEncodingMiddleware
 
   def call(env)
     begin
-
-      puts env.inspect
-      
       Rack::Utils.parse_nested_query(env['QUERY_STRING'].to_s)
     rescue Rack::QueryParser::InvalidParameterError
       env['QUERY_STRING'] = ''
     end
 
-    @app.call(env)
+    begin
+      @app.call(env)
+    rescue Rack::QueryParser::InvalidParameterError
+      env['QUERY_STRING'] = ''
+      @app.call(env)
+    end
   end
 end
