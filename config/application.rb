@@ -10,7 +10,7 @@ require "sprockets/railtie"
 
 # If you get NameError: uninitialized constant,
 # you have to use require like this one:
-require_relative '../app/middlewares/handle_bad_encoding_middleware.rb'
+require_relative '../app/middleware/handle_bad_encoding_middleware.rb'
 
 
 
@@ -38,7 +38,7 @@ module CollectionGuides
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     config.middleware.insert_before Rack::Runtime, HandleBadEncodingMiddleware
-    
+
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Eastern Time (US & Canada)'
