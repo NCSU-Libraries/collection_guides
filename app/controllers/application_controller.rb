@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   rescue
   end
 
+  rescue_from ActionController::BadRequest, with: :bad_request
+
 
   def index
     render
@@ -31,5 +33,15 @@ class ApplicationController < ActionController::Base
   def not_found
     redirect_to root_url, alert: "Page not found.", status: 404
   end
+
+
+  private
+
+
+  def bad_request
+    flash[:error] = "Bad request"
+    redirect_to '/'
+  end
+  
 
 end
