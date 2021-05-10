@@ -181,8 +181,11 @@ class SearchController < ApplicationController
 
     ids = [:resource_id, :subject_id, :agent_id]
     ids.each do |key|
-      @params[key] = SolrSanitizer.sanitize_integer(@params[key])
-      @params[key] = nil if @params[key].blank?
+      if @params[key]
+        @params[key].encode("UTF-8", undef: :replace, replace: '')
+        @params[key] = SolrSanitizer.sanitize_integer(@params[key])
+        @params[key] = nil if @params[key].blank?
+      end
     end
 
     # Reject start or per_page in request
