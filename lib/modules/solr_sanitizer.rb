@@ -7,7 +7,10 @@ module SolrSanitizer
     disallow_characters_regex = /[\/\'\"\+\=\(\)\{\}\[\]\<\>\^\!\~\*\?\:\;(\&+)]/
     if value
       value.gsub!(disallow_characters_regex," ")
-      value.gsub(/\s+/," ").strip
+      value.gsub!(/\s+/," ")
+      value.gsub!(/(\s\.)*/,".")
+      value.gsub!(/\.+/,".")
+      value.strip
     end
   end
 

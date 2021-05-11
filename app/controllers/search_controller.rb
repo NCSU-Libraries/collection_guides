@@ -174,9 +174,14 @@ class SearchController < ApplicationController
 
 
   def sanitize_params
+
     if @params[:q]
-      @params[:q].gsub!(/[\/\\\+\=\~\?\(\)\{\}\<\>\[\](\&+)]/," ")
-      @params[:q].strip!
+      if @params[:q].length > 1000
+        raise ActionController::BadRequest
+      else
+        @params[:q].gsub!(/[\/\\\+\=\~\?\(\)\{\}\<\>\[\](\&+)]/," ")
+        @params[:q].strip!
+      end
     end
 
     # there are no sort options available, so if there are any get rid of them!

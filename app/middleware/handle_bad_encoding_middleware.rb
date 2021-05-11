@@ -12,7 +12,7 @@ class HandleBadEncodingMiddleware
     end
 
     begin
-      Rack::Utils.parse_nested_query(env['ORIGINAL_FULLPATH'].to_s)
+      Rack::Utils.parse_nested_query(env['REQUEST_URI'].to_s)
       @app.call(env)
     rescue Rack::Utils::InvalidParameterError, Rack::QueryParser::InvalidParameterError, ActionController::BadRequest
       redirect_path = (env['ORIGINAL_SCRIPT_NAME'] ==  '/findingaids') ? '/findingaids' : '/'
