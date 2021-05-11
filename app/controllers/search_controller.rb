@@ -214,7 +214,16 @@ class SearchController < ApplicationController
 
 
   def sanitize_filters(filters)
+
     sanitized = {}
+
+
+    sanitize_string = lambda do |string|
+      raise ActionController::BadRequest if !string.is_a? String
+      string = SolrSanitizer.sanitize_query_string(string)
+      return string
+    end
+
 
     if !filters.blank?
       filters.each do |k,v|
@@ -224,18 +233,22 @@ class SearchController < ApplicationController
           # 'inclusive_years' is expected to be an array of strings
           elsif k == 'inclusive_years'
             if v.is_a? Array
-              values = v.map { |vv| vv.gsub(/[^\d\-]/,'') }
+              values = v.map do |vv|
+                raise ActionController::BadRequest if !vv.is_a? String
+                vv.gsub(/[^\d\-]/,'')
+              end
               values.reject! { |vv| vv.nil? }
               sanitized[k] = values
             end
           else
+            
             case v
             when String
-              sanitized[k] = SolrSanitizer.sanitize_query_string(v)
+              sanitized[k] = sanitize_string.call(v)
             when Array
               v.uniq!
-              values = v.map { |vv| SolrSanitizer.sanitize_query_string(vv) }
-              sanitized[k] = values
+              values = v.map { |vv| sanitize_string.call(vv) }
+              sanitized[k] = v
             end
           end
         end
