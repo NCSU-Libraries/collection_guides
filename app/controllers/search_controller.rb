@@ -176,7 +176,7 @@ class SearchController < ApplicationController
   def sanitize_params
 
     if @params[:q]
-      if @params[:q].length > 1000
+      if !@params[:q].is_a?(String) || @params[:q].length > 1000
         raise ActionController::BadRequest
       else
         @params[:q].gsub!(/[\/\\\+\=\~\?\(\)\{\}\<\>\[\](\&+)]/," ")
