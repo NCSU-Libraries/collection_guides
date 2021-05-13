@@ -13,6 +13,9 @@ class HandleBadEncodingMiddleware
 
     begin
       uri = Rack::Utils.unescape(env['REQUEST_URI'])
+      if uri && uri.length > 1000
+        raise ActionController::BadRequest
+      end
       Rack::Utils.parse_nested_query(uri)
       @app.call(env)
     rescue Rack::Utils::InvalidParameterError, Rack::QueryParser::InvalidParameterError, ActionController::BadRequest
