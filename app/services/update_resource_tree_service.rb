@@ -212,16 +212,20 @@ class UpdateResourceTreeService
 
 
     @removed_archival_objects.each do |k,v|
-      if [:unpublished,:supressed].include?(k)
-        puts "Deleting unpublished and supressed ArchivalObjects"
-        ArchivalObject.where("id IN (#{v.join(',')})").each do |a|
-          puts "Deleting ArchivalObject #{a.id}"
-          a.destroy
+      puts k
+      case k
+      when :unpublished,:supressed
+        if !v.empty?
+          puts "Deleting unpublished and supressed ArchivalObjects"
+          ArchivalObject.where("id IN (#{v.join(',')})").each do |a|
+            puts "Deleting ArchivalObject #{a.id}"
+            a.destroy
+          end
         end
-      elsif k == :missing
-        puts "Deleting ArchivalObjects that no longer exist:"
+      when :missing
+        puts "Deleting ArchivalObjects that no longer exist in this resource:"
         puts v.inspect
-        
+
         v.each do |id|
           process_archival_object.(id)
         end
