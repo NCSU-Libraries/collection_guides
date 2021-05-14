@@ -175,6 +175,9 @@ class UpdateResourceTreeService
 
       a_response = @session.get(a.uri)
 
+      puts a_response.code
+      puts a_response.body
+
       if a_response.code.to_i == 412
         log_info "SESSION LOST - ESTABLISHING NEW"
         @session = ArchivesSpaceApiUtility::ArchivesSpaceSession.new(read_timeout: 360)
@@ -230,6 +233,7 @@ class UpdateResourceTreeService
         puts v.inspect
 
         v.each do |id|
+          puts "processing ArchivalObject #{id}"
           process_archival_object.call(id)
         end
 
