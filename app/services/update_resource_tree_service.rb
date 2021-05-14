@@ -42,6 +42,9 @@ class UpdateResourceTreeService
     # ids are removed from @existing_archival_object_ids as they are processed
     # any that remain were not included in the tree and need to be dealt with (maybe they moved)
     @removed_archival_objects[:missing] = @existing_archival_object_ids
+    puts "Processing existing archival object records not longer included in Resource tree:"
+    puts @removed_archival_objects[:missing].inspect
+    process_removed
 
     # Update hiearchy attributes of resource
     @resource.reload
@@ -162,6 +165,7 @@ class UpdateResourceTreeService
   def process_removed
     resources_to_update = []
 
+
     process_archival_object = lambda do |id|
       a = ArchivalObject.find(id)
       a_response = @session.get(a.uri)
@@ -220,6 +224,7 @@ class UpdateResourceTreeService
         end
       end
     end
+
   end
 
 end
