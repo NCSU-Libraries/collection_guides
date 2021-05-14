@@ -170,6 +170,9 @@ class UpdateResourceTreeService
 
     process_archival_object = lambda do |id|
       a = ArchivalObject.find(id)
+
+      puts a.inspect
+
       a_response = @session.get(a.uri)
 
       if a_response.code.to_i == 412
@@ -227,7 +230,7 @@ class UpdateResourceTreeService
         puts v.inspect
 
         v.each do |id|
-          process_archival_object.(id)
+          process_archival_object.call(id)
         end
 
         resources_to_update.uniq!
