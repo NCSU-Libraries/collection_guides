@@ -128,7 +128,7 @@ class UpdateResourceTreeService
   # parent is a Collection Guides ArchivalObject record
   def process_child(child, parent)
       puts child.inspect
-      
+
       uri = child['uri']
       has_children = child['child_count'] > 0
       # get full AS record to make sure it's published and not supressed
@@ -157,12 +157,11 @@ class UpdateResourceTreeService
         @removed_archival_objects[:supressed] << child_record.id
       end
 
+      child_id = Pathname.new(child['uri']).basename.to_s
+      puts child_id
+      puts @existing_archival_object_ids.include?(child_id)
 
-      puts child['id']
-      puts @existing_archival_object_ids.include?(child['id'])
-
-      @existing_archival_object_ids.delete(child['id'])
-
+      @existing_archival_object_ids.delete(child_id)
   end
 
 
