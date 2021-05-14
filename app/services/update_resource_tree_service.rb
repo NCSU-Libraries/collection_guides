@@ -156,6 +156,10 @@ class UpdateResourceTreeService
         @removed_archival_objects[:supressed] << child_record.id
       end
 
+
+      puts child['id']
+      puts @existing_archival_object_ids.include?(child['id'])
+      
       @existing_archival_object_ids.delete(child['id'])
 
   end
@@ -188,6 +192,8 @@ class UpdateResourceTreeService
         a.destroy
       elsif a_response.code.to_i == 200
         a_data = JSON.parse(a_response.body)
+
+        puts a_data.inspect
 
         if a_data['resource'] && a_data['resource']['ref']
           # archival_object has been moved
@@ -231,6 +237,7 @@ class UpdateResourceTreeService
       when :missing
         puts "Deleting ArchivalObjects that no longer exist in this resource:"
         puts v.inspect
+        puts v.length
 
         v.each do |id|
           puts "processing ArchivalObject #{id}"
