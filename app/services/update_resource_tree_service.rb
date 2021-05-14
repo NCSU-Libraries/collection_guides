@@ -157,7 +157,7 @@ class UpdateResourceTreeService
         @removed_archival_objects[:supressed] << child_record.id
       end
 
-      child_id = Pathname.new(child['uri']).basename.to_s
+      child_id = Pathname.new(child['uri']).basename.to_s.to_i
       puts child_id
       puts @existing_archival_object_ids.include?(child_id)
 
