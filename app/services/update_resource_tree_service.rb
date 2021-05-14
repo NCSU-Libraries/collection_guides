@@ -176,6 +176,7 @@ class UpdateResourceTreeService
         process_archival_object.(id)
       elsif a_response.code.to_i == 404
         # archival_object has been deleted
+        puts "Deleting ArchivalObject #{a.id}"
         a.destroy
       elsif a_response.code.to_i == 200
         a_data = JSON.parse(a_response.body)
@@ -184,6 +185,8 @@ class UpdateResourceTreeService
           # archival_object has been moved
           # OR, even worse, it has been deleted from the tree but persists in the AS database.
           a_resource_uri = a_data['resource']['ref']
+
+          puts "ArchivalObject #{a.id} has moved to #{a_resource_ur}"
 
           if a_resource_uri != @resource.uri
             log_info "ArchivalObject #{a.id} (#{a.title}) has moved to #{a_resource_uri}"
@@ -198,6 +201,7 @@ class UpdateResourceTreeService
           end
         else
           # archival_object has been orphaned
+          puts "Deleting ArchivalObject #{a.id}"
           a.destroy
         end
       end
@@ -206,7 +210,11 @@ class UpdateResourceTreeService
 
     @removed_archival_objects.each do |k,v|
       if [:unpublished,:supressed].include?(k)
-        ArchivalObject.where("id IN (#{v.join(',')})").each { |a| a.destroy }
+        puts "Deleting unpublished and supressed ArchivalObjects"
+        ArchivalObject.where("id IN (#{v.join(',')})").each do |a|
+          puts "Deleting ArchivalObject #{a.id}"
+          a.destroy
+        end
       elsif k == :missing
         v.each do |id|
           process_archival_object.(id)
