@@ -127,41 +127,35 @@ class UpdateResourceTreeService
   # child is the hash of attributes included for each child in computed waypoints (api response)
   # parent is a Collection Guides ArchivalObject record
   def process_child(child, parent)
-      puts child.inspect
+    uri = child['uri']
+    has_children = child['child_count'] > 0
+    # get full AS record to make sure it's published and not supressed
+    child_api_response = @session.get(uri)
+    child_data = JSON.parse(child_api_response.body)
+    child_record = ArchivalObject.find_by(uri: uri)
 
-      uri = child['uri']
-      has_children = child['child_count'] > 0
-      # get full AS record to make sure it's published and not supressed
-      child_api_response = @session.get(uri)
-      child_data = JSON.parse(child_api_response.body)
-      child_record = ArchivalObject.find_by(uri: uri)
-
-      if child_data['publish'] && !child_data['supressed']
-        if child_record
-          child_record.update_from_api
-        else
-          child_record = ArchivalObject.create_from_api(uri)
-        end
-
-        # Update parent_id here because it is not included in individual responses per archival_object
-        child_record.update_attributes(parent_id: parent.id) if parent.is_a?(ArchivalObject)
-
-        if has_children
-          # recursion
-          process_children(child, uri)
-        end
-
-      elsif !child_data['publish'] && child_record
-        @removed_archival_objects[:unpublished] << child_record.id
-      elsif child_data['supressed'] && child_record
-        @removed_archival_objects[:supressed] << child_record.id
+    if child_data['publish'] && !child_data['supressed']
+      if child_record
+        child_record.update_from_api
+      else
+        child_record = ArchivalObject.create_from_api(uri)
       end
 
-      child_id = Pathname.new(child['uri']).basename.to_s.to_i
-      puts child_id
-      puts @existing_archival_object_ids.include?(child_id)
+      # Update parent_id here because it is not included in individual responses per archival_object
+      child_record.update_attributes(parent_id: parent.id) if parent.is_a?(ArchivalObject)
 
-      @existing_archival_object_ids.delete(child_id)
+      if has_children
+        # recursion
+        process_children(child, uri)
+      end
+
+    elsif !child_data['publish'] && child_record
+      @removed_archival_objects[:unpublished] << child_record.id
+    elsif child_data['supressed'] && child_record
+      @removed_archival_objects[:supressed] << child_record.id
+    end
+
+    @existing_archival_object_ids.delete(child_record.id)
   end
 
 
