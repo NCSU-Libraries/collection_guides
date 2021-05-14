@@ -127,7 +127,8 @@ class UpdateResourceTreeService
   # child is the hash of attributes included for each child in computed waypoints (api response)
   # parent is a Collection Guides ArchivalObject record
   def process_child(child, parent)
-
+      puts child.inspect
+      
       uri = child['uri']
       has_children = child['child_count'] > 0
       # get full AS record to make sure it's published and not supressed
@@ -159,7 +160,7 @@ class UpdateResourceTreeService
 
       puts child['id']
       puts @existing_archival_object_ids.include?(child['id'])
-      
+
       @existing_archival_object_ids.delete(child['id'])
 
   end
