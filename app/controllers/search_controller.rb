@@ -229,25 +229,32 @@ class SearchController < ApplicationController
         if !v.blank?
           if k == 'collection_id' || v =~ /^\[[^\]]*\]$/
             sanitized[k] = SolrSanitizer.sanitize_integer(v)
-          # 'inclusive_years' is expected to be an array of strings
-          elsif k == 'inclusive_years'
-            if v.is_a? Array
-              values = v.map do |vv|
-                raise ActionController::BadRequest if !vv.is_a? String
-                vv.gsub(/[^\d\-]/,'')
-              end
-              values.reject! { |vv| vv.nil? }
-              sanitized[k] = values
-            end
           else
-            
-            case v
-            when String
-              sanitized[k] = sanitize_string.call(v)
-            when Array
-              v.uniq!
-              values = v.map { |vv| sanitize_string.call(vv) }
-              sanitized[k] = v
+            case k
+            when 'inclusive_years'
+              # 'inclusive_years' must be an array of strings
+              if v.is_a? Array
+                values = v.map do |vv|
+                  raise ActionController::BadRequest if !vv.is_a? String
+                  vv.gsub(/[^\d\-]/,'')
+                end
+                values.reject! { |vv| vv.nil? }
+                sanitized[k] = values
+              end
+            when 'resource_category'
+              # 'resource_category' must be a String
+              if v.is_a?(String)
+                sanitized[k] = sanitize_string.call(v)
+              end
+            else
+              case v
+              when String
+                sanitized[k] = sanitize_string.call(v)
+              when Array
+                v.uniq!
+                values = v.map { |vv| sanitize_string.call(vv) }
+                sanitized[k] = v
+              end
             end
           end
         end

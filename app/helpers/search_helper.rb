@@ -437,7 +437,9 @@
           output << remove_filter_link(k, display_safe(v), label: 'University Archives')
         when 'resource_category'
           # output << filter_link(k, display_safe(v), label: resource_categories[v])
-          output << remove_filter_link(k, display_safe(v), label: resource_categories[v])
+          if v.is_a? String
+            output << remove_filter_link(k, display_safe(v), label: resource_categories[v])
+          end
         when 'inclusive_years'
           v.each do |range|
             # output << filter_link(k, range, multivalued: true)
@@ -458,8 +460,10 @@
 
 
   def display_safe(value)
-    value = strip_tags(value)
-    CGI::escapeHTML(value)
+    if value.is_a?(String)
+      value = strip_tags(value)
+      CGI::escapeHTML(value)
+    end
   end
 
 
