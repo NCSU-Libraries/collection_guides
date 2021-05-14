@@ -8,6 +8,7 @@ class UpdateResourceTreeJob < ApplicationJob
 
   def perform(resource_tree_update)
     begin
+      puts resource_tree_update.inspect
       service_response = UpdateResourceTreeService.call(resource_tree_update.resource_uri)
       if !service_response[:error]
         resource_tree_update.complete

@@ -48,6 +48,7 @@ namespace :resources do
         return false
       else
         resource_tree_update = ResourceTreeUpdate.create!(resource_id: r.id, resource_uri: r.uri)
+        puts resource_tree_update.inspect
         UpdateResourceTreeJob.perform_later(resource_tree_update)
       end
     end
