@@ -24,7 +24,7 @@ class PurgeDeletedResources
 
   def execute
 
-    @reporting_mode = true
+    @reporting_mode = nil
 
     log_info "PurgeDeletedResources called"
     log_info "Purging resources that have been deleted in ArchivesSpace (or with finding aid status other than 'completed')..."

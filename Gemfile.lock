@@ -223,7 +223,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (5.0.2)
     nio4r (2.5.7)
-    nokogiri (1.11.3)
+    nokogiri (1.11.5)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     notiffany (0.1.1)
@@ -411,7 +411,7 @@ DEPENDENCIES
   mysql2
   ncsul_web!
   net-ldap
-  nokogiri (~> 1.11.0)
+  nokogiri (>= 1.11.4)
   rails (~> 5.2.6)
   rails-html-sanitizer (~> 1.0.4)
   redis
@@ -433,4 +433,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   2.2.16
+   2.2.17
