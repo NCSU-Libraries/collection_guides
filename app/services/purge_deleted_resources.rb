@@ -6,7 +6,7 @@ class PurgeDeletedResources
   include GeneralUtilities
 
   def self.call(options={})
-    object = new(options={})
+    object = new(options)
     object.call
   end
 
@@ -35,9 +35,6 @@ class PurgeDeletedResources
     else
       log_info "@reporting_mode enabled - no records will actually be deleted. It's cool."
     end
-
-    puts @options.inspect
-    puts "Reporting_mode: #{@reporting_mode.to_s}"
 
     query_params = { 'fq' => ["publish:true", "finding_aid_status:(Completed OR completed)"] }
     @resources_deleted = 0
