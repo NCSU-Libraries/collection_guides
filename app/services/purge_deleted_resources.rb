@@ -37,7 +37,7 @@ class PurgeDeletedResources
     end
 
     puts @options.inspect
-    puts "Reporting_mode: #{@reporting mode.to_s}"
+    puts "Reporting_mode: #{@reporting_mode.to_s}"
 
     query_params = { 'fq' => ["publish:true", "finding_aid_status:(Completed OR completed)"] }
     @resources_deleted = 0
