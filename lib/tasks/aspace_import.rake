@@ -40,7 +40,7 @@ namespace :aspace_import do
 
   desc "purge deleted"
   task :purge_deleted => :environment do |t, args|
-    PurgeDeletedResources.call
+    PurgeDeletedResources.call(delete_resources: true)
   end
 
 

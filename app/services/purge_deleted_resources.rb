@@ -24,7 +24,7 @@ class PurgeDeletedResources
 
   def execute
 
-    @reporting_mode = nil
+    @reporting_mode = true
 
     log_info "PurgeDeletedResources called"
     log_info "Purging resources that have been deleted in ArchivesSpace (or with finding aid status other than 'completed')..."
@@ -35,6 +35,9 @@ class PurgeDeletedResources
     else
       log_info "@reporting_mode enabled - no records will actually be deleted. It's cool."
     end
+
+    puts @options.inspect
+    puts "Reporting_mode: #{@reporting mode.to_s}"
 
     query_params = { 'fq' => ["publish:true", "finding_aid_status:(Completed OR completed)"] }
     @resources_deleted = 0
