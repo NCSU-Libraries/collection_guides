@@ -155,7 +155,9 @@ class UpdateResourceTreeService
       @removed_archival_objects[:supressed] << child_record.id
     end
 
-    @existing_archival_object_ids.delete(child_record.id)
+    if child_record
+      @existing_archival_object_ids.delete(child_record.id)
+    end
   end
 
 
