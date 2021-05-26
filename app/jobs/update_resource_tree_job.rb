@@ -18,6 +18,7 @@ class UpdateResourceTreeJob < ApplicationJob
       end
     rescue Exception => e
       resource_tree_update.complete_with_error(e)
+      raise e
     end
   end
 
