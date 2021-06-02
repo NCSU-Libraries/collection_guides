@@ -397,7 +397,7 @@ GEM
     will_paginate (3.3.0)
 
 PLATFORMS
-  x86_64-darwin-20
+  ruby
 
 DEPENDENCIES
   annotate
