@@ -4,13 +4,6 @@ ruby '2.7.2'
 
 gem 'archivesspace-api-utility', git: 'https://github.com/NCSU-Libraries/archivesspace-api-utility.git'
 
-# NC State only
-
-gem 'devise_wolftech_authenticatable',
-    git: "git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git"
-
-gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.6'
 
@@ -82,6 +75,13 @@ gem 'devise'
 
 # https://github.com/advisories/GHSA-j6w9-fv6q-3q52
 # gem "rack", ">= 2.2.3"
+
+# NC State only
+
+gem 'devise_wolftech_authenticatable',
+    git: "git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git"
+
+gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
