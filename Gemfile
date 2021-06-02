@@ -25,8 +25,7 @@ gem 'mysql2'
 gem 'sass-rails'
 
 # Use Uglifier as compressor for JavaScript assets
-# gem 'uglifier'
-gem 'terser'
+gem 'uglifier'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
