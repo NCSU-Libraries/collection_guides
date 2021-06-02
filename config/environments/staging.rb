@@ -1,3 +1,5 @@
+Sprockets.register_compressor 'application/javascript', :terser, Terser::Compressor
+
 CollectionGuides::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   # config.action_controller.relative_url_root = "/findingaids"
@@ -24,7 +26,9 @@ CollectionGuides::Application.configure do
   config.public_file_server.enabled = false
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  # config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.js_compressor = :terser
+  
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
