@@ -2,6 +2,15 @@ source 'https://rubygems.org'
 
 ruby '2.7.2'
 
+gem 'archivesspace-api-utility', git: 'https://github.com/NCSU-Libraries/archivesspace-api-utility.git'
+
+# NC State only
+
+gem 'devise_wolftech_authenticatable',
+    git: "git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git"
+
+gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git', branch: 'trthorn2-patch-2'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.6'
 
@@ -29,8 +38,7 @@ gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
-gem 'archivesspace-api-utility', git: 'https://github.com/NCSU-Libraries/archivesspace-api-utility.git'
-gem 'compass-rails'
+# gem 'compass-rails'
 gem 'modernizr-rails'
 
 gem 'foundation-rails'
@@ -108,10 +116,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
-# NC State only
-
-gem 'devise_wolftech_authenticatable',
-    git: "git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git"
-
-gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git', branch: 'trthorn2-patch-2'
