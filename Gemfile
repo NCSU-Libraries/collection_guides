@@ -112,4 +112,4 @@ end
 gem 'devise_wolftech_authenticatable',
     git: "git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git"
 
-gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
+gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git', branch: 'trthorn2-patch-2'

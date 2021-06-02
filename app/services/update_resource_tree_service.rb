@@ -224,7 +224,9 @@ class UpdateResourceTreeService
       case k
       when :unpublished,:supressed
         if !v.empty?
-          puts "Deleting unpublished and supressed ArchivalObjects"
+          puts "Deleting unpublished and supressed ArchivalObjects:"
+          puts v.inspect
+          
           ArchivalObject.where("id IN (#{v.join(',')})").each do |a|
             puts "Deleting ArchivalObject #{a.id}"
             a.destroy

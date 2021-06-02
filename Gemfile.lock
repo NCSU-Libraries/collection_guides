@@ -10,9 +10,10 @@ GIT
 
 GIT
   remote: git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git
-  revision: 8adfb433d014bfadecd9f861ffe41645ac21e239
+  revision: 1dffe9d4de6421183996dd46cba89c0307645a0a
+  branch: trthorn2-patch-2
   specs:
-    ncsul_web (0.10.4)
+    ncsul_web (1.8.0)
       rails (>= 4.1.11)
       sass-rails
 
@@ -209,7 +210,7 @@ GEM
     marcel (1.0.1)
     method_source (0.9.2)
     mini_mime (1.1.0)
-    mini_portile2 (2.5.1)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
     modernizr-rails (2.7.1)
     mono_logger (1.1.0)
@@ -223,7 +224,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (5.0.2)
     nio4r (2.5.7)
-    nokogiri (1.11.5)
+    nokogiri (1.11.6)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     notiffany (0.1.1)
@@ -375,7 +376,7 @@ GEM
       rack (>= 1.0.0)
     warden (1.2.8)
       rack (>= 2.0.6)
-    websocket-driver (0.7.3)
+    websocket-driver (0.7.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     whenever (0.10.0)
