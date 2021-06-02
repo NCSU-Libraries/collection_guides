@@ -1,11 +1,13 @@
 source 'https://rubygems.org'
 
+ruby '2.7.2'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.6'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
-gem 'sprockets-es6', '>= 0.9.0'
+gem 'sprockets-es6'
 
 # Use mysql as the database for Active Record
 gem 'mysql2'
@@ -62,7 +64,7 @@ gem 'exception_notification-rake'
 
 
 # https://nvd.nist.gov/vuln/detail/CVE-2019-16109
-gem 'devise', '~> 4.7.1'
+gem 'devise'
 
 # https://github.com/rails/rails/security/advisories/GHSA-65cv-r6x7-79hv
 # gem 'actionview', '~> 5.2.4.4'
