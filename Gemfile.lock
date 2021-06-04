@@ -10,7 +10,8 @@ GIT
 
 GIT
   remote: git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git
-  revision: dcb5c31174251c2ac56f572f2585b0d1a4f8c471
+  revision: fba82fcfeb837efae5c9a0638712287e3e6f76bd
+  branch: fix-headers-js-test
   specs:
     ncsul_web (1.8.0)
       rails (>= 4.1.11)
@@ -222,7 +223,7 @@ GEM
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.1.0)
     nio4r (2.5.7)
-    nokogiri (1.11.6)
+    nokogiri (1.11.7)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     notiffany (0.1.3)
