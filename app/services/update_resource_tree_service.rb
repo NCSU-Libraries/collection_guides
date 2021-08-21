@@ -196,7 +196,7 @@ class UpdateResourceTreeService
           # OR, even worse, it has been deleted from the tree but persists in the AS database.
           a_resource_uri = a_data['resource']['ref']
 
-          puts "ArchivalObject #{a.id} has moved to #{a_resource_ur}"
+          puts "ArchivalObject #{a.id} has moved to #{a_resource_uri}"
 
           if a_resource_uri != @resource.uri
             log_info "ArchivalObject #{a.id} (#{a.title}) has moved to #{a_resource_uri}"

@@ -27,10 +27,6 @@ if @environment == 'production'
     rake "marc_export:execute"
   end
 
-  every "0 0 * * 2-6" do
-    rake "aspace_import:truncate_imports_table"
-  end
-
 
   # every "40 6-23 * * 1-6" do
   #   rake "search_index:hourly"
