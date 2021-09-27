@@ -27,7 +27,8 @@ main #search-results {
     }
 
     .arrow.unavailable {
-      color: #e6e6e6;
+      // color: #e6e6e6;
+      display: none;
     }
 
     li {
