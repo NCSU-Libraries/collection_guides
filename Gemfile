@@ -50,9 +50,11 @@ gem 'will_paginate'
 
 gem 'rsolr'
 # security vulnerabilities fix - https://github.com/NCSU-Libraries/collection_guides/security/dependabot/Gemfile.lock/nokogiri/open
-gem "nokogiri"
 gem 'truncate_html'
 gem 'chronic'
+
+# https://github.ncsu.edu/advisories/GHSA-2rr5-8q37-2w7h
+gem "nokogiri", ">= 1.12.5"
 
 gem 'whenever', :require => false
 
