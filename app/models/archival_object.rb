@@ -95,14 +95,19 @@ class ArchivalObject < ApplicationRecord
     attributes = {}
     attributes[:api_response] = json
     ['title','publish','position','level','uri','component_id'].each { |x| attributes[x.to_sym] = r[x] }
+    
     if r['resource']
       resource_uri = r['resource']['ref']
       attributes[:resource_id] = resource_id_from_uri(resource_uri)
     end
+    
     if r['parent']
       parent_uri = r['parent']['ref']
       attributes[:parent_id] = archival_object_id_from_uri(parent_uri)
+    else
+      attributes[:parent_id] = nil
     end
+
     update_attributes(attributes)
     # add/update agents and associations
     update_associated_agents_from_data(r['linked_agents'],options)

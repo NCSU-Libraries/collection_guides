@@ -70,6 +70,7 @@ class PurgeDeletedResources
         puts query
       end
 
+      
       if response['response']['numFound'] < expect_count
         num_deleted = expect_count - response['response']['numFound']
         batch.each do |fields|
@@ -101,7 +102,9 @@ class PurgeDeletedResources
         print '.'
         sleep(1)
       end
+      
     end
+
 
     # *** REPORTING MODE - REMOVES THE CALL TO CREATE AspaceImport record *** 
     if !@reporting_mode
