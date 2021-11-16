@@ -200,12 +200,10 @@ class UpdateResourceTreeService
 
           if a_resource_uri != @resource.uri
             log_info "ArchivalObject #{a.id} (#{a.title}) has moved to #{a_resource_uri}"
-
-            if !Resource.where(uri: a_resource_uri).exists?
-              Resource.create_from_api(a_resource_uri)
-            end
-
-            resources_to_update << a_resource_uri
+            r = Resource.find_by(uri: a_resource_uri) || Resource.create_from_api(a_resource_uri)
+            # resources_to_update << a_resource_uri
+            resource_tree_update = ResourceTreeUpdate.create!(resource_id: r.id, resource_uri: r.uri)
+            UpdateResourceTreeJob.perform_later(resource_tree_update)
           else
             a.update_attributes(resource_id: nil)
           end
@@ -241,19 +239,21 @@ class UpdateResourceTreeService
           puts "processing ArchivalObject #{id}"
           process_archival_object.call(id)
         end
-
-        resources_to_update.uniq!
-
-        if !resources_to_update.blank?
-          puts "Tree update required for #{resources_to_update.join(', ')}"
-
-          resources_to_update.each do |resource_uri|
-            r = Resource.find_by_uri(resource_uri)
-            UpdateResourceTreeService.call(r.id)
-          end
-        end
       end
     end
+
+
+    # resources_to_update.uniq!
+
+    # if !resources_to_update.blank?
+    #   puts "Tree update required for #{resources_to_update.join(', ')}"
+
+    #   resources_to_update.each do |resource_uri|
+    #     # r = Resource.find_by_uri(resource_uri)
+    #     UpdateResourceTreeService.call(resource_uri)
+    #   end
+    # end
+
 
   end
 
