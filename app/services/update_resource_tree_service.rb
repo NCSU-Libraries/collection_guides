@@ -249,7 +249,7 @@ class UpdateResourceTreeService
 
           resources_to_update.each do |resource_uri|
             r = Resource.find_by_uri(resource_uri)
-            UpdateResourceTree.call(r.id)
+            UpdateResourceTreeService.call(r.id)
           end
         end
       end
