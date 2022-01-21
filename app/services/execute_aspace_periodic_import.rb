@@ -18,6 +18,7 @@
 class ExecuteAspacePeriodicImport
 
   include GeneralUtilities
+  include ArchivesSpaceApiUtility
 
   @@rows = 50
 
@@ -43,6 +44,8 @@ class ExecuteAspacePeriodicImport
     log_info "Running periodic update from ArchivesSpace"
     log_info "with options: #{@options.inspect}"
 
+    @options[:session] ||= ArchivesSpaceApiUtility::ArchivesSpaceSession.new
+
     @since = @options[:since] || 25.hours.ago
     # format last_datetime to look like this: 2014-05-21T15:20:37Z
     @since = @since.to_datetime.new_offset(0).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -59,7 +62,6 @@ class ExecuteAspacePeriodicImport
       if @update_resource_trees.empty?
         log_info "No required updates were found"
       else
-        
         @update_resource_trees.each do |uri|
           if !ResourceTreeUpdate.in_progress_for_resource?(resource_id_from_uri(uri))
             import_resource(uri)

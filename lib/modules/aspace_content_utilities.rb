@@ -276,7 +276,6 @@ module AspaceContentUtilities
   # Params:
   # +dates+:: Array of ArchivesSpace date objects as a Ruby array of hashes
   def generate_date_statement(dates)
-
     string_from_date = lambda do |date|
       if !date['expression'].blank?
         string = date['expression']
@@ -332,7 +331,6 @@ module AspaceContentUtilities
   # Params:
   # +dates+:: Array of ArchivesSpace date objects as a Ruby array of hashes
   def generate_inclusive_years(dates)
-
     current_year = Time.now.strftime('%Y').to_i
 
     # date values are ISO-8601 strings
@@ -373,8 +371,6 @@ module AspaceContentUtilities
     years.uniq.sort
     # remove future years that may have been introduced from bad data
     years.delete_if { |x| x > current_year }
-
   end
-
 
 end

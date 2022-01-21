@@ -6,7 +6,7 @@ class UpdateResourceTreeJob < ApplicationJob
   #   update_response = UpdateResourceTreeService.call(r.id)
   # end
 
-  def perform(resource_tree_update)
+  def perform(resource_tree_update, options={})
     begin
       puts resource_tree_update.inspect
       service_response = UpdateResourceTreeService.call(resource_tree_update.resource_uri)

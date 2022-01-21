@@ -4,14 +4,15 @@ class UpdateResourceTreeService
 
   include GeneralUtilities
 
-  def self.call(resource_uri)
-    object = new(resource_uri)
+  def self.call(resource_uri, options={})
+    object = new(resource_uri, options)
     object.call
   end
 
 
-  def initialize(resource_uri)
+  def initialize(resource_uri, options={})
     @resource_uri = resource_uri
+    @options = options
   end
 
 
