@@ -10,9 +10,9 @@ GIT
 
 GIT
   remote: git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git
-  revision: 8e01751539b86594c7d745e97b5b3958b02c16c2
+  revision: 0455a28595bf3cffe9b319cbbcb407505f324093
   specs:
-    ncsul_web (1.8.1)
+    ncsul_web (1.12.3)
       rails (>= 4.1.11)
       sass-rails
 
@@ -149,7 +149,7 @@ GEM
     faraday-excon (1.1.0)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.1.0)
-    ffi (1.15.1)
+    ffi (1.15.5)
     font-awesome-sass (5.15.1)
       sassc (>= 1.11)
     formatador (0.2.5)
@@ -198,7 +198,7 @@ GEM
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.14.0)
+    loofah (2.15.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
