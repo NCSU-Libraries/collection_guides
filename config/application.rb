@@ -21,7 +21,9 @@ require_relative '../app/middleware/handle_bad_encoding_middleware.rb'
 Bundler.require(:default, Rails.env)
 
 # Load application ENV vars and merge with existing ENV vars. Loaded here so can use values in initializers.
-ENV.update YAML.load_file('config/application.yml')[Rails.env] rescue {}
+# ENV.update YAML.load_file('config/application.yml')[Rails.env] rescue {}
+ENV.update YAML.load(ERB.new(File.read("config/application.yml")).result)[Rails.env] rescue {}
+
 
 # config = YAML.load_file('config/application.yml')
 # config.merge! config.fetch(Rails.env, {})

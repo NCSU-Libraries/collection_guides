@@ -21,10 +21,21 @@ namespace :resque do
   task :restart_workers, [:num_workers] => :environment do |t, args|
     kill_unregistered_workers
     stop_workers
-    count = args[:num_workers].to_i
-    count = count > 0 ? count : 1
-    run_worker("*", count)
+    run_worker('index',1)
+    run_worker('update',1)
+    run_worker('*',1)
   end
+
+
+  ## Default/generic version of rstart_workers, left here for reference
+  # desc "Restart running workers"
+  # task :restart_workers, [:num_workers] => :environment do |t, args|
+  #   kill_unregistered_workers
+  #   stop_workers
+  #   count = args[:num_workers].to_i
+  #   count = count > 0 ? count : 1
+  #   run_worker("*", count)
+  # end
 
 
   desc "Quit running workers"
@@ -46,16 +57,6 @@ namespace :resque do
   task :start_collection_guides_workers => :environment do
     run_worker('index',1)
     run_worker('update',1)
-  end
-
-
-  desc "restart multiple workers with CG-specific queues"
-  task :restart_collection_guides_workers => :environment do
-    kill_unregistered_workers
-    stop_workers
-    run_worker('index',1)
-    run_worker('update',1)
-    run_worker('*',1)
   end
 
 

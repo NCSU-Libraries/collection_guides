@@ -1,1 +1,1 @@
-WOLFTECH_CONFIG = { 'username' => ENV['wolftech_username'], 'password' => ENV['wolftech_password'] }
+WOLFTECH_CONFIG = { 'username' => ENV['WOLFTECH_DLI_ACCOUNT'], 'password' => ENV['wolftech_password'] }
