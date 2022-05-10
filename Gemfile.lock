@@ -235,7 +235,7 @@ GEM
     raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.3)
-    rack-protection (2.1.0)
+    rack-protection (2.2.0)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -313,7 +313,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
-    ruby2_keywords (0.0.4)
+    ruby2_keywords (0.0.5)
     rufus-scheduler (3.7.0)
       fugit (~> 1.1, >= 1.1.6)
     sass (3.7.4)
@@ -334,10 +334,10 @@ GEM
     sdoc (2.2.0)
       rdoc (>= 5.0)
     shellany (0.0.1)
-    sinatra (2.1.0)
+    sinatra (2.2.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
-      rack-protection (= 2.1.0)
+      rack-protection (= 2.2.0)
       tilt (~> 2.0)
     slop (3.6.0)
     sprockets (4.0.3)
@@ -425,6 +425,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   sdoc
+  sinatra (~> 2.2.0)
   sprockets-es6
   sprockets-rails
   sqlite3
