@@ -52,8 +52,7 @@ gem 'rsolr'
 gem 'truncate_html'
 gem 'chronic'
 
-# https://github.ncsu.edu/advisories/GHSA-2rr5-8q37-2w7h
-gem "nokogiri", ">= 1.13.4"
+gem "nokogiri", ">= 1.13.5"
 
 gem 'whenever', :require => false
 
