@@ -84,7 +84,7 @@ gem 'devise'
 # gem 'websocket-extensions', '~> 0.1.5'
 
 # https://github.com/advisories/GHSA-j6w9-fv6q-3q52
-# gem "rack", ">= 2.2.3"
+gem "rack", ">= 2.2.3.1"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
