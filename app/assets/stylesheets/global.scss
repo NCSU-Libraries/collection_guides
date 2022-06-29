@@ -216,17 +216,19 @@ main {
   div.description-element {
     margin-top: 1rem;
 
-    &:first-child, p:first-of-type {
+    &:first-child {
       margin-top: 0;
     }
 
     p, ul, dl, ol, blockquote {
+      margin-top: 0;
+      margin-bottom: 1rem;
 
-      &:first-child {
-        margin-top: 0;
+      &:last-child {
+        margin-bottom: 0;
       }
-
     }
+    
   }
 
   [data-render=doublequote] {
