@@ -105,9 +105,10 @@ module DescriptionHelper
 
 
   def archival_object_note_label(element, note={})
-    if element == :bioghist && defined? @creator_agents
-      bioghist_label(@creator_agents)
-    elsif element == :scopecontent
+    case element
+    when :bioghist
+      defined? @creator_agents ? bioghist_label(@creator_agents) : nil
+    when :scopecontent, :physdesc
       nil
     elsif note['label']
       note['label']
