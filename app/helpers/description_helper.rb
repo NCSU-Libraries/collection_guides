@@ -110,10 +110,8 @@ module DescriptionHelper
       defined? @creator_agents ? bioghist_label(@creator_agents) : nil
     when :scopecontent, :physdesc
       nil
-    elsif note['label']
-      note['label']
     else
-      nil
+      note['label'] || nil
     end
   end
 
