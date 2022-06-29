@@ -115,9 +115,13 @@ module ArchivalObjectsHelper
         p.notes[e].each do |note|
           note_content = ''
           label = note_label(e, note)
-          if label == previous_label
+          
+
+          if label != previous_label
             note_content << "<div class=\"element-heading\">#{label}</div>"
           end
+
+
           previous_label = label
           note_content << note[:content]
           output << content_tag('div', note_content.html_safe, class: "description-element #{e}")
