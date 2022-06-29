@@ -104,6 +104,17 @@ module DescriptionHelper
   end
 
 
+  def archival_object_note_label(element, note={})
+    if element == 'bioghist' && defined? @creator_agents
+      bioghist_label(@creator_agents)
+    elsif note['label']
+      note['label']
+    else
+      nil
+    end
+  end
+
+
   def rdfa_property_attribute(element)
     output = ''
     properties = element_property(element)
