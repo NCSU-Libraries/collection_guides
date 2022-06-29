@@ -109,7 +109,7 @@ module ArchivalObjectsHelper
   def archival_object_notes(presenter)
     output = ''
     p = presenter
-    note_elements.map { |x| x.to_sym}.each do |e|
+    note_elements.map { |x| x.to_sym }.each do |e|
       if p.notes[e]
         previous_label = ''
         p.notes[e].each do |note|
