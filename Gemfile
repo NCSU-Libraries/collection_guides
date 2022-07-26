@@ -13,7 +13,7 @@ gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.7.1'
+gem 'rails', '~> 5.2.8.1'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -60,7 +60,8 @@ gem 'whenever', :require => false
 gem "loofah", ">= 2.2.3"
 
 # security vulnerabilities in rails-html-sanitizer 1.0.3
-gem 'rails-html-sanitizer', '~> 1.0.4'
+gem 'rails-html-sanitizer', '~> 1.4.3'
+gem 'tzinfo', '~> 1.2.10'
 gem 'redis'
 gem 'resque', require: 'resque/server'
 gem 'resque-web', require: 'resque_web'
