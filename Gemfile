@@ -59,7 +59,6 @@ gem 'whenever', :require => false
 # security vulnerability fix - https://nvd.nist.gov/vuln/detail/CVE-2018-16468
 gem "loofah", ">= 2.2.3"
 
-# security vulnerabilities in rails-html-sanitizer 1.0.3
 gem 'rails-html-sanitizer', '~> 1.4.3'
 gem 'tzinfo', '~> 1.2.10'
 gem 'redis'
