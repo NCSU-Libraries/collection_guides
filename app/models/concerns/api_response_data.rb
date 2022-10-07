@@ -75,7 +75,9 @@ module ApiResponseData
 
       add_digital_objects_to_unit_data()
 
-      update_unit_data_custom()
+      if self.is_a? Resource
+        @data[:alt_digital_object_url] = alt_digital_object_url
+      end
 
       @data.delete_if { |k,v| v.blank? }
 

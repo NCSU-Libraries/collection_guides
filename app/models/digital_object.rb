@@ -62,7 +62,7 @@ class DigitalObject < ApplicationRecord
     attributes = {}
     attributes[:api_response] = json
     ['title','publish','digital_object_id'].each { |x| attributes[x.to_sym] = r[x] }
-    update_attributes(attributes)
+    update!(attributes)
     # add/update agents and associations
     update_associated_agents_from_data(r['linked_agents'])
     # add/update agents and associations
@@ -116,13 +116,6 @@ class DigitalObject < ApplicationRecord
               true : false
       update_columns(has_files: value)
     end
-  end
-
-
-  # Load custom methods if they exist
-  begin
-    include DigitalObjectCustom
-  rescue
   end
 
 end

@@ -1,4 +1,4 @@
-require 'modules/task_master'
+# require 'task_master'
 include TaskMaster
 
 include ArchivesSpaceApiUtility

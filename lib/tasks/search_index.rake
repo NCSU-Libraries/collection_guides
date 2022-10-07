@@ -1,4 +1,4 @@
-require 'modules/task_master'
+# require 'task_master'
 include TaskMaster
 
 namespace :search_index do

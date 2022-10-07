@@ -118,7 +118,7 @@ module Associations
 
         if existing_association
           old_associations.delete(existing_association)
-          existing_association.update_attributes(association_attributes)
+          existing_association.update!(association_attributes)
         else
           new_association = agent_associations.build(association_attributes)
           new_association.save
@@ -153,7 +153,7 @@ module Associations
 
         if existing_association
           old_associations.delete(existing_association)
-          existing_association.update_attributes(association_attributes)
+          existing_association.update!(association_attributes)
         else
           new_association = subject_associations.build(association_attributes)
           new_association.save
@@ -189,7 +189,7 @@ module Associations
 
             if existing_association
               old_associations.delete(existing_association)
-              existing_association.update_attributes(association_attributes)
+              existing_association.update!(association_attributes)
             else
               new_association = digital_object_associations.build(association_attributes)
               new_association.save
@@ -210,7 +210,7 @@ module Associations
 
             #   if existing_association
             #     old_associations.delete(existing_association)
-            #     existing_association.update_attributes(association_attributes)
+            #     existing_association.update!(association_attributes)
             #   else
             #     new_association = digital_object_associations.build(association_attributes)
             #     new_association.save

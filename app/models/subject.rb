@@ -43,16 +43,10 @@ class Subject < ApplicationRecord
     attributes[:subject] = r['title']
     attributes[:subject_type] = r['terms'].first['term_type']
     # no need to update id or uri because change will trigger creation of a new record
-    update_attributes(attributes)
+    update!(attributes)
     self
   end
 
-
-  # Load custom methods if they exist
-  begin
-    include SubjectCustom
-  rescue
-  end
 
 
 end

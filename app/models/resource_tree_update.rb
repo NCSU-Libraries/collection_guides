@@ -32,12 +32,12 @@ class ResourceTreeUpdate < ApplicationRecord
 
 
   def complete
-    update_attributes(exit_status: 0, completed_at: DateTime.now)
+    update!(exit_status: 0, completed_at: DateTime.now)
   end
 
 
   def complete_with_error(error_msg)
-    update_attributes(exit_status: 1, completed_at: DateTime.now, error: error_msg)
+    update!(exit_status: 1, completed_at: DateTime.now, error: error_msg)
   end
 
 end

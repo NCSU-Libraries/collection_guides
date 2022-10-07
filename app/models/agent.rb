@@ -44,7 +44,7 @@ class Agent < ApplicationRecord
     attributes[:api_response] = json
     attributes[:display_name] = display_name_from_data(r)
     # no need to update agent_type because it's in the uri and a change will trigger creation of a new record
-    update_attributes(attributes)
+    update!(attributes)
     reload
     self
   end
@@ -108,13 +108,6 @@ class Agent < ApplicationRecord
 
     end
     output
-  end
-
-
-  # Load custom methods if they exist
-  begin
-    include AgentCustom
-  rescue
   end
 
 end

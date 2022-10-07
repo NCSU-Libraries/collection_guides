@@ -6,13 +6,6 @@ module ApplicationHelper
   include DescriptionHelper
   include GeneralUtilities
 
-  # Load custom methods if they exist
-  begin
-    prepend ApplicationHelperCustom
-  rescue
-  end
-
-
   def site_nav
     config_path = Pathname.new(Rails.root) + 'config/site_nav.yml'
     if !File.exist?(config_path)
@@ -124,10 +117,11 @@ module ApplicationHelper
 
 
   def header_before
+    ncsul_web_header
   end
 
-
   def footer_after
+    ncsul_web_footer
   end
 
 end

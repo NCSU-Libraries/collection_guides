@@ -85,7 +85,7 @@ class Resource < ApplicationRecord
     attributes[:api_response] = json
     attributes[:eadid] = r['ead_id'] ? slugify(r['ead_id']) : slugify(r['id_0'])
     ['title','publish','uri'].each { |x| attributes[x.to_sym] = r[x] }
-    update_attributes(attributes)
+    update!(attributes)
     # add/update agents and associations
     update_associated_agents_from_data(r['linked_agents'],options)
     # add/update agents and associations
@@ -258,10 +258,45 @@ class Resource < ApplicationRecord
   end
 
 
-  # Load custom methods if they exist
-  begin
-    include ResourceCustom
-  rescue
+
+  # check associated URLs for descendants' digital objects
+  # if ALL start with "http://d.lib.ncsu.edu/collections", generate url to canned search
+  def alt_digital_object_url
+    url = nil
+
+    if !has_digital_objects_with_files
+      dos = descendant_digital_objects_with_files
+
+      if !dos.empty?
+        has_non_sal_files = nil
+        dos.each do |d|
+          if d.publish
+            do_response_data = JSON.parse(d.api_response)
+            if do_response_data['file_versions']
+              do_response_data['file_versions'].each do |f|
+                if !f['publish'] || !f["file_uri"]
+                  has_non_sal_files = true
+                  break
+                else
+                  uri = f["file_uri"]
+                  if !uri.match(/d\.lib\.ncsu\.edu\/collections/)
+                    has_non_sal_files = true
+                    break
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        if !has_non_sal_files && eadid
+          url = 'http://d.lib.ncsu.edu/collections/catalog?f%5Beadid_facet%5D%5B%5D='
+          url << eadid
+        end
+      end
+    end
+
+    url
   end
 
 end

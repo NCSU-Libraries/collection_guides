@@ -406,7 +406,7 @@ module ParseDateString
     def proc_year_list
       proc = Proc.new do |string|
         list = string.scan(Regexp.new(@regex_tokens[:year]))
-        list.sort!
+        list = list.map { |d| d.gsub(/[^\d]/,'')}.sort
         list.each { |d| @dates[:index_dates] << d.to_i }
         @dates[:keydate_z] = Time.new(list.first).strftime(@@zulu_format)
         @dates[:keydate] = list.first

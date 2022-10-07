@@ -50,17 +50,11 @@ class Repository < ApplicationRecord
             attributes[c.to_sym] = r[c]
           end
         end
-      update_attributes(attributes)
+      update!(attributes)
     else
       raise response.body
     end
   end
 
-
-  # Load custom methods if they exist
-  begin
-    include RepositoryCustom
-  rescue
-  end
 
 end

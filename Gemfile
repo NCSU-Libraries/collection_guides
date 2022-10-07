@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby '3.1.2'
 
 gem 'archivesspace-api-utility', git: 'https://github.com/NCSU-Libraries/archivesspace-api-utility.git'
 
@@ -13,7 +13,7 @@ gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.8.1'
+gem 'rails', '~> 6.1.7'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -23,13 +23,19 @@ gem 'sprockets-es6'
 gem 'mysql2'
 
 # Use SCSS for stylesheets
-gem 'sass-rails'
+# gem 'sass-rails'
+gem 'sass-rails', '~> 5.0'
+gem 'foundation-rails'
+# gem 'font-awesome-sass'
+gem 'font-awesome-sass', '< 6.0.0'
+gem 'foundation-will_paginate'
+gem 'will_paginate'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+# gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -42,35 +48,29 @@ gem 'jbuilder'
 # gem 'compass-rails'
 gem 'modernizr-rails'
 
-gem 'foundation-rails'
-gem 'font-awesome-sass'
-gem 'foundation-will_paginate'
-gem 'will_paginate'
-
 gem 'rsolr'
 # security vulnerabilities fix - https://github.com/NCSU-Libraries/collection_guides/security/dependabot/Gemfile.lock/nokogiri/open
 gem 'truncate_html'
 gem 'chronic'
 
-gem "nokogiri", ">= 1.13.5"
+gem "nokogiri"
 
 gem 'whenever', :require => false
 
-# security vulnerability fix - https://nvd.nist.gov/vuln/detail/CVE-2018-16468
-gem "loofah", ">= 2.2.3"
-
-gem 'rails-html-sanitizer', '~> 1.4.3'
-gem 'tzinfo', '~> 1.2.10'
+gem 'rails-html-sanitizer'
 gem 'redis'
 gem 'resque', require: 'resque/server'
 gem 'resque-web', require: 'resque_web'
 gem 'resque-scheduler'
-gem 'sinatra', '~> 2.2.0'
 
 gem 'net-ldap'
+gem "net-http"
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
 
 # Exception Notifications
-gem 'exception_notification', '~> 4.2', '>= 4.2.2'
+gem 'exception_notification'
 gem 'exception_notification-rake'
 
 
@@ -86,29 +86,29 @@ gem 'devise'
 # https://github.com/advisories/GHSA-j6w9-fv6q-3q52
 gem "rack", ">= 2.2.3.1"
 
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
+group :development do
+  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
+  gem 'web-console'
 end
 
 group :development, :test do
+  # Use Puma as the app server
+  gem "puma"
+  gem 'listen', '~> 3.0.5'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring', '>= 3.0.0'
+  # gem 'spring-watcher-listen', '~> 2.0.0'
   # Use SQLite for development
   gem 'sqlite3'
-  gem 'thin'
-  gem 'guard-livereload'
   # gem 'quiet_assets'
   gem 'annotate'
   # For testing
   gem 'rspec-rails'
-  gem 'factory_bot_rails'
   gem 'database_cleaner', ">= 1.0.0"
-  # Capistrano and friends
-  gem 'capistrano', '~> 3.6'
-  # rails specific capistrano funcitons
-  gem 'capistrano-rails', '~> 1.2'
-  # integrate bundler with capistrano
-  gem 'capistrano-bundler'
-  gem 'capistrano-rvm'
+  gem 'factory_bot_rails'
+  gem 'rails-controller-testing'
+  gem 'webmock'
+  gem 'pry'
 end
 
 # Use ActiveModel has_secure_password

@@ -11,6 +11,7 @@
 
 
   def render_group(group, options={})
+
     output = ''
     docs = group['doclist']['docs']
     resource_data = {
@@ -57,7 +58,7 @@
         end
 
         if !resource_data[:collection_id].blank?
-          output << "<span class=\"element-label\">Resource Identifier:</span> <span class=\"collection-id detail-data\">#{resource_data[:collection_id]}</span> "
+          output << "<span class=\"element-label\">Collection ID:</span> <span class=\"collection-id detail-data\">#{resource_data[:collection_id]}</span> "
         end
       output << '</div>'
     end
@@ -265,6 +266,12 @@
     output << "<h2 class=\"filter-heading\">#{ filters_heading }</h2>"
     ignore_facets = ['resource_uri']
 
+    facet_headings = {
+      'agents' => 'Names',
+      'subjects' => 'Subjects',
+      'ncsu_subjects' => 'NC State University Subjects'
+    }
+
     @facets.each do |k,v|
       if !ignore_facets.include?(k) && !v.empty?
         output << '<div class="facet">'
@@ -272,13 +279,25 @@
         when 'resource_digital_content'
           link = filter_link(k, true, label: t('digital_content_filter_label'))
           output << "<ul><li>" + link + "</li></ul>"
+        when 'resource_category'
+          output << '<h3>Collection</h3>'
+          output << '<ul>'
+
+          resource_categories.each do |value,label|
+            if v[value]
+              link = filter_link(k, value, label: label)
+              if link
+                output << "<li>#{ link }</li>"
+              end
+            end
+          end
+          output << '</ul>'
 
         when 'inclusive_years'
           output << '<h3>Dates</h3>'
           output << inclusive_years_facet_options
-
         else
-          output << "<h3>#{facet_heading(k)}</h3>"
+          output << "<h3>#{facet_headings[k]}</h3>"
           output << facet_option_values(k, v)
         end
         output << '</div>'
@@ -286,6 +305,7 @@
     end
 
     output << '</div>'
+
     output.html_safe
   end
 
@@ -509,5 +529,6 @@
     response_data[:total] = @response['facet_counts']['facet_fields']['resource_uri'].length / 2
     response_data
   end
+
 
 end

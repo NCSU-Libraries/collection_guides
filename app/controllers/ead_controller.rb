@@ -2,13 +2,6 @@ class EadController < ApplicationController
 
   include EadExport
 
-  # Load custom methods if they exist
-  begin
-    include EadControllerCustom
-  rescue
-  end
-
-
   def index
     puts params[:format]
     case params[:format]

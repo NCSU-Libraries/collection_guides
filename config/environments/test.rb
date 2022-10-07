@@ -35,6 +35,4 @@ CollectionGuides::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  config.active_record.sqlite3.represent_boolean_as_integer = true
-
 end

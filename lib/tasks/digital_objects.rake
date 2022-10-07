@@ -7,13 +7,13 @@ namespace :digital_objects do
 
       # puts "Updating digital objects linked to resource..."
       # r.digital_objects.each do |d|
-      #   d.update_attributes(show_thumbnails: true)
+      #   d.update!(show_thumbnails: true)
       # end
 
       puts "Updating digital objects linked to archival objects..."
       r.archival_objects.each do |a|
         a.digital_objects.each do |d|
-          d.update_attributes(show_thumbnails: true)
+          d.update!(show_thumbnails: true)
         end
       end
 

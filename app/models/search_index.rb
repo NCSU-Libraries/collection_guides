@@ -1,6 +1,6 @@
 class SearchIndex < ApplicationRecord
 
-  require 'modules/general_utilities.rb'
+  # require 'general_utilities.rb'
   include GeneralUtilities
 
   @@batch_size = 50

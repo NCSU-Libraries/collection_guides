@@ -1,6 +1,6 @@
 class AspaceImport < ApplicationRecord
 
-  require 'modules/general_utilities.rb'
+  # require 'general_utilities'
   include GeneralUtilities
 
   serialize :resource_list

@@ -143,7 +143,7 @@ class UpdateResourceTreeService
       end
 
       # Update parent_id here because it is not included in individual responses per archival_object
-      child_record.update_attributes(parent_id: parent.id) if parent.is_a?(ArchivalObject)
+      child_record.update!(parent_id: parent.id) if parent.is_a?(ArchivalObject)
 
       if has_children
         # recursion
@@ -206,7 +206,7 @@ class UpdateResourceTreeService
             resource_tree_update = ResourceTreeUpdate.create!(resource_id: r.id, resource_uri: r.uri)
             UpdateResourceTreeJob.perform_later(resource_tree_update)
           else
-            a.update_attributes(resource_id: nil)
+            a.update!(resource_id: nil)
           end
         else
           # archival_object has been orphaned

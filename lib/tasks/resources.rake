@@ -61,7 +61,7 @@ namespace :resources do
       data = resource.parse_unit_data
       id_0 = data[:id_0]
       eadid = slugify(id_0)
-      resource.update_attributes(:eadid => eadid)
+      resource.update!(:eadid => eadid)
       print '.'
     end
 

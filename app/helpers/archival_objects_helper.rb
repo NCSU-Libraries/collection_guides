@@ -2,12 +2,6 @@ module ArchivalObjectsHelper
   include ApplicationHelper
   include DigitalObjectsHelper
 
-  # Load custom methods if they exist
-  begin
-    prepend ArchivalObjectsHelperCustom
-  rescue
-  end
-
   def archival_object_html(record, options={})
     p = record.presenter
     if p.containers || (p.digital_objects && p.level != 'series')

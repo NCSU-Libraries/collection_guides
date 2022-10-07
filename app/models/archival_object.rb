@@ -108,7 +108,7 @@ class ArchivalObject < ApplicationRecord
       attributes[:parent_id] = nil
     end
 
-    update_attributes(attributes)
+    update!(attributes)
     # add/update agents and associations
     update_associated_agents_from_data(r['linked_agents'],options)
     # add/update agents and associations
@@ -199,13 +199,6 @@ class ArchivalObject < ApplicationRecord
     q = "id:\"#{ uri }\""
     response = solr_get(q)
     response['response']['docs'][0]
-  end
-
-
-  # Load custom methods if they exist
-  begin
-    include ArchivalObjectCustom
-  rescue
   end
 
 end

@@ -22,7 +22,6 @@ Bundler.require(:default, Rails.env)
 
 # Load application ENV vars and merge with existing ENV vars. Loaded here so can use values in initializers.
 # ENV.update YAML.load_file('config/application.yml')[Rails.env] rescue {}
-ENV.update YAML.load(ERB.new(File.read("config/application.yml")).result)[Rails.env] rescue {}
 
 
 # config = YAML.load_file('config/application.yml')
@@ -40,8 +39,11 @@ module CollectionGuides
     # -- all .rb files in that directory are automatically loaded.
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.active_record.yaml_column_permitted_classes = [Symbol, Hash, Array, ActiveSupport::HashWithIndifferentAccess]
+    # Load application ENV vars and merge with existing ENV vars. Loaded here so can use values in initializers.
+    ENV.update YAML.load(ERB.new(File.read("config/application.yml")).result, aliases: true)[Rails.env] rescue {}
 
-    config.middleware.insert_before Rack::Runtime, HandleBadEncodingMiddleware
+    # config.middleware.insert_before Rack::Runtime, HandleBadEncodingMiddleware
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -55,7 +57,7 @@ module CollectionGuides
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
-    config.autoload_paths += Dir["#{config.root}/app/**/"]
+    # config.autoload_paths += Dir["#{config.root}/app/**/"]
 
     if Rails.env == 'test'
       config.autoload_paths += %W(#{config.root}/spec)

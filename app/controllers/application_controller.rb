@@ -5,12 +5,6 @@ class ApplicationController < ActionController::Base
 
   include SitemapGenerator
 
-  # Load custom methods if they exist
-  begin
-    include ApplicationControllerCustom
-  rescue
-  end
-
   rescue_from ActionController::BadRequest, with: :bad_request
 
 

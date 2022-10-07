@@ -145,12 +145,14 @@ class Search
 
 
   def custom_query_fields
-    # Added here so that it can be overridden in SearchCustom
+    @query_fields['collection_id_split'] = nil
   end
 
-
   def custom_solr_params
-    # Added here so that it can be overridden in SearchCustom
+    @solr_params[:bq] << "record_type:resource^800"
+    if @q
+      @solr_params[:bq] << "collection_id:\"#{@q.gsub(/\"/,'')}\"^1000000"
+    end
   end
 
 
@@ -164,14 +166,7 @@ class Search
     Rails.logger.debug("@solr_params : #{@solr_params}")
 
     @response = @solr.paginate self.page, self.per_page, "select", :params => @solr_params
-
   end
 
-
-  # Load custom methods if they exist
-  begin
-    include SearchCustom
-  rescue
-  end
 
 end

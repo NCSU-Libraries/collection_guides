@@ -3,12 +3,6 @@ class SearchController < ApplicationController
   include SearchHelper
   require 'solr_sanitizer'
 
-  # Load custom methods if they exist
-  begin
-    include SearchControllerCustom
-  rescue
-  end
-
 
   def index
     @params = search_params
@@ -213,9 +207,7 @@ class SearchController < ApplicationController
 
 
   def sanitize_filters(filters)
-
     sanitized = {}
-
 
     sanitize_string = lambda do |string|
       raise ActionController::BadRequest if !string.is_a? String
@@ -263,8 +255,6 @@ class SearchController < ApplicationController
 
     sanitized.blank? ? nil : sanitized
   end
-
-
 
 
   def set_pagination_vars()
@@ -327,9 +317,20 @@ class SearchController < ApplicationController
   end
 
 
-  # Included here so that it can be overridden in SearchControllerCustom
+  # Move NCSU subjects from agents to ncsu_subjects
   def process_custom_facets()
-    @facets
+    if @facets['agents']
+      @facets['ncsu_subjects'] = {}
+      @facets['agents'].each do |agent,count|
+        ncsu_regex_1 = /^North\sCarolina\sState\s((University)|(College))/
+        ncsu_regex_2 = /^North\sCarolina\sCollege\sof\sAgriculture\sand\sMechanic\sArts/
+        if agent.match(ncsu_regex_1) || agent.match(ncsu_regex_2)
+          @facets['ncsu_subjects'][agent] = count
+          @facets['agents'].delete(agent)
+        end
+      end
+    end
   end
+
 
 end
