@@ -13,7 +13,7 @@ gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.7'
+gem 'rails', '~> 7.0.4'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -106,8 +106,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'database_cleaner', ">= 1.0.0"
   gem 'factory_bot_rails'
-  gem 'rails-controller-testing'
-  gem 'webmock'
   gem 'pry'
 end
 

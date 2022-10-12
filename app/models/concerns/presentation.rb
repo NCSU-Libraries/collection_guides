@@ -82,7 +82,7 @@ module Presentation
     # Convenience method that allows id_tree to be called on a Resource via the Presenter
     def id_tree
       if @record.class == Resource
-        JSON.parse(@record.structure).deeper_symbolize_keys!
+        deeper_symbolize_keys(JSON.parse(@record.structure))
       end
     end
 

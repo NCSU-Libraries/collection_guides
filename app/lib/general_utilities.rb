@@ -8,6 +8,28 @@ module GeneralUtilities
   end
 
 
+  def deeper_symbolize_keys(obj)
+    new_obj = deep_copy(obj)
+    case new_obj
+    when Hash
+      new_obj.symbolize_keys!
+      new_obj.each do |k,v|
+        case v
+        when Hash
+          v = v.deeper_symbolize_keys(v)
+        when Array
+          v.map { |x| deeper_symbolize_keys(x) }
+        else
+          new_obj
+        end
+      end
+    else
+      new_obj
+    end
+    new_obj
+  end
+
+
   def self.included receiver
     receiver.extend self
   end

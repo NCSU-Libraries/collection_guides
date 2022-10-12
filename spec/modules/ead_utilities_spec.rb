@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 include EadUtilities
 
 describe EadUtilities do

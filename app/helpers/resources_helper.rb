@@ -196,7 +196,7 @@ module ResourcesHelper
 
 
   def render_skeleton_tree
-    id_tree = JSON.parse(@resource.structure).deeper_symbolize_keys!
+    id_tree = deeper_symbolize_keys(JSON.parse(@resource.structure))
     tree_content = ''
     tree_content << render_series_nav
     tree_item = lambda do |branch, level_num|
