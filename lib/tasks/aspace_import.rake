@@ -1,13 +1,13 @@
-# require 'task_master'
-include TaskMaster
-
-include ArchivesSpaceApiUtility
+# require '../task_master.rb'
+# include TaskMaster
 
 namespace :aspace_import do
 
   desc "import repositories"
   task :repositories => :environment do |t, args|
     include AspaceUtilities
+    include ArchivesSpaceApiUtility
+
     a = ArchivesSpaceSession.new
     response = a.get('/repositories', resolve: ['agent_representation'])
     if response.code.to_i == 200
