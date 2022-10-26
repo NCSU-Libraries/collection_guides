@@ -59,7 +59,7 @@ gem 'whenever', :require => false
 
 gem 'rails-html-sanitizer'
 gem 'redis'
-gem 'resque', require: 'resque/server'
+gem 'resque', '~> 2.1.0'
 gem 'resque-web', require: 'resque_web'
 gem 'resque-scheduler'
 
