@@ -41,10 +41,14 @@ module AspaceApiSpecHelpers
   # hash is the ArchivesSpace API response converted to a hash - this happens in each spec
   def total_descendants_in_response(hash)
     total = 0
+
     add_children = Proc.new do |children|
-      total += children.length
-      children.each { |c| add_children.call(c['children']) }
+      if children
+        total += children.length
+        children.each { |c| add_children.call(c['children']) }
+      end
     end
+    
     add_children.call(hash['children'])
     total
   end

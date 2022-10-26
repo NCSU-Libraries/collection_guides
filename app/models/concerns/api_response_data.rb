@@ -33,7 +33,18 @@ module ApiResponseData
         if !['api_response','unit_data','structure'].include?(k)
           if v.kind_of? String
             value = escape_ampersands(v)
-            @data[k.to_sym] = convert_ead_elements(value)
+            
+            if value =~ /\&lrm\;/
+              @data[k.to_sym] = value
+            else
+              @data[k.to_sym] = convert_ead_elements(value)
+            end
+
+            # if k.to_sym == :title
+            #   @data[k.to_sym] = value
+            # else
+            #   @data[k.to_sym] = convert_ead_elements(value)
+            # end
           else
             @data[k.to_sym] = v
           end

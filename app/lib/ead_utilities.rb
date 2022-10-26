@@ -23,10 +23,19 @@ module EadUtilities
     list_content_elements = ['chronitem','eventgrp','item','defitem']
     remove_elements = ['extptr', 'ptr', 'ref', 'head', 'head01', 'head02']
 
-    doc = Nokogiri::XML("<ead_content>#{xml}</ead_content>")
-    doc.remove_namespaces!
+    puts "*** xml"
+    puts xml
 
+    doc = Nokogiri::XML("<ead_content>#{xml}</ead_content>",nil,'UTF-8')
+
+    puts "*** doc"
+    puts doc.to_s
+
+    doc.remove_namespaces!
     root = doc.root
+
+    puts "*** root.to_s"
+    puts root.to_s
 
     convert_attributes = Proc.new do |element|
       html_attributes = ['href','id','title']
@@ -52,37 +61,29 @@ module EadUtilities
     end
 
     root.xpath('//*').each do |e|
-
       if !common_elements.include?(e.name)
 
         if block_elements.include?(e.name)
           convert_attributes.call(e)
           e.name = 'div'
-
         elsif inline_elements.include?(e.name)
           convert_attributes.call(e)
           e.name = 'span'
-
         elsif e.name == 'extref'
           convert_attributes.call(e)
           e.name = 'a'
-
         # catch emph and convert to em
         elsif e.name == 'emph'
           e.name = 'em'
-
         elsif e.name == 'lb'
           e.name = 'br'
-
         elsif remove_elements.include?(e.name)
           e.replace(e.inner_html)
-
         elsif list_elements.include?(e.name)
           type = e['type']
           e.remove_attribute('type')
           convert_attributes.call(e)
           e.name = (type == 'ordered') ? 'ol' : 'ul'
-
           # process list content elements only if children of list elements
           e.element_children.each do |ee|
             if list_content_elements.include?(ee.name)
@@ -102,7 +103,11 @@ module EadUtilities
         end
       end
     end
+
     html = root.inner_html.to_s
+
+
+
     # remove newlines between tags
     html.gsub(/\>\n*\</,'><')
   end
