@@ -80,6 +80,7 @@ module Presentation
     # has_descendant_digital_objects_with_files
 
     # Convenience method that allows id_tree to be called on a Resource via the Presenter
+    # IS THIS BEING USED?
     def id_tree
       if @record.class == Resource
         deeper_symbolize_keys(JSON.parse(@record.structure))

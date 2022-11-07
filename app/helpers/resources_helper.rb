@@ -195,29 +195,56 @@ module ResourcesHelper
   end
 
 
+  # def render_skeleton_tree
+  #   id_tree = deeper_symbolize_keys(JSON.parse(@resource.structure))
+  #   tree_content = ''
+  #   tree_content << render_series_nav
+  #   tree_item = lambda do |branch, level_num|
+  #     content = ''
+  #     if branch[:children]
+  #       branch[:children].each { |c| content << tree_item.call(c, level_num + 1)}
+  #     end
+  #     case branch[:node_type]
+  #     when 'archival_object'
+  #       output = archival_object_div(content, skeleton_tree: true, level_num: level_num, level_text: branch[:level], id: branch[:id])
+
+  #     # TODO - is this even a use case?
+  #     when 'digital_object'
+  #       output = content_tag('div', content.html_safe, class: 'skeleton-tree-item tree-item tree-item-#{level_num.to_s}',
+  #         id: "digital-object-#{branch[:id]}",
+  #         data: { digital_object_id: branch[:id] })
+  #     end
+
+  #     return output
+  #   end
+  #   id_tree[:children].each { |c| tree_content += tree_item.call(c, 1) }
+  #   content_tag('div', tree_content.html_safe, class: 'resource-tree skeleton-tree')
+  # end
+
+
   def render_skeleton_tree
-    id_tree = deeper_symbolize_keys(JSON.parse(@resource.structure))
+    id_tree = JSON.parse(@resource.structure)
     tree_content = ''
     tree_content << render_series_nav
     tree_item = lambda do |branch, level_num|
       content = ''
-      if branch[:children]
-        branch[:children].each { |c| content << tree_item.call(c, level_num + 1)}
+      if branch['children']
+        branch['children'].each { |c| content << tree_item.call(c, level_num + 1)}
       end
-      case branch[:node_type]
+      case branch['node_type']
       when 'archival_object'
-        output = archival_object_div(content, skeleton_tree: true, level_num: level_num, level_text: branch[:level], id: branch[:id])
+        output = archival_object_div(content, skeleton_tree: true, level_num: level_num, level_text: branch['level'], id: branch['id'])
 
       # TODO - is this even a use case?
       when 'digital_object'
         output = content_tag('div', content.html_safe, class: 'skeleton-tree-item tree-item tree-item-#{level_num.to_s}',
-          id: "digital-object-#{branch[:id]}",
-          data: { digital_object_id: branch[:id] })
+          id: "digital-object-#{branch['id']}",
+          data: { digital_object_id: branch['id'] })
       end
 
       return output
     end
-    id_tree[:children].each { |c| tree_content += tree_item.call(c, 1) }
+    id_tree['children'].each { |c| tree_content += tree_item.call(c, 1) }
     content_tag('div', tree_content.html_safe, class: 'resource-tree skeleton-tree')
   end
 
