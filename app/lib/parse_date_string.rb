@@ -8,7 +8,7 @@ module ParseDateString
 
   class Parser
 
-    @@zulu_format = '%Y-%m-%dT12:%M:%SZ'
+    @@zulu_format = '%Y-%m-%dT%H:%M:%SZ'
 
     def initialize(string, options={})
       # @string = clean_date_string(string)
@@ -445,8 +445,12 @@ module ParseDateString
         list.each { |y| index_dates << y.to_i }
         index_dates.sort!
         @dates[:index_dates] = index_dates
-        @dates[:keydate_z] = Time.new(index_dates.first.to_s).strftime(@@zulu_format)
-        @dates[:keydate] = index_dates.first.to_s
+        
+        if !index_dates.first.blank?
+          @dates[:keydate_z] = Time.new(index_dates.first.to_s).strftime(@@zulu_format)
+          @dates[:keydate] = index_dates.first.to_s
+        end
+
         @dates[:inclusive_range] = false
         process_year_range()
       end
