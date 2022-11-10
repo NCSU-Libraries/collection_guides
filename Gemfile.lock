@@ -203,9 +203,9 @@ GEM
     net-smtp (0.3.2)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.13.8-x86_64-darwin)
+    nokogiri (1.13.9-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.8-x86_64-linux)
+    nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pry (0.14.1)
@@ -389,7 +389,7 @@ DEPENDENCIES
   net-ldap
   net-pop
   net-smtp
-  nokogiri
+  nokogiri (~> 1.13.9)
   pry
   puma
   rack (>= 2.2.3.1)

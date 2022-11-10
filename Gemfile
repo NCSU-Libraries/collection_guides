@@ -53,7 +53,7 @@ gem 'rsolr'
 gem 'truncate_html'
 gem 'chronic'
 
-gem "nokogiri"
+gem "nokogiri", '~> 1.13.9'
 
 gem 'whenever', :require => false
 
