@@ -9,7 +9,7 @@ namespace :marc_export do
       path = response[:report_path]
       to = ENV['marc_export_email_recipient']
       from = ENV['marc_export_email_sender']
-      subject = "ArchivesSpace resources updated in the past #{days} days"
+      subject = "ArchivesSpace resources created in the past #{days} days"
       `mail -a #{path} -s '#{subject}' -r #{from} #{to} < /dev/null`
     end
   end
