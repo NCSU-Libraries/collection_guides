@@ -4,8 +4,8 @@ module SolrSanitizer
 
 
   def self.sanitize_query_string(value)
-    puts '***'
-    puts value
+    # puts '***'
+    # puts value
 
     disallow_characters_regex = /[\/\'\"\+\=\(\)\{\}\[\]\<\>\^\!\~\*\?\:\;(\&+)]/
     if value

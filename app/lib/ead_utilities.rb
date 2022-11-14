@@ -23,19 +23,19 @@ module EadUtilities
     list_content_elements = ['chronitem','eventgrp','item','defitem']
     remove_elements = ['extptr', 'ptr', 'ref', 'head', 'head01', 'head02']
 
-    puts "*** xml"
-    puts xml
+    # puts "*** xml"
+    # puts xml
 
     doc = Nokogiri::XML("<ead_content>#{xml}</ead_content>",nil,'UTF-8')
 
-    puts "*** doc"
-    puts doc.to_s
+    # puts "*** doc"
+    # puts doc.to_s
 
     doc.remove_namespaces!
     root = doc.root
 
-    puts "*** root.to_s"
-    puts root.to_s
+    # puts "*** root.to_s"
+    # puts root.to_s
 
     convert_attributes = Proc.new do |element|
       html_attributes = ['href','id','title']
