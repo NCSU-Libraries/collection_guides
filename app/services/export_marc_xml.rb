@@ -25,7 +25,7 @@ class ExportMarcXml
 
   def execute
     create_xml_doc
-    get_record_ids
+    @ids = get_record_ids
     @ids.each do |id|
       puts "Adding MARC XML for Resource #{id}..."
       marc_doc = marc_xml_doc(id)
@@ -52,7 +52,7 @@ class ExportMarcXml
   def get_record_ids
     puts "Finding resources updated in the last #{@days} days..."
     # get_updated_records()
-    Resource.where("created_at >= '#{@since}'").map { |r| r.id }
+    Resource.where("created_at >= '#{@since}'").map { |r| r.id } || []
   end
 
 
