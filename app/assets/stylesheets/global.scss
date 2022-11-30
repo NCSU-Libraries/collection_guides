@@ -78,8 +78,9 @@ main {
   /* Links */
 
   a, .link {
-    color: $blue2;
-    text-decoration: none;
+    color: $blueBright;
+    text-decoration: underline;
+    text-decoration-color: $grayLighter;
 
     &:link, &:visited {
       color: $blue2;
