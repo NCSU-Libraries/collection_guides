@@ -83,11 +83,11 @@ main {
     text-decoration-color: $grayLighter;
 
     &:link, &:visited {
-      color: $blue2;
+      // color: $blueBright;
     }
 
     &:hover, &:active {
-      color: $blue;
+      // color: $blue;
       text-decoration: underline;
       cursor: pointer;
     }
