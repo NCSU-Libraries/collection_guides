@@ -62,6 +62,7 @@ gem 'redis', '~> 4.0'
 gem 'resque', '~> 2.1.0'
 gem 'resque-web', require: 'resque_web'
 gem 'resque-scheduler'
+gem 'sinatra', '>= 3.0.4'
 
 gem 'net-ldap'
 gem "net-http"
