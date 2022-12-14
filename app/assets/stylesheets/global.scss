@@ -78,16 +78,16 @@ main {
   /* Links */
 
   a, .link {
-    color: $blueBright;
+    color: $linkColor;
     text-decoration: underline;
-    text-decoration-color: $grayLighter;
+    text-decoration-color: $grayLight;
 
     &:link, &:visited {
       // color: $blueBright;
     }
 
     &:hover, &:active {
-      // color: $blue;
+      color: $textColor;
       text-decoration: underline;
       cursor: pointer;
     }

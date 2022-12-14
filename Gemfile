@@ -87,6 +87,8 @@ gem 'devise'
 # https://github.com/advisories/GHSA-j6w9-fv6q-3q52
 gem "rack", ">= 2.2.3.1"
 
+gem 'loofah', '>= 2.19.1'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'

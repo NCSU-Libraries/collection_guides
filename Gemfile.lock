@@ -176,7 +176,7 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    loofah (2.19.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -203,9 +203,9 @@ GEM
     net-smtp (0.3.2)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.13.9-x86_64-darwin)
+    nokogiri (1.13.10-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.9-x86_64-linux)
+    nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pry (0.14.1)
@@ -214,7 +214,7 @@ GEM
     puma (5.6.5)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.6.0)
+    racc (1.6.1)
     rack (2.2.4)
     rack-protection (3.0.4)
       rack
@@ -381,6 +381,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   listen (~> 3.0.5)
+  loofah (>= 2.19.1)
   modernizr-rails
   mysql2
   ncsul_web!
