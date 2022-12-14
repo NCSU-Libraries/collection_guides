@@ -57,7 +57,7 @@ gem "nokogiri", '~> 1.13.9'
 
 gem 'whenever', :require => false
 
-gem 'rails-html-sanitizer'
+gem 'rails-html-sanitizer', '>= 1.4.4'
 gem 'redis', '~> 4.0'
 gem 'resque', '~> 2.1.0'
 gem 'resque-web', require: 'resque_web'
