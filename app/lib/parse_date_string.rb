@@ -302,8 +302,6 @@ module ParseDateString
       }
 
 
-
-
       # 19--, 18--, 18--?, etc.
       match_replace << {
         :match => "(#{r[:circa]})?[1-2][0-9]\-{2}",
@@ -316,7 +314,7 @@ module ParseDateString
 
 
     def proc_single_year
-      proc = Proc.new do |string, open_range|
+      Proc.new do |string, open_range|
         year = string.gsub(/[^0-9]*/,'')
         @dates[:index_dates] << year.to_i
         @dates[:keydate_z] = Time.new(year).strftime(@@zulu_format)
@@ -332,7 +330,7 @@ module ParseDateString
 
 
     def proc_year_range
-      proc = Proc.new do |string|
+      Proc.new do |string|
         # Only supports years from 1000
         range = year_range(string)
         if range.length > 0
@@ -354,10 +352,8 @@ module ParseDateString
     end
 
 
-
-
     def proc_range_year_to_decade
-      proc = Proc.new do |string|
+      Proc.new do |string|
         range = year_range(string)
         range_start, range_end_decade = range
 
@@ -380,7 +376,7 @@ module ParseDateString
 
 
     def proc_year_range_short
-      proc = Proc.new do |string|
+      Proc.new do |string|
         range = string.split('-')
         range.each { |d| d.gsub!(/[^0-9]*/,'') }
         decade_string = range[0].match(/^[0-9]{2}/).to_s
@@ -404,7 +400,7 @@ module ParseDateString
 
 
     def proc_year_list
-      proc = Proc.new do |string|
+      Proc.new do |string|
         list = string.scan(Regexp.new(@regex_tokens[:year]))
         list = list.map { |d| d.gsub(/[^\d]/,'')}.sort
         list.each { |d| @dates[:index_dates] << d.to_i }
@@ -417,7 +413,7 @@ module ParseDateString
 
 
     def proc_year_range_list_combo
-      proc = Proc.new do |string|
+      Proc.new do |string|
         ranges = []
         list = []
         index_dates = []
@@ -458,7 +454,7 @@ module ParseDateString
 
 
     def proc_decade_s
-      proc = Proc.new do |string|
+      Proc.new do |string|
         decade = string.match(/[0-9]{3}0/).to_s
         @dates[:keydate_z] = Time.new(decade).strftime(@@zulu_format)
         @dates[:keydate] = decade.to_i
@@ -473,7 +469,7 @@ module ParseDateString
 
 
     def proc_century_with_placeholders
-      proc = Proc.new do |string|
+      Proc.new do |string|
         century = string.match(/[0-9]{2}/).to_s
         century += '00'
         @dates[:keydate_z] = Time.new(century).strftime(@@zulu_format)
@@ -491,7 +487,7 @@ module ParseDateString
 
 
     def proc_decade_s_qualified
-      proc = Proc.new do |string|
+      Proc.new do |string|
         decade = string.match(/[0-9]{3}0/).to_s
         @dates[:keydate_z] = Time.new(decade).strftime(@@zulu_format)
         @dates[:keydate] = decade
@@ -515,7 +511,7 @@ module ParseDateString
 
 
     def proc_decade_s_range
-      proc = Proc.new do |string|
+      Proc.new do |string|
         decades = string.scan(/[0-9]{3}0/)
         if decades.length == 2
           range_start = decades[0].to_i
@@ -532,7 +528,7 @@ module ParseDateString
 
 
     def proc_full_date_single
-      proc = Proc.new do |string|
+      Proc.new do |string|
         datetime = full_date_single_to_datetime(string)
         if datetime
           full_date_single_keydates(string,datetime)
@@ -545,7 +541,7 @@ module ParseDateString
 
 
     def proc_month_year_single
-      proc = Proc.new do |string|
+      Proc.new do |string|
         string.gsub!(/\?/,'')
         datetime = Chronic.parse(string)
         if datetime
@@ -560,7 +556,7 @@ module ParseDateString
 
 
     def proc_month_year_single_rev
-      proc = Proc.new do |string|
+      Proc.new do |string|
         string.gsub!(/\?/,'')
         year = string.match(/\d{4}/).to_a.first
         month = string.gsub(/\d+/,'')
@@ -580,7 +576,7 @@ module ParseDateString
     # "1976 July 4 - 1981 October 1", etc.
     # call with second argument 'month' if no day value is present
     def proc_full_date_single_range
-      proc = Proc.new do |string, specificity|
+      Proc.new do |string, specificity|
         dates = []
         full_date_format = (specificity == 'month') ? '%Y-%m' : '%Y-%m-%d'
         if string.match(/\-/)
@@ -621,7 +617,7 @@ module ParseDateString
     # 1980 Feb. 1-20
     # 1980 1-20 Feb.
     def proc_single_month_date_range
-      proc = Proc.new do |string|
+      Proc.new do |string|
         year = extract_year(string)
         day_range = string.match(/\d{1,2}\-\d{1,2}/).to_s
         string.gsub!(Regexp.new(day_range),'')
@@ -645,7 +641,7 @@ module ParseDateString
 
 
     def proc_8601_range
-      proc = Proc.new do |string|
+      Proc.new do |string|
         dates = string.split('/')
         dates.each { |d| d.strip! }
 
@@ -682,7 +678,7 @@ module ParseDateString
 
     # "1981 Oct-Dec", "Oct-Dec 1981", etc.
     def proc_single_year_month_range
-      proc = Proc.new do |string|
+      Proc.new do |string|
         year = string.match(/[0-9]{4}/).to_s
         string.gsub!(year,'')
         string.strip!
@@ -732,7 +728,7 @@ module ParseDateString
         # circa, ca. - also matches 'c.', which is actually 'copyright', but is still not something we need to deal with
         :circa => '\s*[Cc](irc)?a?\.?\s*',
         # early, late, mid-
-        :decade_qualifier => '([Ee]arly)|([Mm]id)|([Ll]ate)\-?',
+        :decade_qualifier => '(([Ee]arly)|([Mm]id)|([Ll]ate))\-?',
         # 06-16-1972, 6-16-1972
         :numeric_date_us => '(0?1)|(0?2)|(0?3)|(0?4)|(0?5)|(0?6)|(0?7)|(0?8)|(0?9)|1[0-2][\-\/](([0-2]?[0-9])|3[01])[\-\/])?[12][0-9]{3}',
         # 1972-06-16
