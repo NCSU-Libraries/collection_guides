@@ -17,34 +17,14 @@
 <!--<![endif]-->
 
   <head>
-    <% if @resource && @presenter %>
-      <title><%= @presenter.title %><%= @presenter.date_statement ? ", #{@presenter.date_statement}" : '' %>
-     | <%= t('html_title') %></title>
-    <% elsif @title %>
-      <title><%= t('html_title') %> | <%= @title %></title>
-    <% else %>
-      <title><%= t('html_title') %></title>
-    <% end %>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" id="viewport" content="width=device-width,minimum-scale=1.0,initial-scale=1.0" />
-
-    <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-    <% if controller_name == 'resources' %>
-      <%= escaped_fragment_meta %>
-    <% end %>
-
-    <%= favicon_link_tag '/homescreen-icon-114x114.png', sizes: "114x114", rel: "shortcut icon" %>
-    <%= favicon_link_tag '/homescreen-icon-57x57.png', sizes: "57x57", rel: 'apple-touch-icon', type: 'image/png' %>
-    <%= favicon_link_tag '/homescreen-icon-72x72.png', sizes: "72x72", rel: 'apple-touch-icon', type: 'image/png' %>
-    <%= favicon_link_tag '/homescreen-icon-114x114.png', sizes: "114x114", rel: 'apple-touch-icon', type: 'image/png' %>
-
-    <%= csrf_meta_tags %>
+    <%= html_head_title %>
 
     <%= render '/layouts/head' %>
-    <meta property="og:image" content="https://www.lib.ncsu.edu/themes/custom/ncsulibraries/images/screenshot.jpg" />
-    <meta property="og:image:alt" content="NC State University Libraries Logo" />
+
+    <% if @resource %>
+      <%= render '/resources/open_graph' %>
+    <% end %>
 
   </head>
 

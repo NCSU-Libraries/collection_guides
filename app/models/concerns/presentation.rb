@@ -3,7 +3,7 @@ module Presentation
   # The Presenter class packages all displayable attributes for a given record into a single object
   class Presenter
 
-    attr_accessor :data, :record, :title, :uri, :level, :position, :resource_id, :component_id,
+    attr_accessor :data, :record, :title, :display_title, :uri, :level, :position, :resource_id, :component_id,
       :resource_title, :resource_uri, :notes, :abstract, :date_statement, :extent_statement,
       :collection_id, :primary_agent, :containers, :response_data, :has_children, :tree_size,
       :total_components, :subjects, :agents, :digital_objects, :alt_digital_object_url, :has_descendant_digital_objects,
@@ -46,6 +46,9 @@ module Presentation
       @primary_agent = @data[:primary_agent]
       @digital_objects = @data[:digital_objects]
       @has_children = @record.has_children
+
+      @display_title = @title
+      @display_title += ", #{@date_statement}" if @date_statement
     end
 
 

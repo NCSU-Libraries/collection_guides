@@ -115,6 +115,17 @@ module ApplicationHelper
     is_bot
   end
 
+  def html_head_title
+    if @resource && @presenter
+      html = "<title>#{@presenter.display_title} | #{t('html_title')}</title>"
+    elsif @title
+      html = "<title>#{t('html_title')} | #{@title}</title>"
+    else
+      html = "<title>#{t('html_title')}</title>"
+    end
+    html.html_safe
+  end
+
 
   def header_before
     ncsul_web_header
