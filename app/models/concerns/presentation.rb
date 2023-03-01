@@ -15,26 +15,6 @@ module Presentation
       @title = @data[:title]
       @uri = @record.uri
       @record_id = @record.id
-
-      case @record
-
-      when Resource
-        @resource_id = @record.id
-        @resource_title = @data[:title]
-        @resource_uri = @record.uri
-        @tree_size = @record.total_components
-        @total_components = @record.total_components
-        @alt_digital_object_url = @data[:alt_digital_object_url]
-      when ArchivalObject
-        @level = @record.level
-        @position = @record.position
-        # if @record.resource
-        #   @resource_id = @record.resource.id
-        #   @resource_title = @record.resource.title
-        #   @resource_uri = @record.resource.uri
-        # end
-        @component_id = @record.component_id
-      end
       @notes = @data[:notes] || {}
       @abstract = @data[:abstract]
       @date_statement = @data[:date_statement]
@@ -47,8 +27,28 @@ module Presentation
       @digital_objects = @data[:digital_objects]
       @has_children = @record.has_children
 
-      @display_title = @title
-      @display_title += ", #{@date_statement}" if @date_statement
+      case @record
+
+      when Resource
+        @resource_id = @record.id
+        @resource_title = @data[:title]
+        @resource_uri = @record.uri
+        @tree_size = @record.total_components
+        @total_components = @record.total_components
+        @alt_digital_object_url = @data[:alt_digital_object_url]
+        @display_title = @title.clone
+        @display_title += ", #{@date_statement}" if @date_statement
+      when ArchivalObject
+        @level = @record.level
+        @position = @record.position
+        # if @record.resource
+        #   @resource_id = @record.resource.id
+        #   @resource_title = @record.resource.title
+        #   @resource_uri = @record.resource.uri
+        # end
+        @component_id = @record.component_id
+      end
+      
     end
 
 
