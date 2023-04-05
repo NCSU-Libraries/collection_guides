@@ -11,8 +11,6 @@ defaults: &defaults
   solr_core_path: /solr/collection_guides/
   solr_core_name: collection_guides
   admin_email: 'scrc@ncsu.edu'
-  marc_export_email_recipient: 'trthorn2@ncsu.edu kittinfish@gmail.com'
-  marc_export_email_sender: 'no-reply@ncsu.edu'
 
 development:
   <<: *defaults
