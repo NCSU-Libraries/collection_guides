@@ -7,9 +7,12 @@
 # Ignore secrets
 /config/database.yml
 /config/application.yml
+/config/archivesspace.yml
 /config/newrelic.yml
 /config/deploy.rb
 /config/initializers/secret_token.rb
+/config/initializers/resque.rb
+/config/initializers/devise.rb
 /config/secrets.yml
 /config/schedule.rb
 

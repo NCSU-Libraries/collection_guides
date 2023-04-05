@@ -6,84 +6,40 @@ provided via Apache Solr.
 
 ## Requirements
 
-* Ruby 2.4.1 or higher
-* Apache Solr 5 or 6
+* Ruby 2.7.2 or higher
+* Apache Solr 7 or higher
 * Cron (for scheduled updates of data from ArchivesSpace)
 
-## Installation
 
-To begin:
 
-1. Clone or download/unzip this repo
-2. `cd` into the local collection_guides directory (the one you just cloned)
+## Docker instructions
 
-### Select and configure database
+You need Docker installed. Also, make sure you have access to the mysqldump tool (brew install mysql-client on Mac, sudo apt install mariadb-client on Ubuntu).
 
-#### To use SQLite (for development only)
-Locate the file `config/database_example_sqlite.yml` and save a copy as
-`config/database.yml`.
+    git clone git@github.ncsu.edu:ncsu-libraries/collection_guides.git
+    cd collection_guides
+    ./setup.sh
+    docker-compose up
 
-#### To use MySQL
+Depending on what you need to do you will need certain environmental variables to get things up and running, particularly in your external_services.yml and application.yml files. 
 
-> NOTE: Using MySQL requires other MySQL components to already be available on your system.
+To get a shell in the wonda container (you can do this for any of the containers by replacing "wonda" with that container's name from docker-compose.yml):
 
-1. Locate the file `config/database_example_mysql.yml` and save a copy as
-`config/database.yml`. Update the information in this file as needed.
-For more information see
-http://edgeguides.rubyonrails.org/configuring.html#configuring-a-database
+    docker-compose exec collection_guides bash
 
-2. In `Gemfile`, uncomment this line before proceeding:
+Each time you build the wonda container you have to populate the index inside the container. 
 
-   `# gem 'mysql2'`
+    rails search_index:full
 
-### Basic setup
+Start the Rails server when inside the container, and Wonda will be available at http://localhost:3000. 
 
-1. Run `bundle install` to install gems (requires Bundler - `gem install bundler`)
-2. Run `bundle exec rake collection_guides:generate_secrets` to generate the
-Rails secret\_key_base.
+    bundle exec rails s -b 0.0.0.0
 
-### Set up database
+To run specs from inside the container:
 
-Run this to create the database:
+    RAILS_ENV=test rspec
 
-`rake db:setup`
 
-### Create Solr core
-
-To use search features, a Solr core must be available. The `solr_conf` directory
-contains Solr configuration files.
-These have only beed tested on Solr versions 5 and 6 and may not work on Solr 7.
-
-#### TODO:
-
-* Solr 7 config
-* expanded documentation
-
-## Configuration
-
-Configuration files containing sensitive information are required but not
-included in this repository for security. These files need to be created manually.
-
-### config/application.yml
-
-Provide information needed to connect to the Solr index and to ArchivesSpace.
-You can use `application_example.yml` as a template.
-
-Configuration options (all required unless specified) include:
-* `solr_host`: Your Solr host (e.g. 'solr.myinstitution.org', without the
-'http://' protocol segment included)
-* `solr_port`: The port number on which your Solr instance is running (required)
-* `solr_core_path`: If you are running a multi-core instance of Solr,
-provide the path to your core (with leading and trailing slashes - e.g. '/solr/aspace_public/')
-* `archivesspace_host`: The hostname for your ArchivesSpace instance, used for communication between DAEV and ArchivesSpace (localhost if running on the same server as the application)
-* `archivesspace_url_host`: The hostname for your ArchivesSpace instance (e.g. 'archivesspace.myinstitution.org', without the 'http://' protocol segment included), used for generating links to the records in the ArchivesSpace front end
-* `archivesspace_port`: Your ArchivesSpace backend port (ArchivesSpace default is **8089**)
-* `archivesspace_frontend_port`: Your ArchivesSpace frontend port (ArchivesSpace default is **8080**)
-* `archivesspace_solr_port`: Your ArchivesSpace Solr port (ArchivesSpace default is **8090**)
-* `archivesspace_solr_path`: path the the Solr core used by ArchivesSpace (ArchivesSpace default is **'/collection1/'**)
-* `archivesspace_username`: Username for an ArchivesSpace admin user
-* `archivesspace_password`: Password associated with *archivesspace\_username*
-* `archivesspace_https`: Set to true to force communication with ArchivesSpace over HTTPS (OPTIONAL - defaults to false)
 
 ## Functionality highlights
 
@@ -106,25 +62,21 @@ The search results use Solr's [Result Grouping](https://cwiki.apache.org/conflue
 
 The application uses the [RSolr](https://github.com/rsolr/rsolr) Ruby client for Apache Solr for all interactions with the Solr index. Solr configuration files are available in this repository in `solr_conf`.
 
+
 ### Finding aid presentation
 
 The finding aid display works differently depending on the size of the collection. For smaller collections (less than 1000 components), the entire 'contents' (container list) section loads upon request. For larger collections, the container list is first rendered as an HTML skeleton with no actual content. This structure is actually stored in a column in the resources table (`structure` - the value is generated on import from ArchivesSpace), so it it available without performing additional queries. Then the components load, starting at the top, in batches of 50 via AJAX requests - so the top loads first and the parts "below the fold" load after. This usually results in a seamless experience for the user.
 
-## Initial data import
 
-Once the configuration files have been added and the Solr index is in place, data can be imported from ArchivesSpace via a single rake task:
-`rake aspace_import:full`
+## Installation/Configuration
 
-This task will first import all repositories in your ArchivesSpace instance, then import each resource in each repository, along with all descendant archival\_object and digital\_object records, and subject and agent records associated with any of these. THIS PROCESS CAN TAKE A VERY LONG TIME, DEPENDING ON THE SIZE OF YOUR ARCHIVESSPACE DATABASE.
+See [INSTALLATION.md](./INSTALLATION.md).
 
-NOTES:
-
-1. The application will only import published records, and resources must have a finding aid status of "complete". These conditions are not currently configurable.
-2. There is currently nothing in the user interface to differentiate between repositories. In fact, beyond storing basic information about the repositories and their associations to `Resource` records, the application currently does not take repositories into consideration in any way.
 
 ## Author
 
 Trevor Thornton
+
 
 ## License
 

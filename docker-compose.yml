@@ -1,0 +1,79 @@
+services:
+  wonda_db:
+    image: mariadb:10.7.1
+    ports: 
+      - "3306:3306"
+    volumes:
+      - ${DOCKER_COLLECTION_GUIDES_MYSQL_VOLUME:-collection_guides_db_data}:/var/lib/mysql
+      - ./tmp/dbdata:/docker-entrypoint-initdb.d
+    environment:
+      MARIADB_ROOT_PASSWORD: mysqlrootpassword
+      MARIADB_DATABASE: collection_guides
+      MARIADB_USER: collectionguides
+      MARIADB_PASSWORD: collectionguides
+
+  wonda_test_db:
+    image: mariadb:10.7.1
+    ports: 
+      - "3307:3306"
+    volumes:
+      - ${DOCKER_COLLECTION_GUIDES_MYSQL_VOLUME:-collection_guides_test_db_data}:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: mysqlrootpassword
+      MARIADB_DATABASE: collection_guides_test
+      MARIADB_USER: collectionguides
+      MARIADB_PASSWORD: collectionguides
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  
+  solr:
+    image: solr:7.6.0
+    ports:
+      - "8983:8983"
+    volumes:
+      - ./solr_conf:/opt/solr/server/solr/configsets/collection_guides/conf
+      - ./solr_conf:/opt/solr/server/solr/configsets/collection_guides_test/conf
+      - ${DOCKER_COLLECTION_GUIDES_SOLR_VOLUME:-collection_guides_solr_data}:/var/solr
+    entrypoint:
+      - bash
+      - "-c"
+      - "precreate-core wonda /opt/solr/server/solr/configsets/collection_guides; precreate-core collection_guides_test /opt/solr/server/solr/configsets/collection_guides_test; exec solr -f"
+
+  wonda_jobs:
+    build:
+      context: .
+    image: collection_guides
+    environment:
+      - QUEUE=*
+    command: "bundle exec rake resque:work"
+    volumes:
+      - .:/opt/collection_guides
+    depends_on:
+      - collection_guides_db
+      - solr
+      - redis
+      - wonda
+  
+  wonda:
+    build:
+      context: .
+    image: collection_guides
+    command: /bin/bash
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/opt/collection_guides
+    depends_on:
+      - collection_guides_db
+      - solr
+      - redis
+    tty: true
+    stdin_open: true
+
+volumes:
+  collection_guides_db_data:
+  collection_guides_test_db_data:
+  collection_guides_solr_data:

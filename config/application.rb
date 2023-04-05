@@ -40,8 +40,10 @@ module CollectionGuides
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.active_record.yaml_column_permitted_classes = [Symbol, Hash, Array, ActiveSupport::HashWithIndifferentAccess]
+    
     # Load application ENV vars and merge with existing ENV vars. Loaded here so can use values in initializers.
     ENV.update YAML.load(ERB.new(File.read("config/application.yml")).result, aliases: true)[Rails.env] rescue {}
+    ENV.update YAML.load(ERB.new(File.read("config/archivesspace.yml")).result, aliases: true)[Rails.env] rescue {}
 
     # config.middleware.insert_before Rack::Runtime, HandleBadEncodingMiddleware
 
