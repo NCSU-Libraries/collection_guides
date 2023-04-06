@@ -6,7 +6,7 @@ defaults: &defaults
   archivesspace_username: admin
   # archivesspace_password: REPLACE_AND_UNCOMMENT
   filesystem_browser_api_url: 'https://archives.lib.ncsu.edu/filesystem_browse/'
-  solr_host: localhost
+  solr_host: solr
   solr_port: '8983'
   solr_core_path: /solr/collection_guides/
   solr_core_name: collection_guides

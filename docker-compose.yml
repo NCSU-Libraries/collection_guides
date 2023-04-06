@@ -1,10 +1,10 @@
 services:
-  wonda_db:
+  collection_guides_db:
     image: mariadb:10.7.1
     ports: 
       - "3306:3306"
     volumes:
-      - ${DOCKER_COLLECTION_GUIDES_MYSQL_VOLUME:-collection_guides_db_data}:/var/lib/mysql
+      - ${DOCKER_COLLECTIONGUIDES_MYSQL_VOLUME:-collection_guides_db_data}:/var/lib/mysql
       - ./tmp/dbdata:/docker-entrypoint-initdb.d
     environment:
       MARIADB_ROOT_PASSWORD: mysqlrootpassword
@@ -12,12 +12,12 @@ services:
       MARIADB_USER: collectionguides
       MARIADB_PASSWORD: collectionguides
 
-  wonda_test_db:
+  collection_guides_test_db:
     image: mariadb:10.7.1
     ports: 
       - "3307:3306"
     volumes:
-      - ${DOCKER_COLLECTION_GUIDES_MYSQL_VOLUME:-collection_guides_test_db_data}:/var/lib/mysql
+      - ${DOCKER_COLLECTIONGUIDES_MYSQL_VOLUME:-collection_guides_test_db_data}:/var/lib/mysql
     environment:
       MARIADB_ROOT_PASSWORD: mysqlrootpassword
       MARIADB_DATABASE: collection_guides_test
@@ -36,13 +36,13 @@ services:
     volumes:
       - ./solr_conf:/opt/solr/server/solr/configsets/collection_guides/conf
       - ./solr_conf:/opt/solr/server/solr/configsets/collection_guides_test/conf
-      - ${DOCKER_COLLECTION_GUIDES_SOLR_VOLUME:-collection_guides_solr_data}:/var/solr
+      - ${DOCKER_COLLECTIONGUIDES_SOLR_VOLUME:-collection_guides_solr_data}:/var/solr
     entrypoint:
       - bash
       - "-c"
-      - "precreate-core wonda /opt/solr/server/solr/configsets/collection_guides; precreate-core collection_guides_test /opt/solr/server/solr/configsets/collection_guides_test; exec solr -f"
+      - "precreate-core collection_guides /opt/solr/server/solr/configsets/collection_guides; precreate-core collection_guides_test /opt/solr/server/solr/configsets/collection_guides_test; exec solr -f"
 
-  wonda_jobs:
+  collection_guides_jobs:
     build:
       context: .
     image: collection_guides
@@ -55,9 +55,9 @@ services:
       - collection_guides_db
       - solr
       - redis
-      - wonda
+      - collection_guides
   
-  wonda:
+  collection_guides:
     build:
       context: .
     image: collection_guides

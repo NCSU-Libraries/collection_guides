@@ -2,15 +2,15 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: wonda
-  password: wonda
+  username: collectionguides
+  password: collectionguides
 
 development:
   <<: *default
-  host: wonda_db
-  database: wonda
+  host: collection_guides_db
+  database: collection_guides
 
 test:
   <<: *default
-  host: wonda_test_db
-  database: wonda_test
+  host: collection_guides_test_db
+  database: collection_guides_test

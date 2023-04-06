@@ -11,11 +11,11 @@ mkdir -p tmp/dbdata
 
 # get a database dump and put it in tmp/dbdata if not available
 
-if test -f tmp/dbdata/collection_gudies_db.sql; then
+if test -f tmp/dbdata/collection_guides_db.sql; then
   echo "-- Found Collection Guides prod dump, skipping --"
 else
-  echo "-- Dumping Collection Guides prod database to tmp/dbdata/collection_gudies_db.sql. Enter production db password. --"
-  mysqldump ${COLUMN_STATISTICS_FLAG} -h mariadbcluster.lib.ncsu.edu -u collectiongudies -p collectiongudies > tmp/dbdata/collection_gudies_db.sql
+  echo "-- Dumping Collection Guides prod database to tmp/dbdata/collection_guides_db.sql. Enter production db password. --"
+  mysqldump ${COLUMN_STATISTICS_FLAG} -h mariadbcluster.lib.ncsu.edu -u collectionguides -p collection_guides > tmp/dbdata/collection_guides_db.sql
 fi
 
 cp config/database.yml.docker config/database.yml
