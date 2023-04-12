@@ -23,4 +23,4 @@ cp config/application.yml.docker config/application.yml
 cp config/initializers/devise.rb.docker config/initializers/devise.rb
 cp config/initializers/resque.rb.docker config/initializers/resque.rb 
 
-${CONTAINER_COMMAND:-docker} build --ssh=default --no-cache -t wonda .
+${CONTAINER_COMMAND:-docker} build --ssh=default --no-cache -t collection_guides .

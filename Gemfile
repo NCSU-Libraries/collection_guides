@@ -13,7 +13,7 @@ gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.4.1'
+gem 'rails', '~> 7.0.4.3'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -53,11 +53,11 @@ gem 'rsolr'
 gem 'truncate_html'
 gem 'chronic'
 
-gem "nokogiri", '~> 1.13.9'
+
 
 gem 'whenever', :require => false
 
-gem 'rails-html-sanitizer', '>= 1.4.4'
+
 gem 'redis', '~> 4.0'
 gem 'resque', '~> 2.1.0'
 gem 'resque-web', require: 'resque_web'
@@ -77,17 +77,6 @@ gem 'exception_notification-rake'
 
 # https://nvd.nist.gov/vuln/detail/CVE-2019-16109
 gem 'devise'
-
-# https://github.com/rails/rails/security/advisories/GHSA-65cv-r6x7-79hv
-# gem 'actionview', '~> 5.2.4.4'
-
-# https://blog.jcoglan.com/2020/06/02/redos-vulnerability-in-websocket-extensions/
-# gem 'websocket-extensions', '~> 0.1.5'
-
-# https://github.com/advisories/GHSA-j6w9-fv6q-3q52
-gem "rack", ">= 2.2.6.3"
-
-gem 'loofah', '>= 2.19.1'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -112,11 +101,10 @@ group :development, :test do
   gem 'pry'
 end
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+# Specify versions for depenedencies with security patches here
+gem "nokogiri", '~> 1.14.3'
+gem 'rails-html-sanitizer', '>= 1.4.4'
+gem "rack", ">= 2.2.6.4"
+gem 'loofah', '>= 2.19.1'
+gem 'uri', '~> 0.11.1'

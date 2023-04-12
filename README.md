@@ -23,15 +23,15 @@ You need Docker installed. Also, make sure you have access to the mysqldump tool
 
 Depending on what you need to do you will need certain environmental variables to get things up and running, particularly in your external_services.yml and application.yml files. 
 
-To get a shell in the wonda container (you can do this for any of the containers by replacing "wonda" with that container's name from docker-compose.yml):
+To get a shell in the collection_guides container (you can do this for any of the containers by replacing "collection_guides" with that container's name from docker-compose.yml):
 
     docker-compose exec collection_guides bash
 
-Each time you build the wonda container you have to populate the index inside the container. 
+Each time you build the collection_guides container you have to populate the index inside the container. 
 
     rails search_index:full
 
-Start the Rails server when inside the container, and Wonda will be available at http://localhost:3000. 
+Start the Rails server when inside the container, and collection_guides will be available at http://localhost:3000. 
 
     bundle exec rails s -b 0.0.0.0
 
