@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include SitemapGenerator
 
   rescue_from ActionController::BadRequest, with: :bad_request
-
+  rescue_from ActionDispatch::Http::MimeNegotiation::InvalidType, with: :bad_request
 
   def index
     render

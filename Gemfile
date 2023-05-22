@@ -107,4 +107,4 @@ gem "nokogiri", '~> 1.14.3'
 gem 'rails-html-sanitizer', '>= 1.4.4'
 gem "rack", ">= 2.2.6.4"
 gem 'loofah', '>= 2.19.1'
-gem 'uri', '~> 0.11.1'
+gem 'uri', '~> 0.12.1'
