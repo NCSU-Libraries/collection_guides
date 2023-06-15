@@ -11,7 +11,6 @@ provided via Apache Solr.
 * Cron (for scheduled updates of data from ArchivesSpace)
 
 
-
 ## Docker instructions
 
 You need Docker installed. Also, make sure you have access to the mysqldump tool (brew install mysql-client on Mac, sudo apt install mariadb-client on Ubuntu).
@@ -27,6 +26,7 @@ To get a shell in the collection_guides container (you can do this for any of th
 
     docker-compose exec collection_guides bash
 
+
 Each time you build the collection_guides container you have to populate the index inside the container. 
 
     rails search_index:full
@@ -37,8 +37,13 @@ Start the Rails server when inside the container, and collection_guides will be 
 
 To run specs from inside the container:
 
-    RAILS_ENV=test rspec
+The first time you do this, you'll need to run the migrations:
 
+    rails db:migrate RAILS_ENV=test
+
+Then:
+
+    RAILS_ENV=test rspec
 
 
 ## Functionality highlights
