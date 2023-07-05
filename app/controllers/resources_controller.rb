@@ -14,7 +14,7 @@ class ResourcesController < ApplicationController
 
     if params[:id]
       begin
-        @resource = Resource.find params[:id]
+        @resource = Resource.includes(:repository).find params[:id]
       rescue Exception => e
         redirect_to root_url, alert: "Collection not found."
         return
@@ -30,6 +30,11 @@ class ResourcesController < ApplicationController
       return
     else
       @presenter = @resource.presenter
+      @repository = @resource.repository
+
+      puts '***'
+      puts @repository.inspect
+
       @tab = params[:tab] || 'summary'
 
       respond_to do |format|

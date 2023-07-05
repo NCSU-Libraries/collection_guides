@@ -326,7 +326,36 @@ main {
 
   // EAD Index
   .ead-link {
+    margin: 1em 0 1.5em 0;
+  }
+
+
+  .repo-header {
     margin: 1em 0;
+
+    .repo-logo img {
+      max-width: 100%;
+    }
+
+    &.khayrallah .repo-logo img {
+      height: 100px;
+      width: 161px;
+    }
+
+    .repo-text {
+      height: 100%;
+      font-weight: bold;
+    }
+
+    &.khayrallah .repo-text {
+      padding-top: 40px;
+
+      @include breakpoint(small down) {
+        padding-top: 5px;
+      }
+    }
+
+
   }
 
 }

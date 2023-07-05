@@ -343,4 +343,25 @@ module ResourcesHelper
     output << '</div>'
   end
 
+
+  def repo_header
+    html = nil
+    # Fork here to include repo-specific header
+    if @repository
+      case @repository.repo_code
+      when 'KCLDS'
+        html = "<div class=\"grid-x grid-margin-x repo-header khayrallah\">"
+        html += "<div class=\"cell medium-2 repo-logo\">"
+        html += "<a href=\"https://lebanesestudies.ncsu.edu/\" target=\"_khayrallah\">#{image_tag('KCLDS_logo.png')}</a>"
+        html += '</div>'
+        html += "<div class=\"cell medium-10 repo-text\">"
+        html += 'This collection is found in the <a href="https://lebanesestudies.ncsu.edu/" target="_khayrallah">Moise A. Khayrallah Center for Lebanese Diaspora Studies</a>'
+        html += '</div>'
+        html += '</div>'
+      end
+    end
+
+    html ? html.html_safe : nil
+  end
+
 end

@@ -7,7 +7,18 @@ module ApplicationHelper
   include GeneralUtilities
 
   def site_nav
-    config_path = Pathname.new(Rails.root) + 'config/site_nav.yml'
+    config_yaml = 'site_nav.yml'
+
+    # Fork here for custom nav by repo
+    if @repository
+      case @repository.repo_code
+      when 'KCLDS'
+        config_yaml = 'site_nav_khayrallah.yml'
+      end
+    end
+
+    config_path = Pathname.new(Rails.root) + "config/#{config_yaml}"
+
     if !File.exist?(config_path)
       nil
     else
@@ -18,7 +29,7 @@ module ApplicationHelper
         output = '<div class="project-nav show-for-medium">'
         output +=  '<ul class="inline-list" id="project-nav">'
         links.each do |l|
-          link = link_to(l['label'], l['url']).html_safe
+          link = link_to(l['label'], l['url'], target: l['target']).html_safe
           output += "<li>#{ link }</li>"
         end
         output +=  '</ul></div>'

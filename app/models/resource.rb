@@ -258,7 +258,6 @@ class Resource < ApplicationRecord
   end
 
 
-
   # check associated URLs for descendants' digital objects
   # if ALL start with "http://d.lib.ncsu.edu/collections", generate url to canned search
   def alt_digital_object_url
@@ -269,6 +268,7 @@ class Resource < ApplicationRecord
 
       if !dos.empty?
         has_non_sal_files = nil
+
         dos.each do |d|
           if d.publish
             do_response_data = JSON.parse(d.api_response)
@@ -293,6 +293,7 @@ class Resource < ApplicationRecord
           url = 'http://d.lib.ncsu.edu/collections/catalog?f%5Beadid_facet%5D%5B%5D='
           url << eadid
         end
+
       end
     end
 
