@@ -44,7 +44,8 @@
 
     <div class="tabs-panel content<%= @tab == 'summary' ? ' is-active' : '' %>" id="summary">
       
-      <%= render partial: 'common/edi_statement' %>
+      <%= render(partial: 'common/edi_statement') if default_repo %>
+
       <%= repo_header %>
       <%= resource_overview %>
       <%= resource_abstract %>

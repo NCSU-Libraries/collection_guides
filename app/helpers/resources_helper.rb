@@ -364,4 +364,13 @@ module ResourcesHelper
     html ? html.html_safe : nil
   end
 
+
+  def default_repo
+    if @repository && @repository.repo_code.downcase != 'scrc'
+      false
+    else
+      true
+    end
+  end
+  
 end
