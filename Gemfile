@@ -13,7 +13,7 @@ gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.4.3'
+gem 'rails', '~> 7.0.5.1'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -107,4 +107,4 @@ gem "nokogiri", '~> 1.14.3'
 gem 'rails-html-sanitizer', '>= 1.4.4'
 gem "rack", ">= 2.2.6.4"
 gem 'loofah', '>= 2.19.1'
-gem 'uri', '~> 0.12.1'
+gem 'uri', '~> 0.12.2'
