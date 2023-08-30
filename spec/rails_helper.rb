@@ -8,6 +8,8 @@ require 'rspec/mocks'
 require 'factory_bot_rails'
 require 'database_cleaner'
 
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 include AspaceApiSpecHelpers
 include TestResponseData
 include ArchivesSpaceApiUtility
