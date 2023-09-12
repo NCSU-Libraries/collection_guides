@@ -58,19 +58,25 @@ class SearchIndexServiceBase
 
 
   def update_in_batches(records)
+    puts "*** Batch includes #{records.length} records ***"
     i = 0
     batch = []
 
     records.each do |r|
-      batch << r.solr_doc_data
+      puts "Processing #{r.uri}"
+
+      batch << r.solr_doc_data; nil
       i += 1
-      if (i == @@batch_size) || (i == records.length)
-        @solr.add batch
+
+      if (i == @@batch_size) || (r == records.last)
+        add_result = @solr.add batch
+        puts add_result.inspect
         @solr.commit
-        print '.'
+        puts "#{batch.length} records indexed"
         batch = []
         i = 0
       end
+
     end
   end
 

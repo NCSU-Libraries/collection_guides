@@ -81,6 +81,8 @@ module SolrDoc
       doc[:resource_title] = title
       doc[:resource_id] = id
       doc[:repository_id] = repository_id
+      doc[:repository_name] = repository.name
+      doc[:repository_code] = repository.repo_code
       doc[:resource_collection_id] = data[:collection_id]
       doc[:resource_abstract] = strip_tags(data[:abstract])
       doc[:resource_primary_agent] = data[:primary_agent]
