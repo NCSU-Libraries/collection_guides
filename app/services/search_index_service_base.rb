@@ -66,17 +66,14 @@ class SearchIndexServiceBase
       puts "Processing #{r.uri}"
 
       batch << r.solr_doc_data; nil
-      i += 1
 
-      if (i == @@batch_size) || (r == records.last)
+      if (batch.length == @@batch_size) || (r == records.last)
         add_result = @solr.add batch
         puts add_result.inspect
         @solr.commit
         puts "#{batch.length} records indexed"
         batch = []
-        i = 0
       end
-
     end
   end
 
