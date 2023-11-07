@@ -160,6 +160,9 @@ class ExecuteAspacePeriodicImport
       end
       solr_params = { rows: @@rows, start: start }
       response = ExecuteAspaceSolrQuery.call(query: query, params: solr_params)
+
+      puts response.inspect
+      
       num_found = response['response']['numFound']
       records += response['response']['docs']
       if (start + @@rows) < num_found
