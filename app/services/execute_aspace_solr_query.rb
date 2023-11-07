@@ -10,7 +10,7 @@ class ExecuteAspaceSolrQuery
     object.call
   end
 
-  def initialize(options)
+  def initialize(options={})
     @options = options
     @query = @options[:query]
     @params = @options[:params] || {}

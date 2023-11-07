@@ -45,7 +45,6 @@ class ExecuteAspacePeriodicImport
     log_info "with options: #{@options.inspect}"
 
     @options[:session] ||= ArchivesSpaceApiUtility::ArchivesSpaceSession.new
-
     @since = @options[:since] || 25.hours.ago
     # format last_datetime to look like this: 2014-05-21T15:20:37Z
     @since = @since.to_datetime.new_offset(0).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -110,14 +109,18 @@ class ExecuteAspacePeriodicImport
 
     linked_record_uris.each_index do |i|
       uri_batch << linked_record_uris[i]
+
       if i == @@rows - 1
-        query = "id:(\"#{uri_batch.join('","')}\")"
-        response = ExecuteAspaceSolrQuery.call(query: query)
-        if linked_records = response['response']['docs']
-          process_linked_records(linked_records)
+        if uri_batch.length > 0
+          query = "id:(\"#{uri_batch.join('","')}\")"
+          response = ExecuteAspaceSolrQuery.call(query: query)
+          if linked_records = response['response']['docs']
+            process_linked_records(linked_records)
+          end
         end
         uri_batch = []
       end
+
     end
   end
 
