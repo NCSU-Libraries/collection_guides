@@ -52,7 +52,7 @@ class ExecuteAspacePeriodicImport
     @update_resource_trees = []
     @base_query = "system_mtime:[#{ @since } TO NOW] AND publish:true"
 
-    begin
+    # begin
       process_resources
       process_digital_objects
       @update_resource_trees.uniq!
@@ -71,10 +71,10 @@ class ExecuteAspacePeriodicImport
         log_info @update_resource_trees.join(', ')
         AspaceImport.create!(import_type: 'periodic', resources_updated: @update_resource_trees.length, resource_list: @update_resource_trees)
       end
-    rescue Exception => e
-      log_info(e)
-      @response = { error: e }
-    end
+    # rescue Exception => e
+    #   log_info(e)
+    #   @response = { error: e }
+    # end
   end
 
 
@@ -159,10 +159,7 @@ class ExecuteAspacePeriodicImport
         puts "*** #{ record_type.gsub(/_/, ' ') } ***"
       end
       solr_params = { rows: @@rows, start: start }
-      response = ExecuteAspaceSolrQuery.call(query: query, params: solr_params)
-
-      puts response.inspect
-      
+      response = ExecuteAspaceSolrQuery.call(query: query, params: solr_params)      
       num_found = response['response']['numFound']
       records += response['response']['docs']
       if (start + @@rows) < num_found
