@@ -101,7 +101,9 @@ class ExecuteAspacePeriodicImport
     linked_record_uris = []
     
     records.each do |r|
-      linked_record_uris += r['linked_instance_uris']
+      if r['linked_instance_uris'].is_a? Array
+        linked_record_uris += r['linked_instance_uris']
+      end
     end
 
     linked_record_uris.uniq!
