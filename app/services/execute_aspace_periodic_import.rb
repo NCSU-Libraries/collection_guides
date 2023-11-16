@@ -55,7 +55,7 @@ class ExecuteAspacePeriodicImport
     @base_query = "system_mtime:[#{ @since } TO NOW] AND publish:true"
 
     puts 'Solr query:'
-    puts base_query
+    puts @base_query
 
     # begin
       process_resources
