@@ -52,7 +52,10 @@ class ExecuteAspacePeriodicImport
 
     to_time = (DateTime.now + 6.hours).strftime('%Y-%m-%dT%H:%M:%SZ').gsub(/\:/,'\:')
     @update_resource_trees = []
-    @base_query = "system_mtime:[#{ @since } TO #{to_time}] AND publish:true"
+    @base_query = "system_mtime:[#{ @since } TO NOW] AND publish:true"
+
+    puts 'Solr query:'
+    puts base_query
 
     # begin
       process_resources
