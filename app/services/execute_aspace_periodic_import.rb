@@ -49,8 +49,10 @@ class ExecuteAspacePeriodicImport
     # format last_datetime to look like this: 2014-05-21T15:20:37Z
     @since = @since.to_datetime.new_offset(0).strftime('%Y-%m-%dT%H:%M:%SZ')
     @since.gsub!(/\:/,'\:')
+
+    to_time = (DateTime.now + 6.hours).strftime('%Y-%m-%dT%H:%M:%SZ').gsub(/\:/,'\:')
     @update_resource_trees = []
-    @base_query = "system_mtime:[#{ @since } TO NOW] AND publish:true"
+    @base_query = "system_mtime:[#{ @since } TO #{to_time}] AND publish:true"
 
     # begin
       process_resources
