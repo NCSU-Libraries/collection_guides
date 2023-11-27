@@ -59,6 +59,7 @@ class ExecuteAspacePeriodicImport
 
     # begin
       process_resources
+      process_archival_objects
       process_digital_objects
       @update_resource_trees.uniq!
       @update_resource_trees.delete_if { |uri| uri.blank? }
@@ -129,6 +130,19 @@ class ExecuteAspacePeriodicImport
       end
 
     end
+  end
+
+
+  def process_archival_objects
+    records = get_updated_records('archival_object')
+    records.each do |r|
+      resource_uri = r['resource']
+      system_mtime = DateTime.parse(r['system_mtime'])
+      if resource_needs_update?(resource_uri, system_mtime)
+        @update_resource_trees << uri
+      end
+    end
+    @update_resource_trees.uniq!
   end
 
 
