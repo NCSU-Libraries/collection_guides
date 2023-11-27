@@ -139,7 +139,7 @@ class ExecuteAspacePeriodicImport
       resource_uri = r['resource']
       system_mtime = DateTime.parse(r['system_mtime'])
       if resource_needs_update?(resource_uri, system_mtime)
-        @update_resource_trees << uri
+        @update_resource_trees << resource_uri
       end
     end
     @update_resource_trees.uniq!
