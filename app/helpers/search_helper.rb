@@ -269,7 +269,8 @@
     facet_headings = {
       'agents' => 'Names',
       'subjects' => 'Subjects',
-      'ncsu_subjects' => 'NC State University Subjects'
+      'ncsu_subjects' => 'NC State University Subjects',
+      'repository_name' => 'Repository'
     }
 
     @facets.each do |k,v|
@@ -296,6 +297,9 @@
         when 'inclusive_years'
           output << '<h3>Dates</h3>'
           output << inclusive_years_facet_options
+        when 'repository_name'
+          output << "<h3>#{facet_headings[k]}</h3>"
+          output << repository_facet_option_values(k, v)
         else
           output << "<h3>#{facet_headings[k]}</h3>"
           output << facet_option_values(k, v)
@@ -318,7 +322,32 @@
   def facet_option_values(facet, values)
     content = ''
     content << '<ul>'
-    values.each do |v,count|
+    values.each do |v, count|
+      CGI::escapeHTML(v)
+      content << "<li>#{ filter_link(facet, v, multivalued: true) }</li>"
+    end
+    content << '</ul>'
+    output = values.length > 5 ? "<div class=\"scrollable\">#{ content }</div>" : content
+    output.html_safe
+  end
+
+
+  def repository_facet_option_values(facet, values)
+    repo_values = values.keys
+
+    libs_i = repo_values.find_index { |element| element.include?('Libraries') }
+
+    # If an element containing 'blue' is found, move it to index 0
+    if libs_i
+      libs = repo_values.delete_at(libs_i)
+      repo_values.insert(0, libs)
+    end
+
+    content = ''
+    content << '<ul>'
+
+    repo_values.each do |v|
+      # count = values[v]
       CGI::escapeHTML(v)
       content << "<li>#{ filter_link(facet, v, multivalued: true) }</li>"
     end

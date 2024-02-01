@@ -83,7 +83,7 @@ class Search
 
       # facets
       @solr_params['facet'] = true
-      @solr_params['facet.field'] = ['resource_uri','resource_digital_content','resource_category','inclusive_years','agents']
+      @solr_params['facet.field'] = ['resource_uri','resource_digital_content','resource_category','inclusive_years','agents','repository_name']
       @solr_params['facet.limit'] = -1
       @solr_params['facet.mincount'] = 1
 
