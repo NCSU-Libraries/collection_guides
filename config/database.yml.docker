@@ -4,6 +4,7 @@ default: &default
   pool: 5
   username: collectionguides
   password: collectionguides
+  port: 3306
 
 development:
   <<: *default

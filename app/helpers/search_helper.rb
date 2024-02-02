@@ -270,7 +270,7 @@
       'agents' => 'Names',
       'subjects' => 'Subjects',
       'ncsu_subjects' => 'NC State University Subjects',
-      'repository_name' => 'Repository'
+      'repository_id' => 'Repository'
     }
 
     @facets.each do |k,v|
@@ -297,7 +297,7 @@
         when 'inclusive_years'
           output << '<h3>Dates</h3>'
           output << inclusive_years_facet_options
-        when 'repository_name'
+        when 'repository_id'
           output << "<h3>#{facet_headings[k]}</h3>"
           output << repository_facet_option_values(k, v)
         else
@@ -333,24 +333,32 @@
 
 
   def repository_facet_option_values(facet, values)
-    repo_values = values.keys
+    repo_ids = values.keys.map { |id| id.to_i }
+    scrc_id = Repository.find_by(repo_code: 'SCRC').id
+    scrc_i = repo_ids.find_index { |id| id == scrc_id }
 
-    libs_i = repo_values.find_index { |element| element.include?('Libraries') }
+    if scrc_i
+      repo_ids.delete_at(scrc_i)
+      repo_ids.insert(0, scrc_id)
+    end
 
-    # If an element containing 'blue' is found, move it to index 0
-    if libs_i
-      libs = repo_values.delete_at(libs_i)
-      repo_values.insert(0, libs)
+    repos = []
+    repo_ids.each do |id|
+      if repo = Repository.find_by(id: id)
+        if values[id.to_s] && values[id.to_s] > 0
+          repos << repo
+        end
+      end
     end
 
     content = ''
     content << '<ul>'
 
-    repo_values.each do |v|
-      # count = values[v]
-      CGI::escapeHTML(v)
-      content << "<li>#{ filter_link(facet, v, multivalued: true) }</li>"
+    repos.each do |repo|
+      label = repo.name
+      content << "<li>#{ filter_link(facet, repo.id.to_s, { multivalued: false, label: label }) }</li>"
     end
+
     content << '</ul>'
     output = values.length > 5 ? "<div class=\"scrollable\">#{ content }</div>" : content
     output.html_safe
@@ -414,22 +422,27 @@
   def remove_filter_link(facet,value,options)
     output = ''
     href_opts = deep_copy(@base_href_options)
-
     label = options[:label] || value
+    remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
 
     if href_opts[:filters][facet].kind_of? Array
       href_opts[:filters][facet].delete(value)
     else
       href_opts[:filters].delete(facet)
     end
-
-    output << '<span class="active-facet">'
-    output << label
-    remove_label = '<i class="fa fa-times-circle" aria-hidden="true" title="Remove this filter"></i>'
     
     href = searches_path(href_opts)
-    output << link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
-    output << '</span>'
+    link = link_to(remove_label.html_safe, href, { 'class' => 'remove-facet-link', 'title' => 'Remove filter', 'aria-label' => 'Remove this filter' } )
+    output += '<span class="active-facet">'
+
+    if options[:prepend]
+      output += link
+      output += label
+    else
+      output += label
+      output += link
+    end
+    output += '</span>'
     output
   end
 
@@ -448,6 +461,7 @@
     # TODO - push selected to top of list, but not for dates
 
     if active_facet_value
+      options[:prepend] = true
       output << remove_filter_link(facet,value,options)
     elsif @filters[facet] && !options[:multivalued] && !active_facet_value
       # skip
@@ -493,6 +507,11 @@
           v.each do |range|
             # output << filter_link(k, range, multivalued: true)
             output << remove_filter_link(k, range, multivalued: true)
+          end
+        when 'repository_id'
+          if repo = Repository.find_by(id: v.to_i)
+            label = repo.name
+            output << remove_filter_link(k, v, multivalued: false, label: label)
           end
         else
           v.each do |value|
