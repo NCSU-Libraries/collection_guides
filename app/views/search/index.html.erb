@@ -26,9 +26,9 @@
 
         <% @response['grouped']['resource_uri']['groups'].each do |g| %>
           <% if g == @response['grouped']['resource_uri']['groups'].last %>
-            <%= render_group(g, class: 'last').html_safe %>
+            <%= render_group(g, class: 'last') %>
           <% else %>
-            <%= render_group(g).html_safe %>
+            <%= render_group(g) %>
           <% end %>
         <% end %>
 
