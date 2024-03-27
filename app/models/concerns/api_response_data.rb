@@ -196,9 +196,12 @@ module ApiResponseData
             role: aa.role,
             relator: aa.relator
           }
-          relator_data = marc_relators(aa.relator)
-          agent_data[:relator_term] = relator_data[:label]
-          agent_data[:relator_uri] = relator_data[:uri]
+          
+          if relator_data = marc_relators(aa.relator)
+            agent_data[:relator_term] = relator_data[:label]
+            agent_data[:relator_uri] = relator_data[:uri]
+          end
+
           @data[:agents] << agent_data
         end
       end
