@@ -49,7 +49,7 @@
       output << '</div>'
     end
 
-    output << "<div class=\"resource-title\">#{link_to(resource_data[:display_title].html_safe, resource_data[:path])}</div>"
+    output << "<div class=\"resource-title\">#{link_to(resource_data[:display_title].html_safe, resource_data[:path]).html_safe}</div>"
 
     if !resource_data[:collection_id].blank? || !resource_data[:extent_statement].blank?
       output << '<div class="resource-details">'
