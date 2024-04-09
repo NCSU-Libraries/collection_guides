@@ -59,7 +59,7 @@ gem 'whenever', :require => false
 
 
 gem 'redis', '~> 4.0'
-gem 'resque', '~> 2.1.0'
+gem 'resque', '~> 2.2.1'
 gem 'resque-web', require: 'resque_web'
 gem 'resque-scheduler'
 gem 'sinatra', '>= 3.0.4'
@@ -85,7 +85,7 @@ end
 
 group :development, :test do
   # Use Puma as the app server
-  gem "puma", '~> 5.6.7'
+  gem "puma", '~> 5.6.8'
   gem 'listen', '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '>= 3.0.0'
