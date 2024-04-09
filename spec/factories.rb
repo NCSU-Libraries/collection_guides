@@ -3,11 +3,19 @@ FactoryBot.define do
     
   end
 
+  factory :repository do
+    sequence( :id ) { |n| 2 + n  }
+    sequence( :uri ) { |n| "/repositories/#{ 2 + n }" }
+    sequence( :repo_code ) { |n| "repo#{n}"  }
+    sequence( :name ) { |n| "repo#{n}"  }
+  end
+
   factory :resource do
     sequence( :title ) { |n| "Test resource #{n}" }
     sequence( :id ) { |n| 10000 + n  }
     sequence( :uri ) { |n| "/repositories/2/resources/#{ 10000 + n }" }
-    repository_id { 2 }
+    # repository_id { 2 }
+    repository
     api_response { test_response(:resource) }
   end
 
@@ -28,7 +36,8 @@ FactoryBot.define do
     sequence( :id ) { |n| 10000 + n  }
     sequence( :uri ) { |n| "/repositories/2/archival_objects/#{ 10000 + n }" }
     sequence(:position) { |n| n }
-    repository_id { 2 }
+    # repository_id { 2 }
+    repository
     api_response { test_response(:archival_object) }
   end
 
@@ -37,7 +46,8 @@ FactoryBot.define do
 
   factory :digital_object do
     sequence( :id ) { |n| 10000 + n  }
-    repository_id { 2 }
+    # repository_id { 2 }
+    repository
     sequence( :uri ) { |n| "/repositories/2/digital_objects/#{ 10000 + n }" }
   end
 
