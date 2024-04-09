@@ -34,6 +34,10 @@ Bundler.require(:default, Rails.env)
 
 module CollectionGuides
   class Application < Rails::Application
+    
+    # Fix for resque-web
+    Resque::Version = Resque::VERSION
+    
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
