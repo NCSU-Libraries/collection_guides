@@ -103,7 +103,7 @@ end
 
 
 # Specify versions for depenedencies with security patches here
-gem "nokogiri", '~> 1.14.3'
+gem "nokogiri", '~> 1.15.6'
 gem 'rails-html-sanitizer', '>= 1.4.4'
 gem "rack", ">= 2.2.6.4"
 gem 'loofah', '>= 2.19.1'
