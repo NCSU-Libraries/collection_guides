@@ -1,5 +1,5 @@
 #project-header {
-
+  // font-family: "RobotoBold";
   background: $grayGhost; /* Old browsers */
   color: $gray;
   padding: 0.5rem 0;
@@ -45,20 +45,23 @@
     font-size: 1.6rem;
     margin: 0;
     text-transform: uppercase;
+    color: $red;
 
     a {
-      color: $grayDark;
+      color: $red;
       text-decoration: none;
     }
 
     .subhead {
-      font-family: "Univers", Helvetica, Arial, sans-serif;
+      // font-family: "RobotoBold", Helvetica, Arial, sans-serif;
       display: inline-block;
       font-size: 1.2rem;
-      color: $gray;
+      // color: $gray;
+      color: $grayDarkest;
       font-weight: 300;
       padding: 0.5rem 0 0 0.25rem;
       text-transform: none;
+
       @include breakpoint(small only) {
         display: block;
         font-size: 1.1rem;
