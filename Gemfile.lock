@@ -266,7 +266,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    resque (2.2.1)
+    resque (2.6.0)
       mono_logger (~> 1.0)
       multi_json (~> 1.0)
       redis-namespace (~> 1.6)
@@ -404,7 +404,7 @@ DEPENDENCIES
   rails (~> 7.0.8.1)
   rails-html-sanitizer (>= 1.4.4)
   redis (~> 4.0)
-  resque (~> 2.2.1)
+  resque (~> 2.6.0)
   resque-scheduler
   resque-web
   rsolr

@@ -59,7 +59,7 @@ gem 'whenever', :require => false
 
 
 gem 'redis', '~> 4.0'
-gem 'resque', '~> 2.2.1'
+gem 'resque', '~> 2.6.0'
 gem 'resque-web', require: 'resque_web'
 gem 'resque-scheduler'
 gem 'sinatra', '>= 3.0.4'
