@@ -211,4 +211,21 @@ module GeneralUtilities
     puts "#{DateTime.now.to_s} - #{Process.pid} - #{message}"
   end
 
+
+  def get_data_from_yaml(yaml_file)
+    yaml_file = yaml_file.to_s
+
+    unless yaml_file =~ /\.ya?ml$/
+      yaml_file += '.yml'
+    end
+
+    yaml_path = Pathname.new(Rails.root) + "lib/yaml/#{yaml_file}"
+    
+    if File.exist?(yaml_path)
+      YAML.load_file(yaml_path)
+    else
+      nil
+    end
+  end
+
 end

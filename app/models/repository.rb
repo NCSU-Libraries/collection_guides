@@ -1,5 +1,6 @@
 class Repository < ApplicationRecord
 
+  include GeneralUtilities
   include AspaceConnect
 
   self.primary_key = "id"
@@ -54,6 +55,15 @@ class Repository < ApplicationRecord
     else
       raise response.body
     end
+  end
+
+
+  def citation
+    repo_details = get_data_from_yaml('repository_details.yml')
+    key = self.repo_code
+    citation = repo_details[key]['citation']
+    default = repo_details['default']['citation']
+    citation || default
   end
 
 

@@ -64,7 +64,7 @@ module ResourcesHelper
 
   def standard_citation
     "<p>[Identification of item], #{ @presenter.title }, #{ @presenter.collection_id ? @presenter.collection_id + ', ' : '' }
-    Special Collections Research Center, North Carolina State University Libraries, Raleigh, NC</p>"
+    #{@resource.repository.citation}</p>"
   end
 
 
