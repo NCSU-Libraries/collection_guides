@@ -71,6 +71,7 @@ class ExecuteAspacePeriodicImport
           if !ResourceTreeUpdate.in_progress_for_resource?(resource_id_from_uri(uri))
             import_resource(uri)
           end
+          sleep 5
         end
 
         log_info "ExecuteAspacePeriodicImport queued #{@update_resource_trees.length} resource tree updates:"
