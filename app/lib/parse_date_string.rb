@@ -38,7 +38,6 @@ module ParseDateString
 
 
     def match_replace
-      # puts @string
       match_replace_clusters.each do |c|
         match_patterns = (c[:match].kind_of? Array) ? c[:match] : [c[:match]]
         match_patterns.each do |p|

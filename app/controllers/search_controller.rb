@@ -130,10 +130,6 @@ class SearchController < ApplicationController
     s = Search.new(@params)
     @response = s.execute
 
-    # puts @response.inspect
-
-    # puts @response['grouped']['resource_uri']['groups'].length
-
     ######################################################################
     # Prepare response data for view
     ######################################################################

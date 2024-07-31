@@ -22,23 +22,13 @@ module EadUtilities
     list_elements = ['chronlist','list']
     list_content_elements = ['chronitem','eventgrp','item','defitem']
     remove_elements = ['extptr', 'ptr', 'ref', 'head', 'head01', 'head02']
-
-    # puts "*** xml"
-    # puts xml
-
     doc = Nokogiri::XML("<ead_content>#{xml}</ead_content>",nil,'UTF-8')
-
-    # puts "*** doc"
-    # puts doc.to_s
-
     doc.remove_namespaces!
     root = doc.root
 
-    # puts "*** root.to_s"
-    # puts root.to_s
-
     convert_attributes = Proc.new do |element|
       html_attributes = ['href','id','title']
+
       element.attributes.each do |k,v|
         # pesky namespaces in AS response data!
         if k.match(/\:/)
@@ -57,6 +47,7 @@ module EadUtilities
           element.remove_attribute(k)
         end
       end
+
       element['class'] = element.name
     end
 
@@ -98,16 +89,11 @@ module EadUtilities
               end
             end
           end
-        else
-
         end
       end
     end
 
     html = root.inner_html.to_s
-
-
-
     # remove newlines between tags
     html.gsub(/\>\n*\</,'><')
   end

@@ -31,10 +31,6 @@ class ResourcesController < ApplicationController
     else
       @presenter = @resource.presenter
       @repository = @resource.repository
-
-      puts '***'
-      puts @repository.inspect
-
       @tab = params[:tab] || 'summary'
 
       respond_to do |format|

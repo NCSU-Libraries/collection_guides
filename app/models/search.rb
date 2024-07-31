@@ -71,8 +71,6 @@ class Search
       set_query_fields()
       custom_query_fields()
 
-      puts @query_fields.inspect
-
       # Set qf using query_fields above
       @solr_params[:qf] = ''
       @query_fields.each do |k,v|
