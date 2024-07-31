@@ -41,6 +41,7 @@ class ExecuteAspacePeriodicImport
 
 
   def execute
+    puts "***"
     log_info "Running periodic update from ArchivesSpace"
     log_info "with options: #{@options.inspect}"
 
@@ -63,6 +64,9 @@ class ExecuteAspacePeriodicImport
       process_digital_objects
       @update_resource_trees.uniq!
       @update_resource_trees.delete_if { |uri| uri.blank? }
+
+      puts "@update_resource_trees.inspect"
+      puts @update_resource_trees.inspect
 
       if @update_resource_trees.empty?
         log_info "No required updates were found"
@@ -200,6 +204,12 @@ class ExecuteAspacePeriodicImport
       log_info "Queueing resource tree update for #{uri}"
       resource_id = resource_id_from_uri(uri)
       resource_tree_update = ResourceTreeUpdate.create!(resource_id: resource_id, resource_uri: uri)
+      
+      puts "import_resource"
+      puts "created:"
+      puts resource_tree_update.inspect
+      puts "enqueing UpdateResourceTreeJob"
+      
       UpdateResourceTreeJob.perform_later(resource_tree_update)
     else
       log_info "*** Resource #{uri} is not published/completed ***"

@@ -26,6 +26,9 @@ class UpdateResourceTreeService
 
 
   def execute
+
+    puts "UpdateResourceTreeService executing"
+
     @resource = Resource.create_or_update_from_api(@resource_uri)
 
     @session = ArchivesSpaceApiUtility::ArchivesSpaceSession.new(read_timeout: 360)
@@ -54,6 +57,7 @@ class UpdateResourceTreeService
     @resource.reload
     @resource.update_tree_unit_data
 
+    puts "performing SearchIndexResourceTreeJob"
     SearchIndexResourceTreeJob.perform_later(@resource.id)
 
     { resource: @resource }
