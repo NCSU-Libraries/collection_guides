@@ -31,8 +31,9 @@ gem 'font-awesome-sass', '< 6.0.0'
 gem 'foundation-will_paginate'
 gem 'will_paginate'
 
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier'
+# # Use Uglifier as compressor for JavaScript assets
+# gem 'uglifier'
+gem 'terser'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
