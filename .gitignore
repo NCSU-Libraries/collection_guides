@@ -40,3 +40,5 @@
 
 # ignore files
 /public/files
+
+/config/master.key

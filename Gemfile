@@ -11,7 +11,6 @@ gem 'devise_wolftech_authenticatable',
 
 gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.2.1.2'
 
@@ -31,12 +30,8 @@ gem 'font-awesome-sass'
 gem 'foundation-will_paginate'
 gem 'will_paginate'
 
-# # Use Uglifier as compressor for JavaScript assets
-# gem 'uglifier'
+# # Use Terser as compressor for JavaScript assets
 gem 'terser'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -53,18 +48,12 @@ gem 'rsolr'
 # security vulnerabilities fix - https://github.com/NCSU-Libraries/collection_guides/security/dependabot/Gemfile.lock/nokogiri/open
 gem 'truncate_html'
 gem 'chronic'
-
-
-
 gem 'whenever', :require => false
-
-
 gem 'redis', '~> 4.0'
 gem 'resque', '~> 2.6.0'
 gem 'resque-web', require: 'resque_web'
 gem 'resque-scheduler'
 gem 'sinatra', '>= 3.0.4'
-
 gem 'net-ldap'
 gem "net-http"
 gem 'net-smtp', require: false
@@ -74,7 +63,6 @@ gem 'net-pop', require: false
 # Exception Notifications
 gem 'exception_notification'
 gem 'exception_notification-rake'
-
 
 # https://nvd.nist.gov/vuln/detail/CVE-2019-16109
 gem 'devise'
@@ -99,12 +87,3 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry'
 end
-
-
-# Specify versions for depenedencies with security patches here
-# gem "nokogiri", '~> 1.16.5'
-# gem 'rails-html-sanitizer', '>= 1.4.4'
-# gem "rack", ">= 2.2.6.4"
-# gem 'loofah', '>= 2.19.1'
-# gem 'uri', '~> 0.12.2'
-# gem 'irb', '~> 1.4.1'
