@@ -7,7 +7,7 @@ EXPOSE 3000
 
 ENV RAILS_ENV development
 
-RUN gem install bundler:2.3.22
+RUN gem install bundler
 
 COPY Gemfile Gemfile.lock ./
 

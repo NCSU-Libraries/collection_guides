@@ -1,6 +1,6 @@
 defaults: &defaults
-  archivesspace_backend_host: api.aspace-staging1.lib.ncsu.edu
-  archivesspace_solr_host: solr.aspace-staging1.lib.ncsu.edu
+  archivesspace_backend_host: api.aspace-s2.lib.ncsu.edu
+  archivesspace_solr_host: solr.aspace-s2.lib.ncsu.edu
   archivesspace_solr_core_path: '/collection1/'
   archivesspace_https: '1'
   archivesspace_username: admin

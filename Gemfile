@@ -13,7 +13,7 @@ gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.1.4'
+gem 'rails', '~> 7.2.1.2'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -24,10 +24,10 @@ gem 'mysql2'
 
 # Use SCSS for stylesheets
 # gem 'sass-rails'
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 6.0'
 gem 'foundation-rails'
 # gem 'font-awesome-sass'
-gem 'font-awesome-sass', '< 6.0.0'
+gem 'font-awesome-sass'
 gem 'foundation-will_paginate'
 gem 'will_paginate'
 
@@ -95,16 +95,16 @@ group :development, :test do
   gem 'annotate'
   # For testing
   gem 'rspec-rails'
-  gem 'database_cleaner', ">= 1.0.0"
+  gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'pry'
 end
 
 
 # Specify versions for depenedencies with security patches here
-gem "nokogiri", '~> 1.16.5'
-gem 'rails-html-sanitizer', '>= 1.4.4'
-gem "rack", ">= 2.2.6.4"
-gem 'loofah', '>= 2.19.1'
-gem 'uri', '~> 0.12.2'
-gem 'irb', '~> 1.4.1'
+# gem "nokogiri", '~> 1.16.5'
+# gem 'rails-html-sanitizer', '>= 1.4.4'
+# gem "rack", ">= 2.2.6.4"
+# gem 'loofah', '>= 2.19.1'
+# gem 'uri', '~> 0.12.2'
+# gem 'irb', '~> 1.4.1'
