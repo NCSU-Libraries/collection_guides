@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-alpine
+FROM ruby:3.3-alpine
 
 RUN mkdir -p /opt/collection_guides
 WORKDIR /opt/collection_guides
