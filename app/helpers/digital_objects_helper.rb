@@ -111,6 +111,7 @@ module DigitalObjectsHelper
   end
 
 
+
   def thumbnail_visibility_toggle_output(presenter, tab)
     response = ''
     if presenter.digital_objects || presenter.has_descendant_digital_objects

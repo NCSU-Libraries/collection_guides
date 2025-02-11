@@ -103,6 +103,29 @@ class DigitalObject < ApplicationRecord
   end
 
 
+  def sal_file_url(data=nil)
+    url = nil
+    data ||= JSON.parse(api_response)
+    
+    if data['file_versions']
+      url = data['file_versions']&.find { |file| file['file_uri'] =~ /d\.lib\.ncsu\.edu\/collections\/catalog\// }&.dig('file_uri')
+
+      if url
+        url = 'https://' + url unless url.match(/^http/)
+        url.gsub!(/^http:/, 'https:')
+        url.gsub!(/#?\?.*$/, '')
+      end
+    end
+
+    url
+  end
+
+
+  def iiif_manifest_url
+    sal_file_url ? (sal_file_url + '/manifest') : nil
+  end
+
+
   def has_files?
     has_files
   end
