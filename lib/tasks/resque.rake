@@ -23,6 +23,7 @@ namespace :resque do
     stop_workers
     run_worker('index',1)
     run_worker('update',1)
+    run_worker('image_data',1)
     run_worker('*',1)
   end
 

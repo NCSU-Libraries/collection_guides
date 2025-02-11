@@ -141,51 +141,6 @@ ThumbnailViewer.prototype.setManifestUrl = function(url) {
 }
 
 
-
-// This commented-out functionality was moved to contents_list_thumbnails.js
-
-// ThumbnailViewer.prototype.hideActiveViewers = function() {
-//   var _this = this;
-//   var selector = this.selector + '.active';
-//   var activeViewers = document.querySelectorAll(selector);
-//   for (var i = 0; i < activeViewers.length; i++) {
-//     var viewer = activeViewers[i];
-//     var thumbnailInner = viewer.getElementsByClassName('thumbnail-viewer-inner')[0];
-//     viewer.classList.remove('active');
-//     thumbnailInner.classList.add('hidden');
-//   }
-// }
-
-
-// ThumbnailViewer.prototype.toggleVisibility = function(element) {
-//   var _this = this;
-//   var thumbnailInner = this.viewerElement.getElementsByClassName('thumbnail-viewer-inner')[0];
-//   if (this.viewerElement.classList.contains('active')) {
-//     this.viewerElement.classList.remove('active');
-//     thumbnailInner.classList.add('hidden');
-//     element.innerHTML = this.showThumbnailsLabel;
-//   }
-//   else {
-//     this.viewerElement.classList.add('active');
-//     thumbnailInner.classList.remove('hidden');
-//     element.innerHTML = this.hideThumbnailsLabel;
-//   }
-// }
-
-
-// ThumbnailViewer.prototype.generateVisibilityToggle = function() {
-//   var _this = this;
-//   var toggle = document.createElement("span");
-//   toggle.classList.add('visibility-toggle');
-//   toggle.innerHTML = this.showThumbnailsLabel;
-//   toggle.addEventListener('click', function() {
-//     _this.toggleVisibility(this);
-//   });
-//   return toggle;
-// }
-
-
-
 ThumbnailViewer.prototype.httpRequest = function(url, callback) {
   var xmlhttp = new XMLHttpRequest();
 

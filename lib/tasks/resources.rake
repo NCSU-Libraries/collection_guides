@@ -20,6 +20,18 @@ namespace :resources do
     UpdateResourceTreeUnitDataJob.perform_later(args[:id])
   end
 
+  desc "update digital_object image_data"
+  task :update_image_data, [:id] => :environment do |t, args|
+    if args[:id]
+      r = Resource.find args[:id]
+      UpdateResourceTreeImageDataJob.perform_later(r)
+    else
+      Resource.find_each do|r|
+        UpdateResourceTreeImageDataJob.perform_later(r)
+      end
+    end
+  end
+
   # desc "update_from_api"
   # task :update_from_api, [:id] => :environment do |t, args|
   #   if args[:id]

@@ -111,6 +111,7 @@ module DigitalObjectsHelper
   end
 
 
+
   def thumbnail_visibility_toggle_output(presenter, tab)
     response = ''
     if presenter.digital_objects || presenter.has_descendant_digital_objects
@@ -124,29 +125,60 @@ module DigitalObjectsHelper
   end
 
 
+  # def thumbnail_viewer_output(presenter)
+  #   # render thumbnails if enabled
+  #   if presenter.digital_objects
+  #     manifest_urls = []
+  #     viewer_id = 'thumbnail-viewer'
+
+  #     presenter.digital_objects.each do |d|
+  #       manifest_url = iiif_manifest_url(d)
+  #       if manifest_url
+  #         manifest_url.gsub!(/^http:/,'https:')
+  #         manifest_urls << manifest_url
+  #         viewer_id += '-' + d[:id].to_s
+  #       end
+  #     end
+
+  #     thumbnail_output = ''
+
+  #     if !manifest_urls.empty?
+  #       thumbnail_output += "<div id=\"#{ viewer_id }\" class=\"thumbnail-viewer\" data-manifest-url=\"#{ manifest_urls.join(' ') }\"></div>"
+  #     end
+
+  #   end
+  #   thumbnail_output
+  # end
+
+
   def thumbnail_viewer_output(presenter)
     # render thumbnails if enabled
+
     if presenter.digital_objects
       manifest_urls = []
-      viewer_id = 'thumbnail-viewer'
+      templates = []
+      output = ''
+      viewer_id = 'thumbnail-viewer' + presenter.id.to_s
 
       presenter.digital_objects.each do |d|
-        manifest_url = iiif_manifest_url(d)
+        manifest_url = d['iiif_manifest_url']
+
         if manifest_url
-          manifest_url.gsub!(/^http:/,'https:')
-          manifest_urls << manifest_url
-          viewer_id += '-' + d[:id].to_s
+          template = '<template class="image-data">'
+          template += JSON.generate(d['image_data'])
+          template += '</template>'
+          templates << template
         end
       end
 
-      thumbnail_output = ''
-
-      if !manifest_urls.empty?
-        thumbnail_output += "<div id=\"#{ viewer_id }\" class=\"thumbnail-viewer\" data-manifest-url=\"#{ manifest_urls.join(' ') }\"></div>"
+      if !templates.empty?
+        output += "<div id=\"#{ viewer_id }\" class=\"thumbnail-viewer\"\">"
+        output += templates.join("\n")
+        output += '</div>'
       end
-
     end
-    thumbnail_output
+
+    output
   end
 
 

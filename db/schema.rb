@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_28_191853) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
   create_table "agent_associations", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.integer "record_id"
     t.string "record_type"
@@ -98,6 +98,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_28_191853) do
     t.datetime "updated_at", precision: nil
     t.boolean "show_thumbnails"
     t.boolean "has_files"
+    t.text "image_data"
     t.index ["uri"], name: "index_digital_objects_on_uri"
   end
 

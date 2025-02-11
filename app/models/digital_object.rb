@@ -5,26 +5,25 @@ class DigitalObject < ApplicationRecord
   include Associations
   include Presentation
 
-  self.primary_key = "id"
+  serialize :image_data
 
-  validates :uri, uniqueness: true
+  self.primary_key = "id"
+  @@uri_format = /^\/repositories\/[\d]+\/digital\_objects\/[\d]+$/
 
   belongs_to :repository
   has_many :digital_object_associations
-
   has_many :resources, through: :digital_object_associations, source: :record, source_type: 'Resource'
   has_many :archival_objects, through: :digital_object_associations, source: :record, source_type: 'ArchivalObject'
-
   has_many :digital_object_volumes, -> { order('position ASC') }, dependent: :destroy
-
   has_many :agent_associations, -> { order('position ASC') }, as: :record, dependent: :destroy
   # has_many :agents, through: :agent_associations
   has_many :subject_associations, -> { order('position ASC') }, as: :record, dependent: :destroy
   has_many :subjects, through: :subject_associations
 
+  validates :uri, uniqueness: true
   after_save :update_has_files
+  after_create :update_image_data
 
-  @@uri_format = /^\/repositories\/[\d]+\/digital\_objects\/[\d]+$/
 
   def self.create_from_api(uri, options={})
     # validate uri format
@@ -89,6 +88,8 @@ class DigitalObject < ApplicationRecord
         end
         (do_data[:files] ||= []) << f
       end
+      do_data['iiif_manifest_url'] = iiif_manifest_url
+      do_data['image_data'] = image_data
     end
 
     if !digital_object_volumes.blank?
@@ -100,6 +101,29 @@ class DigitalObject < ApplicationRecord
     end
 
     do_data
+  end
+
+
+  def sal_file_url(data=nil)
+    url = nil
+    data ||= JSON.parse(api_response)
+    
+    if data['file_versions']
+      url = data['file_versions']&.find { |file| file['file_uri'] =~ /d\.lib\.ncsu\.edu\/collections\/catalog\// }&.dig('file_uri')
+
+      if url
+        url = 'https://' + url unless url.match(/^http/)
+        url = url.gsub(/^http:/, 'https:').gsub(/#?\?.*$/, '').strip
+      end
+    end
+
+    url
+  end
+
+
+  def iiif_manifest_url
+    url = sal_file_url ? (sal_file_url + '/manifest') : nil
+    url ? url.gsub(/[\n\r]/,'') : nil
   end
 
 
@@ -116,6 +140,11 @@ class DigitalObject < ApplicationRecord
               true : false
       update_columns(has_files: value)
     end
+  end
+
+
+  def update_image_data
+    AddOrUpdateDigitalObjectImageData.call(self)
   end
 
 end

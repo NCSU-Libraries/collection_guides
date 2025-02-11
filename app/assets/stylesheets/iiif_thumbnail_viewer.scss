@@ -17,6 +17,8 @@
   border: none;
   line-height: inherit;
   box-shadow: none;
+  position: relative;
+  z-index: 1;
 }
 
 .thumbnail-viewer .thumbnail-viewer-inner {
