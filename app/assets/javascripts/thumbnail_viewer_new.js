@@ -49,122 +49,137 @@ function enableTooltip(element) {
 }
 
 
-function ThumbnailViewer(config) {
-  this.initialize(config);
-}
-
-ThumbnailViewer.prototype.initialize = function(config) {
-  this.manifestUrl = config.manifestUrl;
-  this.selector = config.selector;
-  this.callbacks = config.callbacks;
-
-  this.getDigitalObjectIds();
-
-  this.thumbnailWidth = config.thumbnailWidth;
-  this.thumbnailHeight = config.thumbnailHeight;
-  this.thumbnailMaxWidth = config.thumbnailMaxWidth || 90;
-  this.thumbnailMaxHeight = config.thumbnailMaxHeight || Math.floor(this.thumbnailMaxWidth * 1.618);
-  this.thumbnailWidthVal = this.thumbnailWidth || this.thumbnailMaxWidth;
-
-  if (this.thumbnailHeight) {
-    this.thumbnailHeightVal = this.thumbnailHeight;
-  }
-  else if (this.thumbnailWidth) {
-    this.thumbnailHeightVal = this.thumbnailWidth;
-  }
-  else {
-    this.thumbnailHeightVal = this.thumbnailMaxHeight;
+class ThumbnailViewer {
+  
+  constructor(config) {
+    this.initialize(config);
   }
 
-  this.thumbnailRotation = this.thumbnailRotation || 0;
-  this.thumbnailSpacing = config.thumbnailSpacing || 15;
-  this.scrollControlWidth = config.scrollControlWidth || Math.ceil(this.thumbnailWidthVal / 2.75);
-  this.viewerElement = document.querySelector(this.selector);
 
-  this.configureViewerWidth();
-
-  this.thumbnailLinkFunction = config.thumbnailLinkFunction;
-  this.thumbnailLinkTarget = config.thumbnailLinkTarget || '_blank';
-
-  var regionValues = ['full','square'];
-
-  if (config.thumbnailRegion && (regionValues.indexOf(config.thumbnailRegion) >= 0)) {
-    this.thumbnailRegion = config.thumbnailRegion;
-  }
-  else {
-    this.thumbnailRegion = 'full';
+  initialize(config) {
+    this.setAttributes(config);
   }
 
-  this.showThumbnailsLabel = '<i class="fa fa-picture-o" aria-hidden="true"></i>Show thumbnails';
-  this.hideThumbnailsLabel = '<i class="fa fa-picture-o" aria-hidden="true"></i>Hide thumbnails';
-  this.viewerElementMinWidth = (this.scrollControlWidth * 2) + (this.thumbnailSpacing * 2) + this.thumbnailWidthVal;
-  this.images = [];
-}
-
-
-ThumbnailViewer.prototype.configureViewerWidth = function() {
-  var viewerStyle = window.getComputedStyle(this.viewerElement);
-  this.viewerWidthOverall = parseInt(viewerStyle.width.replace(/[^\d]*/,''));
-  this.viewerWidthInner = this.viewerWidthOverall - (this.scrollControlWidth * 2) - this.thumbnailSpacing;
-}
-
-
-ThumbnailViewer.prototype.getDigitalObjectIds = function() {
-  var idsString = this.selector.replace(/#thumbnail-viewer-/,'');
-  this.digitalObjectIds = idsString.split('-');
-}
-
-
-ThumbnailViewer.prototype.thumbnailUrl = function(image) {
-  if (this.thumbnailUrlFunction) {
-    return this.thumbnailUrlFunction(image);
-  }
-  else {
-    var serviceId = image['resource']['service']['@id'];
-    var region = this.thumbnailRegion;
-    var dimensions;
-    if (this.thumbnailWidth || this.thumbnailHeight) {
-      dimensions = (this.thumbnailWidth || '') + ',' + (this.thumbnailHeight || '');
+  setAttributes(config) {
+    this.selector = config.selector;
+    this.callbacks = config.callbacks;
+    this.thumbnailWidth = config.thumbnailWidth;
+    this.thumbnailHeight = config.thumbnailHeight;
+    this.thumbnailMaxWidth = config.thumbnailMaxWidth || 90;
+    this.thumbnailMaxHeight = config.thumbnailMaxHeight || Math.floor(this.thumbnailMaxWidth * 1.618);
+    this.thumbnailWidthVal = this.thumbnailWidth || this.thumbnailMaxWidth;
+    this.thumbnailRotation = config.thumbnailRotation || 0;
+    this.thumbnailSpacing = config.thumbnailSpacing || 15;
+    this.scrollControlWidth = config.scrollControlWidth || Math.ceil(this.thumbnailWidthVal / 2.75);
+    this.thumbnailLinkFunction = config.thumbnailLinkFunction;
+    this.thumbnailLinkTarget = config.thumbnailLinkTarget || '_blank';
+    this.images = [];
+    this.showThumbnailsLabel = '<i class="fa fa-picture-o" aria-hidden="true"></i>Show thumbnails';
+    this.hideThumbnailsLabel = '<i class="fa fa-picture-o" aria-hidden="true"></i>Hide thumbnails';
+    const regionValues = ['full','square'];
+  
+    if (config.thumbnailRegion && (regionValues.indexOf(config.thumbnailRegion) >= 0)) {
+      this.thumbnailRegion = config.thumbnailRegion;
     }
     else {
-      dimensions = '!' + this.thumbnailMaxWidth + ',' + this.thumbnailMaxHeight;
+      this.thumbnailRegion = 'full';
     }
-    var rotation = this.thumbnailRotation;
-    var urlExtension = '/' + region + '/' +  dimensions + '/' + rotation + '/default.jpg';
-    return serviceId + urlExtension;
+
+    this.setThumbnailHeightVal();
+    this.setDigitalObjectIds();
+    this.viewerElement = document.querySelector(this.selector);
+    this.configureViewerWidth();
   }
-}
 
+  setThumbnailHeightVal() {
+    if (this.thumbnailHeight) {
+      this.thumbnailHeightVal = this.thumbnailHeight;
+    }
+    else if (this.thumbnailWidth) {
+      this.thumbnailHeightVal = this.thumbnailWidth;
+    }
+    else {
+      this.thumbnailHeightVal = this.thumbnailMaxHeight;
+    }
+  }
 
-ThumbnailViewer.prototype.setManifestUrl = function(url) {
-  this.manifestUrl = url;
-}
+  configureViewerWidth() {
+    const viewerStyle = window.getComputedStyle(this.viewerElement);
+    this.viewerWidthOverall = parseInt(viewerStyle.width.replace(/[^\d]*/,''));
+    this.viewerWidthInner = this.viewerWidthOverall - (this.scrollControlWidth * 2) - this.thumbnailSpacing;
+    this.viewerElementMinWidth = (this.scrollControlWidth * 2) + (this.thumbnailSpacing * 2) + this.thumbnailWidthVal;
+  }
 
+  setDigitalObjectIds() {
+    const idsString = this.selector.replace(/#thumbnail-viewer-/,'');
+    this.digitalObjectIds = idsString.split('-');
+  }
 
-ThumbnailViewer.prototype.httpRequest = function(url, callback) {
-  var xmlhttp = new XMLHttpRequest();
+  thumbnailUrl(image) {
+    if (this.thumbnailUrlFunction) {
+      return this.thumbnailUrlFunction(image);
+    }
+    else {
+      const serviceId = image['resource']['service']['@id'];
+      const region = this.thumbnailRegion;
+      const dimensions = NULL;
 
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
-      if (xmlhttp.status == 200) {
-        callback(xmlhttp.responseText);
+      if (this.thumbnailWidth || this.thumbnailHeight) {
+        dimensions = (this.thumbnailWidth || '') + ',' + (this.thumbnailHeight || '');
       }
       else {
-        console.log('XMLHttpRequest was unsuccessful');
-        console.log(xmlhttp);
+        dimensions = '!' + this.thumbnailMaxWidth + ',' + this.thumbnailMaxHeight;
       }
+
+      const rotation = this.thumbnailRotation;
+      const urlExtension = '/' + region + '/' +  dimensions + '/' + rotation + '/default.jpg';
+      return serviceId + urlExtension;
     }
-  };
+  }
 
-  xmlhttp.addEventListener('error', function() { console.log("ERROR!") });
-  xmlhttp.open("GET", url, true);
-  xmlhttp.send();
+  executeCallback(fn, data) {
+    executeCallback(fn, data);
+  }
+
 }
 
 
-ThumbnailViewer.prototype.executeCallback = function(fn, data) {
-  executeCallback(fn, data);
-}
+// EVERYTHING BELOW THIS LINE IS DEPRECATED!!!!!!
+
+
+// function ThumbnailViewer(config) {
+//   this.initialize(config);
+// }
+
+
+
+
+// ThumbnailViewer.prototype.setManifestUrl = function(url) {
+//   this.manifestUrl = url;
+// }
+
+
+// ThumbnailViewer.prototype.httpRequest = function(url, callback) {
+//   var xmlhttp = new XMLHttpRequest();
+
+//   xmlhttp.onreadystatechange = function() {
+//     if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+//       if (xmlhttp.status == 200) {
+//         callback(xmlhttp.responseText);
+//       }
+//       else {
+//         console.log('XMLHttpRequest was unsuccessful');
+//         console.log(xmlhttp);
+//       }
+//     }
+//   };
+
+//   xmlhttp.addEventListener('error', function() { console.log("ERROR!") });
+//   xmlhttp.open("GET", url, true);
+//   xmlhttp.send();
+// }
+
+
 
 
 ThumbnailViewer.prototype.testOutput = function(testData) {
@@ -191,12 +206,8 @@ ThumbnailViewer.prototype.getManifests = function(callback) {
     var manifestUrl = _this.manifestUrl[i];
 
     var requestCallback = function(data) {
-
-      console.log(manifestUrl);
-
       i++;
       var manifest = JSON.parse(data);
-
       // _this.manifests.push(manifest);
       _this.manifests[i] = manifest;
 
@@ -351,10 +362,13 @@ ThumbnailViewer.prototype.generate = function() {
     var totalResources = 0;
 
     for (var i = 0; i < _this.manifests.length; i++) {
-      var manifest = _this.manifests[i];
 
+      // NEW FUNCTIONALITY HAPPENS HERE
+      
+      var manifest = _this.manifests[i];
       var thumbnailElement = generateThumbnailElement(i);
       var thumbnailData = _this.getThumbnailData(manifest);
+
       if (thumbnailData) {
         loadThumbnailElementContent(thumbnailElement, thumbnailData);
         totalResources++;
