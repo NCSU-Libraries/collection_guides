@@ -98,7 +98,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.datetime "updated_at", precision: nil
     t.boolean "show_thumbnails"
     t.boolean "has_files"
-    t.text "thumbnail_data"
+    t.text "image_data"
     t.index ["uri"], name: "index_digital_objects_on_uri"
   end
 

@@ -10,7 +10,6 @@ ContentsList.prototype.thumbnailViewers = function(callback) {
 
     totalThumbnailViewers = thumbnailViewers.length;
 
-
     function getAlternateElements(viewerId) {
       var elements = [];
       var idsString = viewerId.replace(/#thumbnail-viewer-/,'');
@@ -140,7 +139,6 @@ ContentsList.prototype.thumbnailViewers = function(callback) {
       }
     }
 
-
     // Remove visibility toggle if all viewres were deleted because there were no images in manifests
     // This function will be passed as callback to ThumbnailViewer on last iteration
     function hideVisibilityToggleIfNoViewers() {
@@ -151,52 +149,23 @@ ContentsList.prototype.thumbnailViewers = function(callback) {
       }
     }
 
-
     if (totalThumbnailViewers > 0) {
-      var thumbnailLinkFunction = function(manifest, image, index) {
-        var id = manifest['@id'];
-        var link = id.replace(/\/manifest\/?(\.jso?n)?$/,'');
-        // link = link + '#?cv=' + index;
-        return link;
-      }
-
       var viewerConfig = {
-        thumbnailLinkFunction: thumbnailLinkFunction,
         thumbnailMaxWidth: 90
       }
 
-      for (var i = 0; i < totalThumbnailViewers; i++) {
-        var viewerContainer = thumbnailViewers[i];
-        var id = viewerContainer.id;
-        var manifestUrl = viewerContainer.getAttribute('data-manifest-url');
-
-        if (manifestUrl) {
-          var manifestUrls = manifestUrl.split(' ');
-
-          if (manifestUrls.length > 0) {
-            var viewerId = '#' + id;
-            viewerConfig['selector'] = viewerId;
-            viewerConfig['manifestUrl'] = manifestUrl.split(' ');
-
-            if (i < totalThumbnailViewers -1) {
-              viewerConfig['callbacks'] = [callback];
-            }
-            else {
-              viewerConfig['callbacks'] = [hideVisibilityToggleIfNoViewers, callback];
-            }
-
-            var viewer = new ThumbnailViewer(viewerConfig);
-            hideAlternateElements(viewerId);
-            viewer.generate();
-            thumbnailViewersLoaded++;
-            // console.log(thumbnailViewersLoaded + '/' + totalThumbnailViewers);
-          }
+      for (let i = 0; i < totalThumbnailViewers; i++) {
+        const viewerContainer = thumbnailViewers[i];
+        
+        if (viewerContainer) {
+          viewerConfig['selector'] = "#" + viewerContainer.id;
+          const viewer = new ThumbnailViewer(viewerConfig);
+          thumbnailViewersLoaded++;
         }
       }
 
       enableThumbnailVisibilityToggle();
     }
-
   }
 
   activateThumbnailViewers();

@@ -17,7 +17,7 @@
 //= require stickable
 //= require tabs
 //= require modal
-//= require thumbnail_viewer
+//= require thumbnail_viewer_new
 //= require contents_list
 //= require contents_list_thumbnails
 //= require contents_list_filesystem_browse

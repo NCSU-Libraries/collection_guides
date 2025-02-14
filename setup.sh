@@ -15,8 +15,7 @@ if test -f tmp/dbdata/collection_guides_db.sql; then
   echo "-- Found Collection Guides staging dump, skipping --"
 else
   echo "-- Dumping Collection Guides staging database to tmp/dbdata/collection_guides_db.sql. Enter staging db password. --"
-  # mysqldump ${COLUMN_STATISTICS_FLAG} -h mysqlstagingcl.lib.ncsu.edu -u collectionguides -p collection_guides_staging > tmp/dbdata/collection_guides_db.sql
-  mysqldump --protocol=tcp ${COLUMN_STATISTICS_FLAG} -h  mysqlstagingcl.lib.ncsu.edu -u collectionguides -p collection_guides_staging > tmp/dbdata/collection_guides_db.sqll
+  mysqldump ${COLUMN_STATISTICS_FLAG} -h mysqlstagingcl.lib.ncsu.edu -u collectionguides -p collection_guides_staging > tmp/dbdata/collection_guides_db.sql
 fi
 
 cp config/database.yml.docker config/database.yml

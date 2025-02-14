@@ -97,8 +97,10 @@ class Resource < ApplicationRecord
 
 
   def update_tree_unit_data
+    puts id
     update_unit_data
-    archival_objects.find_each { |a| a.update_unit_data }
+    print '.'
+    archival_objects.find_each { |a| a.update_unit_data; print '.' }
     reload
     update_hierarchy_attributes
   end

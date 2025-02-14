@@ -18,19 +18,17 @@ class AddOrUpdateDigitalObjectThumbnailData
   private
 
   def execute
-    # ...implementation code...
-    manifest = get_manifest
-    puts manifest.inspect
+    if manifest = get_manifest
+      data = get_thumbnail_data(manifest)
+      puts data.inspect
+      @digital_object.update!(image_data: data)
+    end
   end
 
-  
   def get_manifest
-    url = @digital_object.iiif_manifest_url
-
-    if url
-      response = get_data_from_url(url)
-      if response[:response].kind_of?(Net::HTTPSuccess)
-        response[:response].body
+    if url = @digital_object.iiif_manifest_url
+      if response = get_data_from_url(url, false)
+        (response[:response].kind_of?(Net::HTTPSuccess) && response[:response].body) ? JSON.parse(response[:response].body) : nil
       else
         nil
       end
@@ -38,7 +36,6 @@ class AddOrUpdateDigitalObjectThumbnailData
       nil
     end
   end
-
 
   def get_first_sequence(manifest)
     manifest.dig('sequences', 0)
@@ -52,15 +49,18 @@ class AddOrUpdateDigitalObjectThumbnailData
     canvas.dig('images', 0)
   end
 
-
   def get_thumbnail_data(manifest)
+    id = manifest['@id']
+    link_url = id.gsub(/\/manifest\/?(\.jso?n)?$/,'')
     data = nil
+
     if sequence = get_first_sequence(manifest)
       if canvas = get_first_canvas(sequence)
         if image = get_first_image(canvas)
+          thumbnail_base_url = image['resource']['service']['@id'];
           data = {}
-          data['thumbnailSrc'] = thumbnail_url(image)
-          data['thumbnailLinkHref'] = thumbnail_link_function(manifest, image)
+          data['thumbnailBaseUrl'] = thumbnail_base_url
+          data['thumbnailLinkHref'] = link_url
           data['imageCount'] = sequence['canvases'].length
           data['title'] = manifest['label']
         end

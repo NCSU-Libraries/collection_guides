@@ -5,26 +5,24 @@ class DigitalObject < ApplicationRecord
   include Associations
   include Presentation
 
-  self.primary_key = "id"
+  serialize :image_data
 
-  validates :uri, uniqueness: true
+  self.primary_key = "id"
+  @@uri_format = /^\/repositories\/[\d]+\/digital\_objects\/[\d]+$/
 
   belongs_to :repository
   has_many :digital_object_associations
-
   has_many :resources, through: :digital_object_associations, source: :record, source_type: 'Resource'
   has_many :archival_objects, through: :digital_object_associations, source: :record, source_type: 'ArchivalObject'
-
   has_many :digital_object_volumes, -> { order('position ASC') }, dependent: :destroy
-
   has_many :agent_associations, -> { order('position ASC') }, as: :record, dependent: :destroy
   # has_many :agents, through: :agent_associations
   has_many :subject_associations, -> { order('position ASC') }, as: :record, dependent: :destroy
   has_many :subjects, through: :subject_associations
 
+  validates :uri, uniqueness: true
   after_save :update_has_files
 
-  @@uri_format = /^\/repositories\/[\d]+\/digital\_objects\/[\d]+$/
 
   def self.create_from_api(uri, options={})
     # validate uri format
@@ -89,6 +87,8 @@ class DigitalObject < ApplicationRecord
         end
         (do_data[:files] ||= []) << f
       end
+      do_data['iiif_manifest_url'] = iiif_manifest_url
+      do_data['image_data'] = image_data
     end
 
     if !digital_object_volumes.blank?
@@ -112,8 +112,7 @@ class DigitalObject < ApplicationRecord
 
       if url
         url = 'https://' + url unless url.match(/^http/)
-        url.gsub!(/^http:/, 'https:')
-        url.gsub!(/#?\?.*$/, '')
+        url = url.gsub(/^http:/, 'https:').gsub(/#?\?.*$/, '').strip
       end
     end
 
@@ -122,7 +121,8 @@ class DigitalObject < ApplicationRecord
 
 
   def iiif_manifest_url
-    sal_file_url ? (sal_file_url + '/manifest') : nil
+    url = sal_file_url ? (sal_file_url + '/manifest') : nil
+    url ? url.gsub(/[\n\r]/,'') : nil
   end
 
 

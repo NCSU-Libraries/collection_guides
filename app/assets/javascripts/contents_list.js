@@ -41,7 +41,6 @@ ContentsList.prototype.calculateDeepLinkOffset = function() {
 
 
 ContentsList.prototype.deepLinkToTarget = function() {
-  console.log('*');
   this.calculateDeepLinkOffset();
   if (this.targetArchivalObjectId) {
     var id = 'archival-object-' + this.targetArchivalObjectId;
