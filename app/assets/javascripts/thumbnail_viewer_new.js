@@ -108,7 +108,7 @@ class ThumbnailViewer {
       this.viewerElement.classList.add('thumbnail-viewer');
     }
   
-    this.viewerElement.style.minWidth = this.viewerElementMinWidth;
+    this.viewerElement.style.minWidth = this.viewerElementMinWidth + 'px';
     this.viewerElement.classList.add('hidden');
     element.classList.add('thumbnail-viewer-inner');
     this.viewerElement.appendChild(element);
@@ -129,7 +129,7 @@ class ThumbnailViewer {
       const linkText = document.createElement("span");
       const aElement = document.createElement("a");
       linkText.classList.add('sr-only');
-      linkText.innerHTML = "View larger image and details"
+      linkText.innerHTML = "View larger image and details";
       aElement.setAttribute('href', href);
       aElement.setAttribute('target', _this.thumbnailLinkTarget);
       aElement.appendChild(linkText);
@@ -143,11 +143,11 @@ class ThumbnailViewer {
       const titleTip = document.createElement('div');
       titleTip.style.width = '300px';
       titleTip.innerHTML = tipText;
-      titleTip.classList.add('title-tip','hidden')
+      titleTip.classList.add('title-tip','hidden');
       element.appendChild(titleTip);
       
       const thumbnailElement = element.parentElement;
-      const thumnailViewerInner = thumbnailElement.parentElement;
+      const thumbnailViewerInner = thumbnailElement.parentElement;
       const containerBox = thumnailViewerInner.getBoundingClientRect();
     
       element.addEventListener('mouseover', function(event) {
