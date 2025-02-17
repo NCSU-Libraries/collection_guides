@@ -20,8 +20,9 @@ class AddOrUpdateDigitalObjectImageData
   def execute
     if manifest = get_manifest
       data = get_thumbnail_data(manifest)
-      puts data.inspect
       @digital_object.update!(image_data: data)
+    else
+      nil
     end
   end
 

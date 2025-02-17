@@ -22,4 +22,23 @@ namespace :digital_objects do
     end
   end
 
+
+  desc "add image_data from Sal"
+  task :add_image_data, [:id] => :environment do |t, args|
+    if args[:id]
+      if d = DigitalObject.find_by(id: args[:id].to_i)
+        puts "Updating DigitalObject #{d.id}..."
+        AddOrUpdateDigitalObjectImageData.call(d)
+      end
+    else
+      DigitalObject.find_each do |d|
+        if r = AddOrUpdateDigitalObjectImageData.call(d)
+          print '+'
+        else
+          print '.'
+        end
+      end
+    end
+  end
+
 end
