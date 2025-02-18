@@ -22,7 +22,6 @@ namespace :digital_objects do
     end
   end
 
-
   desc "add image_data from Sal"
   task :add_image_data, [:id] => :environment do |t, args|
     if args[:id]
