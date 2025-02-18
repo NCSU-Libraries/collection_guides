@@ -19,7 +19,7 @@
 //= require modal
 //= require thumbnail_viewer_new
 //= require contents_list
-//= require contents_list_thumbnails
+//= require thumbnail_gallery
 //= require contents_list_filesystem_browse
 //= require custom
 //= require ncsul_web

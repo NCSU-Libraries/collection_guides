@@ -5,7 +5,6 @@ class ThumbnailViewer {
   }
 
   #initialize(config) {
-    console.log('initialize');
     this.selector = config.selector;
     this.viewerElement = document.querySelector(this.selector);
 
@@ -97,7 +96,6 @@ class ThumbnailViewer {
   }
 
   generate() {
-    console.log('generate');
     const _this = this;
     let totalResources = 0;
     let wrapperHeight = 0;
@@ -139,19 +137,18 @@ class ThumbnailViewer {
     function enableTooltip(element) {
       const a = element.querySelectorAll('a')[0];
       const tipText = a.getAttribute('title');
-      a.removeAttribute('title');
       const titleTip = document.createElement('div');
+      const thumbnailElement = element.parentElement;
+      const thumbnailViewerInner = thumbnailElement.parentElement;
+      const containerBox = thumbnailViewerInner.getBoundingClientRect();
+      a.removeAttribute('title');
       titleTip.style.width = '300px';
       titleTip.innerHTML = tipText;
       titleTip.classList.add('title-tip','hidden');
       element.appendChild(titleTip);
       
-      const thumbnailElement = element.parentElement;
-      const thumbnailViewerInner = thumbnailElement.parentElement;
-      const containerBox = thumnailViewerInner.getBoundingClientRect();
-    
       element.addEventListener('mouseover', function(event) {
-        const containerWidth = thumnailViewerInner.offsetWidth;
+        const containerWidth = thumbnailViewerInner.offsetWidth;
         const mouseLeft = (event.clientX + window.scrollX) - containerBox.left;
         const titleTipWidth = parseInt(titleTip.style.width);
     
