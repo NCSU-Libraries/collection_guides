@@ -141,4 +141,9 @@ class DigitalObject < ApplicationRecord
     end
   end
 
+  
+  def update_image_data
+    AddOrUpdateDigitalObjectImageData.call(self)
+  end
+
 end

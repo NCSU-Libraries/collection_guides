@@ -19,8 +19,9 @@ class AddOrUpdateDigitalObjectImageData
 
   def execute
     if manifest = get_manifest
-      data = get_thumbnail_data(manifest)
-      @digital_object.update!(image_data: data)
+      get_image_data(manifest)
+      update_digital_object
+      update_archival_objects
     else
       nil
     end
@@ -38,6 +39,16 @@ class AddOrUpdateDigitalObjectImageData
     end
   end
 
+  def update_digital_object
+    @digital_object.update!(image_data: @image_data)
+  end
+
+  def update_archival_objects
+    @digital_object.archival_objects.each do |ao|
+      ao.update_unit_data
+    end
+  end
+
   def get_first_sequence(manifest)
     manifest.dig('sequences', 0)
   end
@@ -50,7 +61,7 @@ class AddOrUpdateDigitalObjectImageData
     canvas.dig('images', 0)
   end
 
-  def get_thumbnail_data(manifest)
+  def get_image_data(manifest)
     id = manifest['@id']
     link_url = id.gsub(/\/manifest\/?(\.jso?n)?$/,'')
     data = nil
@@ -68,7 +79,7 @@ class AddOrUpdateDigitalObjectImageData
       end
     end
     
-    data
+    @image_data = data
   end
 
 end

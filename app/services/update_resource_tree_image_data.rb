@@ -29,7 +29,6 @@ class UpdateResourceTreeImageData
           
           if updated
             do_updated += 1
-            ao.update_unit_data
           end
         end
       end
