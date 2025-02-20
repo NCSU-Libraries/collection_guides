@@ -40,4 +40,15 @@ namespace :digital_objects do
     end
   end
 
+  desc "update image_data from Sal for recently updated digital_objects"
+  task :update_image_data_daily, [:days] => :environment do |t, args|
+    days = args[:days] || 1
+    puts "Updating digital objects updated in last #{days} days..."
+    where_time = Time.now - days.to_i.days
+    DigitalObject.where('updated_at >= ? AND created_at < ?', where_time, where_time).find_each do |d|
+      puts d.inspect
+      UpdateDigitalObjectImageDataJob.perform_later(d)
+    end
+  end
+
 end

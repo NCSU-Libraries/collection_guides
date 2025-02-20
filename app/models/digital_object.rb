@@ -22,6 +22,7 @@ class DigitalObject < ApplicationRecord
 
   validates :uri, uniqueness: true
   after_save :update_has_files
+  after_create :update_image_data
 
 
   def self.create_from_api(uri, options={})
@@ -141,7 +142,7 @@ class DigitalObject < ApplicationRecord
     end
   end
 
-  
+
   def update_image_data
     AddOrUpdateDigitalObjectImageData.call(self)
   end
