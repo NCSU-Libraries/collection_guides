@@ -45,7 +45,7 @@ class ContentsList {
   #generateLoadIndicator() {
     const _this = this;
     this.loadIndicator = { 'loaded': 0 };
-    const mode = null;
+    let mode = null; // Changed from const to let
     // create elements
     const indicatorElement = document.createElement('div');
     const indicatorText = document.createElement('div');
@@ -233,7 +233,7 @@ class ContentsList {
   }
 
   initialize() {
-    const params = queryParamsFromUrl();
+    let params = queryParamsFromUrl();
     this.skeletonTreeMode = document.querySelectorAll('.resource-tree.skeleton-tree').length > 0;
     this.targetArchivalObjectId = params.archival_object_id ? ('archival-object-' + params.archival_object_id) : null;
 
@@ -264,8 +264,8 @@ class ContentsList {
   #deepLinkToTarget() {
     this.#calculateDeepLinkOffset();
     if (this.targetArchivalObjectId) {
-      const id = 'archival-object-' + this.targetArchivalObjectId;
-      const target = document.querySelector('#' + id);
+      let id = 'archival-object-' + this.targetArchivalObjectId;
+      let target = document.querySelector('#' + id);
       if (target) {
         return this.deepLink(target, { highlight: true });
       }
