@@ -161,9 +161,7 @@ module DigitalObjectsHelper
       viewer_id = 'thumbnail-viewer' + presenter.id.to_s
 
       presenter.digital_objects.each do |d|
-        manifest_url = d['iiif_manifest_url']
-
-        if manifest_url
+        if d['image_data']
           template = '<template class="image-data">'
           template += JSON.generate(d['image_data'])
           template += '</template>'
