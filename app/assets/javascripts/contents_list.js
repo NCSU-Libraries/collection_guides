@@ -267,7 +267,7 @@ class ContentsList {
       let id = 'archival-object-' + this.targetArchivalObjectId;
       let target = document.querySelector('#' + id);
       if (target) {
-        return this.deepLink(target, { highlight: true });
+        return this.#deepLink(target, { highlight: true });
       }
     }
   }
