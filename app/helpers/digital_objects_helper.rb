@@ -26,12 +26,6 @@ module DigitalObjectsHelper
 
     # if (!thumbnail_enabled_for_digital_object(digital_object))
       if !digital_object[:digital_object_volumes].blank?
-
-        # filesystem_browse_link = Proc.new do |url|
-        #   label = "View contents"
-        #   link_to(label, url, class: 'filesystem-browse-link')
-        # end
-
         filesystem_browse_link = lambda do |volume_id|
           return "<span class=\"link filesystem-browse-link\" data-volume-id=\"#{ volume_id }\">View contents</span>"
         end
@@ -58,7 +52,6 @@ module DigitalObjectsHelper
         link_class = thumbnail_enabled_for_digital_object(digital_object) ?
             'external hidden' : 'external'
         id = "digital-object-link-#{ digital_object[:id] }"
-        # output = link_to(label, url, class: link_class, id: id)
         link = link_to(label, url, class: 'external')
         output = "<div id=\"#{id}\" class=\"#{link_class}\">#{link}</div>".html_safe
       end
@@ -71,29 +64,21 @@ module DigitalObjectsHelper
   def digital_object_link_multi(digital_objects, label=nil)
     output = ''
     label ||= 'Digital content'
-    # output << label
-    # output << '<br>'
+
     digital_objects.each do |d|
+      do_link = digital_object_link_single(d)
 
-      # if (!thumbnail_enabled_for_digital_object(d))
-
-        do_link = digital_object_link_single(d)
-        if do_link
-          output << digital_object_link_single(d)
-          # if !(d == digital_objects.last)
-          #   output += '<br>'
-          # end
-        end
-
-      # end
-
+      if do_link
+        output << digital_object_link_single(d)
+      end
     end
+
     return (output.length > 0) ? output.html_safe : nil
   end
 
 
   def thumbnail_enabled_for_digital_object(digital_object)
-    iiif_manifest_url(digital_object) ? true : nil
+    digital_object[:image_data] ? true : nil
   end
 
 
@@ -123,32 +108,6 @@ module DigitalObjectsHelper
     end
     response.html_safe
   end
-
-
-  # def thumbnail_viewer_output(presenter)
-  #   # render thumbnails if enabled
-  #   if presenter.digital_objects
-  #     manifest_urls = []
-  #     viewer_id = 'thumbnail-viewer'
-
-  #     presenter.digital_objects.each do |d|
-  #       manifest_url = iiif_manifest_url(d)
-  #       if manifest_url
-  #         manifest_url.gsub!(/^http:/,'https:')
-  #         manifest_urls << manifest_url
-  #         viewer_id += '-' + d[:id].to_s
-  #       end
-  #     end
-
-  #     thumbnail_output = ''
-
-  #     if !manifest_urls.empty?
-  #       thumbnail_output += "<div id=\"#{ viewer_id }\" class=\"thumbnail-viewer\" data-manifest-url=\"#{ manifest_urls.join(' ') }\"></div>"
-  #     end
-
-  #   end
-  #   thumbnail_output
-  # end
 
 
   def thumbnail_viewer_output(presenter)
