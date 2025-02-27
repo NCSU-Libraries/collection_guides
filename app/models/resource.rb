@@ -64,8 +64,8 @@ class Resource < ApplicationRecord
     # add/update agents and associations
     resource.update_associated_subjects_from_data(r['subjects'])
     resource.update_associated_digital_objects_from_data(r['instances'])
-    resource.reload
     resource.update_tree_unit_data
+    resource.reload
   end
 
 
