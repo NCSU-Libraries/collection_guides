@@ -14,6 +14,7 @@ class UpdateResourceTreeJob < ApplicationJob
         resource_tree_update.complete
       else
         msg = "UpdateResourceTreeJob: error received from UpdateResourceTreeService: #{service_response[:error]}"
+        resource_tree_update.complete_with_error(service_response[:error])
         raise msg
       end
     rescue Exception => e

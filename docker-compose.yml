@@ -66,6 +66,7 @@ services:
       - "3000:3000"
     volumes:
       - .:/opt/collection_guides
+      - ~/.ssh:/root/.ssh
     depends_on:
       - collection_guides_db
       - solr
