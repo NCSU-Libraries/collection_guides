@@ -10,9 +10,9 @@ GIT
 
 GIT
   remote: git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git
-  revision: db6633847101ace211353c7e3c1d05632fd60653
+  revision: 6237e161e13efb9b17684356d9260c73bd08389b
   specs:
-    ncsul_web (1.27.13)
+    ncsul_web (1.27.15)
       rake
 
 GIT
