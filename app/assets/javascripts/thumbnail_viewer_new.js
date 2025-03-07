@@ -157,10 +157,10 @@ class ThumbnailViewer {
         const titleTipWidth = parseInt(titleTip.style.width);
     
         if ((containerWidth - mouseLeft) < titleTipWidth) {
-          titleTip.style.right = '5px';
+          titleTip.style.right = '0';
         }
         else {
-          titleTip.style.left = '5px';
+          titleTip.style.left = '0';
         }
         titleTip.classList.remove('hidden');
       });
@@ -212,7 +212,8 @@ class ThumbnailViewer {
         thumbnailElement.appendChild(textElement);
         // element.appendChild(thumbnailElement);
         loadedImages++;
-        enableTooltip(thumbnailWrapper);
+        // enableTooltip(thumbnailWrapper);
+        enableTooltip(thumbnailElement);
       }
     }
 

@@ -133,9 +133,10 @@
   left: 0;
 }
 
-.thumbnail-wrapper .title-tip {
+.thumbnail-wrapper .title-tip,
+.thumbnail .title-tip {
   position: absolute;
-  bottom: 5px;
+  bottom: 0;
   opacity: 0.8;
   z-index: 100;
   padding: 2px 4px 4px 4px;
