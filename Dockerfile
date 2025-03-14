@@ -5,7 +5,7 @@ WORKDIR /opt/collection_guides
 
 EXPOSE 3000
 
-ENV RAILS_ENV development
+ENV RAILS_ENV=development
 
 RUN gem install bundler
 

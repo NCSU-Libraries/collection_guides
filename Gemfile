@@ -48,7 +48,7 @@ gem 'rsolr'
 # security vulnerabilities fix - https://github.com/NCSU-Libraries/collection_guides/security/dependabot/Gemfile.lock/nokogiri/open
 gem 'truncate_html'
 gem 'chronic'
-gem 'whenever', :require => false
+gem 'whenever', require: false
 gem 'redis', '~> 4.0'
 gem 'resque', '~> 2.6.0'
 gem 'resque-web', require: 'resque_web'
@@ -57,8 +57,9 @@ gem 'sinatra', '>= 3.0.4'
 gem 'net-ldap'
 gem "net-http"
 gem 'net-smtp', require: false
-gem 'net-imap', require: false
+gem 'net-imap', '~> 0.5.6', require: false
 gem 'net-pop', require: false
+gem 'rack', '~> 2.2.13'
 
 # Exception Notifications
 gem 'exception_notification'

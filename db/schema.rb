@@ -11,9 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
-  create_table "agent_associations", id: :integer, charset: "utf8mb3", force: :cascade do |t|
-    t.integer "record_id"
+  create_table "agent_associations", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "record_type"
+    t.integer "record_id"
     t.integer "agent_id"
     t.string "role"
     t.string "function"
@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["record_type"], name: "index_agent_associations_on_record_type"
   end
 
-  create_table "agents", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "agents", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "uri"
     t.string "display_name"
     t.string "agent_type"
@@ -38,7 +38,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["uri"], name: "index_agents_on_uri"
   end
 
-  create_table "archival_objects", id: :integer, default: nil, charset: "utf8mb3", force: :cascade do |t|
+  create_table "archival_objects", id: false, charset: "utf8mb4", force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri", null: false
     t.string "title", limit: 8704
     t.boolean "publish"
@@ -60,7 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["uri"], name: "index_archival_objects_on_uri"
   end
 
-  create_table "aspace_imports", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "aspace_imports", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "import_type"
@@ -69,7 +70,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.text "resource_list"
   end
 
-  create_table "digital_object_associations", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "digital_object_associations", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "record_id"
     t.string "record_type"
     t.integer "digital_object_id"
@@ -79,7 +80,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["record_type"], name: "index_digital_object_associations_on_record_type"
   end
 
-  create_table "digital_object_volumes", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "digital_object_volumes", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "digital_object_id", null: false
     t.integer "position", null: false
     t.datetime "created_at", precision: nil
@@ -87,7 +88,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.integer "volume_id"
   end
 
-  create_table "digital_objects", id: :integer, default: nil, charset: "utf8mb3", force: :cascade do |t|
+  create_table "digital_objects", id: false, charset: "utf8mb4", force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri", null: false
     t.integer "repository_id", null: false
     t.string "title", limit: 8704
@@ -102,7 +104,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["uri"], name: "index_digital_objects_on_uri"
   end
 
-  create_table "repositories", id: :integer, default: nil, charset: "utf8mb3", force: :cascade do |t|
+  create_table "repositories", id: false, charset: "utf8mb4", force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri", null: false
     t.string "repo_code", null: false
     t.string "org_code"
@@ -113,7 +116,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["repo_code"], name: "index_repositories_on_repo_code"
   end
 
-  create_table "resource_tree_updates", charset: "utf8mb3", force: :cascade do |t|
+  create_table "resource_tree_updates", charset: "utf8mb4", force: :cascade do |t|
     t.integer "resource_id"
     t.datetime "completed_at", precision: nil
     t.integer "exit_status"
@@ -123,7 +126,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.string "resource_uri"
   end
 
-  create_table "resources", id: :integer, default: nil, charset: "utf8mb3", force: :cascade do |t|
+  create_table "resources", id: false, charset: "utf8mb4", force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri", null: false
     t.integer "repository_id", null: false
     t.string "title", limit: 8704
@@ -142,14 +146,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["uri"], name: "index_resources_on_uri"
   end
 
-  create_table "search_indices", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "search_indices", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "index_type"
     t.integer "records_updated"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
 
-  create_table "subject_associations", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+  create_table "subject_associations", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "record_id"
     t.string "record_type"
     t.integer "subject_id"
@@ -162,7 +166,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["subject_id"], name: "index_subject_associations_on_subject_id"
   end
 
-  create_table "subjects", id: :integer, default: nil, charset: "utf8mb3", force: :cascade do |t|
+  create_table "subjects", id: false, charset: "utf8mb4", force: :cascade do |t|
+    t.integer "id", null: false
     t.string "uri"
     t.string "subject"
     t.string "subject_root"
@@ -175,7 +180,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_12_191041) do
     t.index ["uri"], name: "index_subjects_on_uri"
   end
 
-  create_table "users", charset: "utf8mb3", collation: "utf8mb3_bin", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "display_name"
     t.string "first_name"
     t.string "last_name"
