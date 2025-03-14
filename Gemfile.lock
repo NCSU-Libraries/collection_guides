@@ -382,7 +382,7 @@ GEM
       railties (>= 5.0, < 8.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uri (0.12.2)
+    uri (0.12.4)
     useragent (0.16.10)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -448,6 +448,7 @@ DEPENDENCIES
   sprockets-rails
   terser
   truncate_html
+  uri (~> 0.12.4)
   web-console
   whenever
   will_paginate

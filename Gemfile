@@ -12,7 +12,7 @@ gem 'devise_wolftech_authenticatable',
 gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.2.1.2'
+gem 'rails', '~> 7.2.2.1'
 
 gem 'sprockets-rails'
 # sprockets/es6 required for foundation but not included in dependencies -  may be added as a depnency in a future version
@@ -45,6 +45,7 @@ gem 'jbuilder'
 gem 'modernizr-rails'
 
 gem 'rsolr'
+
 # security vulnerabilities fix - https://github.com/NCSU-Libraries/collection_guides/security/dependabot/Gemfile.lock/nokogiri/open
 gem 'truncate_html'
 gem 'chronic'
@@ -60,6 +61,7 @@ gem 'net-smtp', require: false
 gem 'net-imap', '~> 0.5.6', require: false
 gem 'net-pop', require: false
 gem 'rack', '~> 2.2.13'
+gem 'uri', '~> 0.12.4'
 
 # Exception Notifications
 gem 'exception_notification'
