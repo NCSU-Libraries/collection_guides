@@ -9,7 +9,7 @@ gem 'archivesspace-api-utility', git: 'https://github.com/NCSU-Libraries/archive
 gem 'devise_wolftech_authenticatable',
     git: "git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git"
 
-gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
+gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git', branch: 'scrc_notice'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.2.1.2'
