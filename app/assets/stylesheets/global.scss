@@ -433,5 +433,12 @@ main {
 
 }
 
-
+.sitewide-notice.adverse-weather, .sitewide-notice.success, .sitewide-notice.low {
+  .notice-container {
+    background: $white !important;
+    padding: 1rem 0 1rem 1rem;
+    margin: 1em 0;
+    border: 1px solid $grayLighter;
+  }
+}
 
