@@ -81,7 +81,7 @@ main {
     color: $linkColor;
     text-decoration: underline;
     text-decoration-style: dotted;
-    text-decoration-color: $grayLighter;
+    text-decoration-color: $grayLight;
 
     &:link, &:visited {
       // color: $blueBright;
@@ -122,10 +122,6 @@ main {
       cursor: default;
       text-decoration: none;
     }
-  }
-
-  .link {
-    text-decoration: underline;
   }
 
 
