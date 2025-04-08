@@ -80,7 +80,8 @@ main {
   a, .link {
     color: $linkColor;
     text-decoration: underline;
-    text-decoration-color: $grayLight;
+    text-decoration-style: dotted;
+    text-decoration-color: $grayLighter;
 
     &:link, &:visited {
       // color: $blueBright;
@@ -89,7 +90,9 @@ main {
     &:hover, &:active {
       color: $textColor;
       text-decoration: underline;
+      text-decoration-style: solid;
       cursor: pointer;
+      text-decoration-color: $grayLight;
     }
 
     &.button {
