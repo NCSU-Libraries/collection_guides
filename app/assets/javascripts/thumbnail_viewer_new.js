@@ -233,8 +233,8 @@ class ThumbnailViewer {
     this.enableToggle(toggle,viewerElementInner);
 
     toggleWrapper.appendChild(toggle);
-    this.viewerElement.appendChild(toggleWrapper);
     this.viewerElement.appendChild(viewerElementInner);
+    this.viewerElement.appendChild(toggleWrapper);
 
     function loadThumbnailElementContent(thumbnailElement, thumbnailData) {
       const src = thumbnailData['thumbnailSrc'];
