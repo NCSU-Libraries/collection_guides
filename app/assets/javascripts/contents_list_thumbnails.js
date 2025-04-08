@@ -5,22 +5,23 @@ ContentsList.prototype.thumbnailViewers = function(callback) {
 
 
   function activateThumbnailViewers() {
-
     var thumbnailViewers = document.getElementsByClassName('thumbnail-viewer');
-
     totalThumbnailViewers = thumbnailViewers.length;
 
     function getAlternateElements(viewerId) {
       var elements = [];
       var idsString = viewerId.replace(/#thumbnail-viewer-/,'');
       var doIds = idsString.split('-');
+
       doIds.forEach(function(id) {
         var linkId = 'digital-object-link-' + id;
         el = document.querySelector('#' + linkId);
+
         if (el) {
           elements.push(el);
         }
       });
+      
       return elements;
     }
 

@@ -5,6 +5,18 @@
   margin-top: 0.5rem;
 }
 
+.thumbnail-viewer .visibility-toggle-wrapper {
+  margin: 0.25rem 0;
+}
+
+.thumbnail-viewer .visibility-toggle {
+  font-size: 90%;
+
+  i {
+    padding-right: 0.25em;
+  }
+}
+
 .thumbnail-viewer .thumbnail,
 .thumbnail-viewer .scroll-control {
   float: left;
@@ -25,6 +37,7 @@
   position: relative;
   width: 100%;
   overflow: auto;
+  margin: 0.5rem 0 0 0;
 }
 
 .thumbnail-viewer .scroll-control-next {
@@ -79,27 +92,27 @@
 
 
 
-.thumbnail-visibility-toggle {
-  width: 12rem;
-  float: right;
-  font-size: 70%;
-  text-transform: uppercase;
-  white-space: nowrap;
-  padding-top: 1rem;
-  line-height: 1em;
+// .thumbnail-visibility-toggle {
+//   width: 12rem;
+//   float: right;
+//   font-size: 70%;
+//   text-transform: uppercase;
+//   white-space: nowrap;
+//   padding-top: 1rem;
+//   line-height: 1em;
 
-  .link {
-    background: $blue2;
-    padding: 0.25em 0.4em;
-    color: $white;
-    text-decoration: none;
-    &:hover {
+//   .link {
+//     background: $blue2;
+//     padding: 0.25em 0.4em;
+//     color: $white;
+//     text-decoration: none;
+//     &:hover {
 
-      background: $blue;
-      color: $white;
-    }
-  }
-}
+//       background: $blue;
+//       color: $white;
+//     }
+//   }
+// }
 
 
 #test-output {

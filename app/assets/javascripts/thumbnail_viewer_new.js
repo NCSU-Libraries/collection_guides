@@ -31,8 +31,8 @@ class ThumbnailViewer {
     this.thumbnailLinkFunction = config.thumbnailLinkFunction;
     this.thumbnailLinkTarget = config.thumbnailLinkTarget || '_blank';
     this.images = [];
-    this.showThumbnailsLabel = '<i class="fa fa-picture-o" aria-hidden="true"></i>Show thumbnails';
-    this.hideThumbnailsLabel = '<i class="fa fa-picture-o" aria-hidden="true"></i>Hide thumbnails';
+    this.showThumbnailsLabel = '<i class="far fa-images" aria-hidden="true"></i>Show images';
+    this.hideThumbnailsLabel = '<i class="fas fa-eye-slash" aria-hidden="true"></i>Hide images';
     const regionValues = ['full','square'];
   
     if (config.thumbnailRegion && (regionValues.indexOf(config.thumbnailRegion) >= 0)) {
@@ -99,79 +99,146 @@ class ThumbnailViewer {
     executeCallback(fn, data);
   }
 
+  removeTemplates() {
+    for (const template of this.templates) {
+      template.remove();
+    }
+  }
+
+  generateThumbnailElement(index) {
+    const thumbnailElement = document.createElement("div");
+    thumbnailElement.classList.add('thumbnail-' + index);
+    return thumbnailElement;
+  }
+
+  createAnchorElement(href) {
+    const linkText = document.createElement("span");
+    const aElement = document.createElement("a");
+    linkText.classList.add('sr-only');
+    linkText.innerHTML = "View larger image and details";
+    aElement.setAttribute('href', href);
+    aElement.setAttribute('target', this.thumbnailLinkTarget);
+    aElement.appendChild(linkText);
+    return aElement;
+  }
+
+  enableTooltip(element) {
+    const a = element.querySelectorAll('a')[0];
+    const tipText = a.getAttribute('title');
+    const titleTip = document.createElement('div');
+    const thumbnailElement = element.parentElement;
+    const thumbnailViewerInner = thumbnailElement.parentElement;
+    const containerBox = thumbnailViewerInner.getBoundingClientRect();
+    a.removeAttribute('title');
+    titleTip.style.width = '300px';
+    titleTip.innerHTML = tipText;
+    titleTip.classList.add('title-tip','hidden');
+    element.appendChild(titleTip);
+    
+    element.addEventListener('mouseover', function(event) {
+      const containerWidth = thumbnailViewerInner.offsetWidth;
+      const mouseLeft = (event.clientX + window.scrollX) - containerBox.left;
+      const titleTipWidth = parseInt(titleTip.style.width);
+  
+      if ((containerWidth - mouseLeft) < titleTipWidth) {
+        titleTip.style.right = '0';
+      }
+      else {
+        titleTip.style.left = '0';
+      }
+      titleTip.classList.remove('hidden');
+    });
+    element.addEventListener('mouseout', function(event) {
+      titleTip.classList.add('hidden');
+    });
+  }
+
+  enableToggle(toggle, target) {
+    const _this = this;
+
+    toggle.addEventListener('click', function() {
+      const mode = toggle.getAttribute('data-toggle-mode');
+
+      if (mode == 'hide') {
+        hide(target);
+        toggle.innerHTML = _this.showThumbnailsLabel;
+        toggle.setAttribute('data-toggle-mode','show');
+      }
+      else if (mode == 'show') {
+        show(target);
+        toggle.innerHTML = _this.hideThumbnailsLabel;
+        toggle.setAttribute('data-toggle-mode','hide');
+      }
+    });
+  }
+
+
+  #getAlternateElements(viewerId) {
+    const elements = [];
+    const idsString = viewerId.replace(/#thumbnail-viewer-/,'');
+    const doIds = idsString.split('-');
+
+    doIds.forEach(function(id) {
+      const linkId = 'digital-object-link-' + id;
+      const el = document.getElementById(linkId);
+
+      if (el) {
+        elements.push(el);
+      }
+    });
+    return elements;
+  }
+
+  #hideAlternateElements(viewerId) {
+    const altElements = this.#getAlternateElements(viewerId);
+
+    altElements.forEach(function(el) {
+      if (!el.classList.contains('hidden')) {
+        el.classList.add('hidden');
+      }
+    });
+  }
+
+  #showAlternateElements(viewerId) {
+    const altElements = this.#getAlternateElements(viewerId);
+
+    altElements.forEach(function(el) {
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+      }
+    });
+  }
+
+
   generate() {
     const _this = this;
     let totalResources = 0;
     let wrapperHeight = 0;
     let loadedImages = 0;
-    const element = document.createElement("div");
 
     if (!this.viewerElement.classList.contains('thumbnail-viewer')) {
       this.viewerElement.classList.add('thumbnail-viewer');
     }
-  
+
     this.viewerElement.style.minWidth = this.viewerElementMinWidth + 'px';
     this.viewerElement.classList.add('hidden');
-    element.classList.add('thumbnail-viewer-inner');
-    this.viewerElement.appendChild(element);
+    // thumbnail-viewer-inner
+    const viewerElementInner = document.createElement("div");
+    viewerElementInner.classList.add('thumbnail-viewer-inner');
+    viewerElementInner.classList.add('hidden');
+    // visibility-toggle
+    const toggleWrapper = document.createElement("div");
+    toggleWrapper.classList.add('visibility-toggle-wrapper');
+    const toggle = htmlToElement('<span class="link visibility-toggle" data-toggle-mode="show">' + this.showThumbnailsLabel + '</span>');
+    this.enableToggle(toggle,viewerElementInner);
 
-    function removeTemplates() {
-      for (const template of _this.templates) {
-        template.remove();
-      }
-    }
-
-    function generateThumbnailElement(index) {
-      const thumbnailElement = document.createElement("div");
-      thumbnailElement.classList.add('thumbnail-' + index);
-      return thumbnailElement;
-    }
-
-    function createAnchorElement(href) {
-      const linkText = document.createElement("span");
-      const aElement = document.createElement("a");
-      linkText.classList.add('sr-only');
-      linkText.innerHTML = "View larger image and details";
-      aElement.setAttribute('href', href);
-      aElement.setAttribute('target', _this.thumbnailLinkTarget);
-      aElement.appendChild(linkText);
-      return aElement;
-    }
-
-    function enableTooltip(element) {
-      const a = element.querySelectorAll('a')[0];
-      const tipText = a.getAttribute('title');
-      const titleTip = document.createElement('div');
-      const thumbnailElement = element.parentElement;
-      const thumbnailViewerInner = thumbnailElement.parentElement;
-      const containerBox = thumbnailViewerInner.getBoundingClientRect();
-      a.removeAttribute('title');
-      titleTip.style.width = '300px';
-      titleTip.innerHTML = tipText;
-      titleTip.classList.add('title-tip','hidden');
-      element.appendChild(titleTip);
-      
-      element.addEventListener('mouseover', function(event) {
-        const containerWidth = thumbnailViewerInner.offsetWidth;
-        const mouseLeft = (event.clientX + window.scrollX) - containerBox.left;
-        const titleTipWidth = parseInt(titleTip.style.width);
-    
-        if ((containerWidth - mouseLeft) < titleTipWidth) {
-          titleTip.style.right = '0';
-        }
-        else {
-          titleTip.style.left = '0';
-        }
-        titleTip.classList.remove('hidden');
-      });
-      element.addEventListener('mouseout', function(event) {
-        titleTip.classList.add('hidden');
-      });
-    }
+    toggleWrapper.appendChild(toggle);
+    this.viewerElement.appendChild(toggleWrapper);
+    this.viewerElement.appendChild(viewerElementInner);
 
     function loadThumbnailElementContent(thumbnailElement, thumbnailData) {
       const src = thumbnailData['thumbnailSrc'];
-      const aElement = createAnchorElement(thumbnailData['thumbnailLinkHref']);
+      const aElement = _this.createAnchorElement(thumbnailData['thumbnailLinkHref']);
       const imgElement = document.createElement("img");
       const alt = thumbnailData['title'] ? thumbnailData['title'].replace(/"/gi,'') : 'thumbnail image';
       const textElement = document.createElement("div");
@@ -185,7 +252,6 @@ class ThumbnailViewer {
       thumbnailElement.classList.add('thumbnail');
       thumbnailElement.style.width = _this.thumbnailWidthVal + 'px';
       thumbnailElement.style.marginRight = _this.thumbnailSpacing + 'px';
-
       aElement.setAttribute('title', thumbnailData['title']);
       imgElement.setAttribute('src', src);
       imgElement.setAttribute('alt', alt);
@@ -205,15 +271,12 @@ class ThumbnailViewer {
         
         const thumbnailWrapper = document.createElement("div");
         thumbnailWrapper.classList.add('thumbnail-wrapper');
-        // aElement.appendChild(imgElement);
         thumbnailWrapper.appendChild(aElement);
         thumbnailWrapper.appendChild(imgElement);
         thumbnailElement.appendChild(thumbnailWrapper);
         thumbnailElement.appendChild(textElement);
-        // element.appendChild(thumbnailElement);
         loadedImages++;
-        // enableTooltip(thumbnailWrapper);
-        enableTooltip(thumbnailElement);
+        _this.enableTooltip(thumbnailElement);
       }
     }
 
@@ -224,8 +287,8 @@ class ThumbnailViewer {
   
         if (imageData) {
           imageData['thumbnailSrc'] = _this.#thumbnailUrl(imageData['thumbnailBaseUrl']);
-          const thumbnailElement = generateThumbnailElement(i);
-          element.appendChild(thumbnailElement);
+          const thumbnailElement = _this.generateThumbnailElement(i);
+          viewerElementInner.appendChild(thumbnailElement);
           loadThumbnailElementContent(thumbnailElement, imageData);
           totalResources++;
         }
@@ -237,7 +300,7 @@ class ThumbnailViewer {
 
       const setThumbnailWrapperHeight = function() {
         if (loadedImages == _this.templates.length) {
-          const wrappers = element.getElementsByClassName('thumbnail-wrapper');
+          const wrappers = viewerElementInner.getElementsByClassName('thumbnail-wrapper');
           for (let i = 0; i < wrappers.length; i++) {
             const wrapper = wrappers[i];
             wrapper.style.height = wrapperHeight + 'px';
@@ -254,7 +317,7 @@ class ThumbnailViewer {
     }
 
     buildViewer();
-    removeTemplates();
+    this.removeTemplates();
   }
 
 
