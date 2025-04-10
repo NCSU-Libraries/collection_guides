@@ -8,6 +8,8 @@ class ThumbnailViewer {
     this.selector = config.selector;
     this.viewerElement = document.querySelector(this.selector);
 
+    console.log("ThumbnailViewer#initialize viewerElement", this.viewerElement);
+
     if (this.viewerElement) {
       this.#setAttributes(config);
       if (this.templates.length > 0) {
@@ -31,8 +33,8 @@ class ThumbnailViewer {
     this.thumbnailLinkFunction = config.thumbnailLinkFunction;
     this.thumbnailLinkTarget = config.thumbnailLinkTarget || '_blank';
     this.images = [];
-    this.showThumbnailsLabel = '<i class="far fa-images" aria-hidden="true"></i>Show images';
-    this.hideThumbnailsLabel = '<i class="fas fa-eye-slash" aria-hidden="true"></i>Hide images';
+    this.showThumbnailsLabel = '<i class="far fa-images" aria-hidden="true"></i>Show digitized content';
+    this.hideThumbnailsLabel = '<i class="fas fa-eye-slash" aria-hidden="true"></i>Hide digitized content';
     const regionValues = ['full','square'];
   
     if (config.thumbnailRegion && (regionValues.indexOf(config.thumbnailRegion) >= 0)) {
@@ -153,9 +155,11 @@ class ThumbnailViewer {
     });
   }
 
-  enableToggle(toggle, target) {
+  enableToggle() {
+    const toggle = this.toggle;
+    const target = this.viewerElementInner;
     const _this = this;
-
+    
     toggle.addEventListener('click', function() {
       const mode = toggle.getAttribute('data-toggle-mode');
 
@@ -172,6 +176,43 @@ class ThumbnailViewer {
     });
   }
 
+  toggleVisibility() {
+    const toggle = this.toggle;
+    const target = this.viewerElementInner;
+    const _this = this; 
+    const mode = toggle.getAttribute('data-toggle-mode');
+
+    if (mode == 'hide') {
+      _this.hide();
+    }
+    else if (mode == 'show') {
+      _this.show;
+    }
+  }
+
+  hide() {
+    const target = this.viewerElementInner;
+    hide(target);
+    this.toggle.innerHTML = this.showThumbnailsLabel;
+    this.toggle.setAttribute('data-toggle-mode','show');
+  }
+
+  show() {
+    const target = this.viewerElementInner;
+    show(target);
+    this.toggle.innerHTML = this.hideThumbnailsLabel;
+    this.toggle.setAttribute('data-toggle-mode','hide');
+  }
+
+  hidden() {
+    const target = this.viewerElementInner;
+    return hidden(target);
+  }
+
+  visible() {
+    const target = this.viewerElementInner;
+    return !hidden(target);
+  }
 
   #getAlternateElements(viewerId) {
     const elements = [];
@@ -223,18 +264,18 @@ class ThumbnailViewer {
     this.viewerElement.style.minWidth = this.viewerElementMinWidth + 'px';
     this.viewerElement.classList.add('hidden');
     // thumbnail-viewer-inner
-    const viewerElementInner = document.createElement("div");
-    viewerElementInner.classList.add('thumbnail-viewer-inner');
-    viewerElementInner.classList.add('hidden');
+    this.viewerElementInner = document.createElement("div");
+    this.viewerElementInner.classList.add('thumbnail-viewer-inner');
+    this.viewerElementInner.classList.add('hidden');
     // visibility-toggle
     const toggleWrapper = document.createElement("div");
     toggleWrapper.classList.add('visibility-toggle-wrapper');
-    const toggle = htmlToElement('<span class="link visibility-toggle" data-toggle-mode="show">' + this.showThumbnailsLabel + '</span>');
-    this.enableToggle(toggle,viewerElementInner);
+    this.toggle = htmlToElement('<span class="link visibility-toggle" data-toggle-mode="show">' + this.showThumbnailsLabel + '</span>');
+    this.enableToggle();
 
-    toggleWrapper.appendChild(toggle);
+    toggleWrapper.appendChild(this.toggle);
     this.viewerElement.appendChild(toggleWrapper);
-    this.viewerElement.appendChild(viewerElementInner);
+    this.viewerElement.appendChild(this.viewerElementInner);
 
     function loadThumbnailElementContent(thumbnailElement, thumbnailData) {
       const src = thumbnailData['thumbnailSrc'];
@@ -288,7 +329,7 @@ class ThumbnailViewer {
         if (imageData) {
           imageData['thumbnailSrc'] = _this.#thumbnailUrl(imageData['thumbnailBaseUrl']);
           const thumbnailElement = _this.generateThumbnailElement(i);
-          viewerElementInner.appendChild(thumbnailElement);
+          _this.viewerElementInner.appendChild(thumbnailElement);
           loadThumbnailElementContent(thumbnailElement, imageData);
           totalResources++;
         }
@@ -300,7 +341,7 @@ class ThumbnailViewer {
 
       const setThumbnailWrapperHeight = function() {
         if (loadedImages == _this.templates.length) {
-          const wrappers = viewerElementInner.getElementsByClassName('thumbnail-wrapper');
+          const wrappers = _this.viewerElementInner.getElementsByClassName('thumbnail-wrapper');
           for (let i = 0; i < wrappers.length; i++) {
             const wrapper = wrappers[i];
             wrapper.style.height = wrapperHeight + 'px';
