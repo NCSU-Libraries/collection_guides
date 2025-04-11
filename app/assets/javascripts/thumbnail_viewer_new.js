@@ -8,8 +8,6 @@ class ThumbnailViewer {
     this.selector = config.selector;
     this.viewerElement = document.querySelector(this.selector);
 
-    console.log("ThumbnailViewer#initialize viewerElement", this.viewerElement);
-
     if (this.viewerElement) {
       this.#setAttributes(config);
       if (this.templates.length > 0) {

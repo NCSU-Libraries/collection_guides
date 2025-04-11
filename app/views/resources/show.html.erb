@@ -4,8 +4,6 @@
 
     <div class="title">
 
-      <%= thumbnail_visibility_toggle_output(@presenter, @tab) %>
-
       <h1 class="resource-title dcterms:title"><%= resource_title %></h1>
 
       <%= ld_provider %>
@@ -37,6 +35,8 @@
 
     </div>
 
+    <%= thumbnail_visibility_toggle_output(@presenter, @tab) %>
+
   </div>
 
 
@@ -55,6 +55,8 @@
 
     <% if @presenter.has_children %>
       <div class="grid-x row tabs-panel content<%= @tab == 'contents' ? ' is-active' : '' %>" id="contents">
+
+      
         <%= render partial: 'common/edi_statement' %>
 
         <% if @presenter.has_digital_objects_with_files || @presenter.has_descendant_digital_objects_with_files %>

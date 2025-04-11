@@ -8,7 +8,13 @@ function Stickable() {
     this.mainDefaultPaddingTop = getProperty(this.main, 'padding-top');
     this.generateTopLink();
     this.stickyTop = this.element.getBoundingClientRect().top + window.scrollY;
-    var el_height = this.element.offsetHeight;
+
+    let notice = document.querySelector('.sitewide-notice');
+    if (notice) {
+      this.stickyTop -= notice.offsetHeight;
+    }
+
+    const el_height = this.element.offsetHeight;
     this.offset = el_height + parseInt(this.mainDefaultPaddingTop);
 
     this.stickyNav();
@@ -71,7 +77,8 @@ Stickable.prototype.generateTopLink = function() {
 
 
 Stickable.prototype.stickyNav = function() {
-  var scrollTop = window.scrollY;
+  let scrollTop = window.scrollY;
+  console.log(scrollTop);
 
   if (scrollTop > this.stickyTop) {
     this.stick();

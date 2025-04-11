@@ -27,35 +27,26 @@ class ThumbnailGallery {
       thumbnailMaxWidth: 90
     }
 
-    console.log(this.viewerElements.length);
-
     for (let i = 0; i < this.viewerElements.length; i++) {
       let viewerContainer = this.viewerElements[i];
       
-      console.log(viewerContainer);
-
       if (viewerContainer) {
         viewerConfig['selector'] = "#" + viewerContainer.id;
         let viewer = new ThumbnailViewer(viewerConfig)
-        console.log(viewer);
         this.thumbnailViewers.push(viewer);
       }
     }
   }
 
   #hideAllViewers() {
-    console.log("hideAllViewers");
     for (let i = 0; i < this.thumbnailViewers.length; i++) {
-      console.log('hide');
       let viewer = this.thumbnailViewers[i];
       viewer.hide();
     }
   }
 
   #showAllViewers() {
-    console.log("showAllViewers");
     for (let i = 0; i < this.thumbnailViewers.length; i++) {
-      console.log('show');
       let viewer = this.thumbnailViewers[i];
       viewer.show();
     }
