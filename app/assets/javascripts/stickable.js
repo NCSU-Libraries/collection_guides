@@ -9,7 +9,8 @@ function Stickable() {
     this.generateTopLink();
     this.stickyTop = this.element.getBoundingClientRect().top + window.scrollY;
 
-    let notice = document.querySelector('.sitewide-notice');
+    const notice = document.querySelector('.sitewide-notice');
+  
     if (notice) {
       this.stickyTop -= notice.offsetHeight;
     }
@@ -78,7 +79,6 @@ Stickable.prototype.generateTopLink = function() {
 
 Stickable.prototype.stickyNav = function() {
   let scrollTop = window.scrollY;
-  console.log(scrollTop);
 
   if (scrollTop > this.stickyTop) {
     this.stick();
