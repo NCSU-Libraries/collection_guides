@@ -9,11 +9,11 @@ function Stickable() {
     this.generateTopLink();
     this.stickyTop = this.element.getBoundingClientRect().top + window.scrollY;
 
-    const notice = document.querySelector('.sitewide-notice');
+    // const notice = document.querySelector('.sitewide-notice');
   
-    if (notice) {
-      this.stickyTop -= notice.offsetHeight;
-    }
+    // if (notice) {
+    //   this.stickyTop -= notice.offsetHeight;
+    // }
 
     const el_height = this.element.offsetHeight;
     this.offset = el_height + parseInt(this.mainDefaultPaddingTop);
