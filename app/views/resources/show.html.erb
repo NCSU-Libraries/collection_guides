@@ -44,7 +44,11 @@
 
     <div class="tabs-panel content<%= @tab == 'summary' ? ' is-active' : '' %>" id="summary">
       
-      <%= render(partial: 'common/edi_statement') if default_repo %>
+      <% if default_repo %>
+      <div class="content-notice">
+        <%= render partial: 'common/edi_statement' %>
+      </div>
+      <% end %>
 
       <%= repo_header %>
       <%= resource_overview %>
@@ -56,12 +60,17 @@
     <% if @presenter.has_children %>
       <div class="grid-x row tabs-panel content<%= @tab == 'contents' ? ' is-active' : '' %>" id="contents">
 
-      
-        <%= render partial: 'common/edi_statement' %>
+        <div class="content-notice">
+          <%= render partial: 'common/edi_statement' %>
 
-        <% if @presenter.has_digital_objects_with_files || @presenter.has_descendant_digital_objects_with_files %>
-          <%= resource_digital_object_output.html_safe %>
-        <% end %>
+          <% if @presenter.has_digital_objects_with_files || @presenter.has_descendant_digital_objects_with_files %>
+            <%= resource_digital_object_output.html_safe %>
+          <% end %>
+        </div>
+          
+        
+
+        
 
         <%= render_tree %>
       </div>
@@ -70,7 +79,9 @@
 
     <% if @presenter.subjects || @presenter.agents %>
       <div class="grid-x row tabs-panel content<%= @tab == 'terms' ? ' is-active' : '' %>" id="terms">
-        <%= render partial: 'common/edi_statement' %>
+        <div class="content-notice">
+          <%= render partial: 'common/edi_statement' %>
+        </div>
 
         <%= names_and_subjects %>
       </div>
@@ -78,7 +89,9 @@
 
 
     <div class="grid-x row tabs-panel content<%= @tab == 'access' ? ' is-active' : '' %>" id="access">
-      <%= render partial: 'common/edi_statement' %>
+      <div class="content-notice">
+        <%= render partial: 'common/edi_statement' %>
+      </div>
       
       <%= access_info_output  %>
     </div>
