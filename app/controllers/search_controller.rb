@@ -242,6 +242,8 @@ class SearchController < ApplicationController
                 v.uniq!
                 values = v.map { |vv| sanitize_string.call(vv) }
                 sanitized[k] = v
+              when "true", "false"
+                v === "true" ? sanitized[k] = true : sanitized[k] = false
               end
             end
           end

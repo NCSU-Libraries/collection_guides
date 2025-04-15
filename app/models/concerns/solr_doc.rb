@@ -58,9 +58,9 @@ module SolrDoc
 
       case self
       when Resource
-        add_resource_fields(doc, data)
+        doc = add_resource_fields(doc, data)
       when ArchivalObject
-        add_archival_object_fields(doc, data)
+        doc = add_archival_object_fields(doc, data)
       end
 
       # ***
@@ -68,9 +68,7 @@ module SolrDoc
       # ***
 
       add_local_fields(doc, data)
-
       doc.delete_if { |k,v| v.blank? }
-
       doc
     end
 
@@ -88,9 +86,11 @@ module SolrDoc
       doc[:resource_primary_agent] = data[:primary_agent]
       doc[:resource_date_statement] = data[:date_statement]
       doc[:resource_extent_statement] = data[:extent_statement]
+
       if has_digital_objects_with_files || has_descendant_digital_objects_with_files
         doc[:resource_digital_content] = true
       end
+      
       doc[:resource_eadid] = eadid
       doc[:eadid] = eadid
       doc
