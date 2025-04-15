@@ -1,106 +1,83 @@
+.thumbnail-visibility-toggle {
+  text-align: right;
+  margin-right: 2rem;
+}
+
+.visibility-toggle {
+  i {
+    padding-right: 0.25em;
+  }
+}
+
 .thumbnail-viewer {
   position: relative;
   width: 100%;
   overflow: hidden;
-  margin-top: 0.5rem;
-}
+  margin-top: 0.25rem;
+  margin-left: 0.25rem;
 
-.thumbnail-viewer .thumbnail,
-.thumbnail-viewer .scroll-control {
-  float: left;
-  color: #666;
-}
+  .visibility-toggle-wrapper {
+    margin: 0;
+  }
 
-// Foundation overrides
-.thumbnail-viewer .thumbnail {
-  margin-bottom: 0;
-  border: none;
-  line-height: inherit;
-  box-shadow: none;
-  position: relative;
-  // z-index: 1;
-}
+  .visibility-toggle {
+    font-size: 80%;
+  }
 
-.thumbnail-viewer .thumbnail-viewer-inner {
-  position: relative;
-  width: 100%;
-  overflow: auto;
-}
+  .thumbnail, .scroll-control {
+    float: left;
+    color: #666;
+  }
 
-.thumbnail-viewer .scroll-control-next {
-  text-align: right;
-}
+  // Foundation overrides
 
-.thumbnail-viewer .scroll-control:hover {
-  cursor: pointer;
-  color: #000;
-}
+  .thumbnail {
+    margin-bottom: 0;
+    border: none;
+    line-height: inherit;
+    box-shadow: none;
+    position: relative;
+    // z-index: 1;
+  }
 
-.thumbnail-viewer .scroll-control.disabled {
-  color: #f1f1f1;
-  visibility: hidden;
-  cursor: default;
-}
-
-.thumbnail-viewer .hidden {
-  visibility: hidden;
-}
-
-.thumbnail-viewer .thumbnail-viewer-page-info {
-  font-size: 0.75rem;
-  margin-bottom: 0.25rem;
-  color: #999;
-  text-transform: uppercase;
-}
-
-.thumbnail-viewer .toggle-wrapper {
-  margin: 0 0 0.5rem 0;
-  padding-left: 0.25em;
-}
-
-// .thumbnail-viewer .thumbnail-visibility-toggle {
-//   text-transform: uppercase;
-//   font-size: 0.8em;
-//   color: #4a7aa9;
-
-//   a, .link {
-//     text-decoration: none !important;
-//   }
-
-//   i {
-//     padding-right: 0.5em;
-//   }
-
-//   &:hover {
-//     cursor: pointer;
-//     text-decoration: underline;
-//   }
-// }
-
-
-
-.thumbnail-visibility-toggle {
-  width: 12rem;
-  float: right;
-  font-size: 70%;
-  text-transform: uppercase;
-  white-space: nowrap;
-  padding-top: 1rem;
-  line-height: 1em;
-
-  .link {
-    background: $blue2;
-    padding: 0.25em 0.4em;
-    color: $white;
-    text-decoration: none;
-    &:hover {
-
-      background: $blue;
-      color: $white;
-    }
+  .thumbnail-viewer-inner {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    margin: 0.5rem 0 0 0.25rem;
+  }
+  
+  .scroll-control-next {
+    text-align: right;
+  }
+  
+  .scroll-control:hover {
+    cursor: pointer;
+    color: #000;
+  }
+  
+  .scroll-control.disabled {
+    color: #f1f1f1;
+    visibility: hidden;
+    cursor: default;
+  }
+  
+  .hidden {
+    visibility: hidden;
+  }
+  
+  .thumbnail-viewer-page-info {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    color: #999;
+    text-transform: uppercase;
+  }
+  
+  .toggle-wrapper {
+    margin: 0 0 0.5rem 0;
+    padding-left: 0.25em;
   }
 }
-
 
 #test-output {
   margin: 1rem 0;
@@ -159,5 +136,3 @@
     display: none;
   }
 }
-
-

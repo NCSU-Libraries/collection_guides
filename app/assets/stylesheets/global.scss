@@ -80,6 +80,7 @@ main {
   a, .link {
     color: $linkColor;
     text-decoration: underline;
+    text-decoration-style: dotted;
     text-decoration-color: $grayLight;
 
     &:link, &:visited {
@@ -89,7 +90,9 @@ main {
     &:hover, &:active {
       color: $textColor;
       text-decoration: underline;
+      text-decoration-style: solid;
       cursor: pointer;
+      text-decoration-color: $grayLight;
     }
 
     &.button {
@@ -119,10 +122,6 @@ main {
       cursor: default;
       text-decoration: none;
     }
-  }
-
-  .link {
-    text-decoration: underline;
   }
 
 
@@ -426,9 +425,9 @@ main {
   }
 
   .edi-statement {
-    margin: 1rem 0;
-    padding: 0.5rem;
-    background: $grayGhost;
+    // margin: 0 0 1rem 0;
+    // padding: 0.5rem;
+    // background: $grayGhost;
   }
 
 }

@@ -28,8 +28,7 @@ main {
     margin: 1rem 0 0.5rem 0;
   }
 
-  .resource-digital-object-info {
-    margin: 0 0 1em 0;
+  .content-notice {
     padding: 0.5rem;
     border: 1px solid $grayLighter;
     font-style: italic;
@@ -37,6 +36,18 @@ main {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    margin: 1em 0;
+  }
+
+  .resource-digital-object-info {
+    // margin: 0 0 1em 0;
+    // padding: 0.5rem;
+    // border: 1px solid $grayLighter;
+    // font-style: italic;
+    // background: $grayGhost;
+    // -webkit-border-radius: 5px;
+    // -moz-border-radius: 5px;
+    // border-radius: 5px;
 
     // .digital-object-link {
     //   font-weight: bold;

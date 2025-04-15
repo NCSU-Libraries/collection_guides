@@ -5,72 +5,61 @@ class ThumbnailGallery {
   }
 
   #initialize(config) {
-    this.thumbnailViewersLoaded = 0;
-    this.thumbnailViewers = document.getElementsByClassName('thumbnail-viewer');
-    this.totalThumbnailViewers = this.thumbnailViewers.length;
+    this.viewerElements = document.getElementsByClassName('thumbnail-viewer');
 
-    if (this.totalThumbnailViewers > 0) {
+    if (this.viewerElements.length > 0) {
       this.#activateThumbnailViewers();
+
+      if (this.thumbnailViewers.length > 0) {
+        this.#enableThumbnailVisibilityToggle();
+      }
+      else {
+        this.#hideVisibilityToggleIfNoViewers();
+      }
     }
-    else {
-      this.#hideVisibilityToggleIfNoViewers();
+  }
+
+  #activateThumbnailViewers() {
+    this.thumbnailViewers = [];
+    this.totalThumbnailViewers = 0;
+
+    let viewerConfig = {
+      thumbnailMaxWidth: 90
     }
-  }
 
-  #getAlternateElements(viewerId) {
-    const elements = [];
-    const idsString = viewerId.replace(/#thumbnail-viewer-/,'');
-    const doIds = idsString.split('-');
-
-    doIds.forEach(function(id) {
-      const linkId = 'digital-object-link-' + id;
-      const el = document.getElementById(linkId);
-
-      if (el) {
-        elements.push(el);
+    for (let i = 0; i < this.viewerElements.length; i++) {
+      let viewerContainer = this.viewerElements[i];
+      
+      if (viewerContainer) {
+        viewerConfig['selector'] = "#" + viewerContainer.id;
+        let viewer = new ThumbnailViewer(viewerConfig)
+        this.thumbnailViewers.push(viewer);
       }
-    });
-    return elements;
-  }
-
-  #hideAlternateElements(viewerId) {
-    const altElements = this.#getAlternateElements(viewerId);
-
-    altElements.forEach(function(el) {
-      if (!el.classList.contains('hidden')) {
-        el.classList.add('hidden');
-      }
-    });
-  }
-
-  #showAlternateElements(viewerId) {
-    const altElements = this.#getAlternateElements(viewerId);
-
-    altElements.forEach(function(el) {
-      if (el.classList.contains('hidden')) {
-        el.classList.remove('hidden');
-      }
-    });
+    }
   }
 
   #hideAllViewers() {
-    for (let i = 0; i < this.totalThumbnailViewers; i++) {
+    for (let i = 0; i < this.thumbnailViewers.length; i++) {
       let viewer = this.thumbnailViewers[i];
-      if (!viewer.classList.contains('hidden')) {
-        viewer.classList.add('hidden');
-        this.#showAlternateElements(viewer.id);
-      }
+      viewer.hide();
     }
   }
 
   #showAllViewers() {
-    for (let i = 0; i < this.totalThumbnailViewers; i++) {
-      const viewer = this.thumbnailViewers[i];
-      if (viewer.classList.contains('hidden')) {
-        viewer.classList.remove('hidden');
-        this.#hideAlternateElements(viewer.id);
+    for (let i = 0; i < this.thumbnailViewers.length; i++) {
+      let viewer = this.thumbnailViewers[i];
+      viewer.show();
+    }
+  }
+
+  anyVisible() {
+    for (let i = 0; i < this.thumbnailViewers.length; i++) {
+      let viewer = this.thumbnailViewers[i];
+      if (viewer.visible()) {
+        return true;
       }
     }
+    return false;
   }
 
   #getTopVisibleTreeItemId() {
@@ -120,11 +109,18 @@ class ThumbnailGallery {
 
     if (toggleWrapper) {
       const toggle = document.createElement("span");
-      const toggleShowText = '<i class="far fa-image" aria-hidden="true"></i> Show image thumbnails';
-      const toggleHideText = '<i class="far fa-image" aria-hidden="true"></i> Hide image thumbnails';
-      toggle.classList.add('link');
-      toggle.setAttribute('data-toggle-mode', 'hide');
-      toggle.innerHTML = toggleHideText;
+      const toggleShowText = '<i class="far fa-images" aria-hidden="true"></i>Show all digitized content';
+      const toggleHideText = '<i class="fas fa-eye-slash" aria-hidden="true"></i>Hide all digitized content';
+      toggle.classList.add('link', 'visibility-toggle');
+      
+      if (this.anyVisible()) {
+        toggle.setAttribute('data-toggle-mode', 'hide');
+        toggle.innerHTML = toggleHideText;
+      }
+      else {
+        toggle.setAttribute('data-toggle-mode', 'show');
+        toggle.innerHTML = toggleShowText;
+      }
 
       toggle.addEventListener('click', function() {
         const topVisibleElementId = _this.#getTopVisibleTreeItemId();
@@ -156,27 +152,6 @@ class ThumbnailGallery {
       if (toggleWrapper) {
         hide(toggleWrapper);
       }
-    }
-  }
-
-
-  #activateThumbnailViewers() {
-    if (this.totalThumbnailViewers > 0) {
-      let viewerConfig = {
-        thumbnailMaxWidth: 90
-      }
-
-      for (let i = 0; i < this.totalThumbnailViewers; i++) {
-        const viewerContainer = this.thumbnailViewers[i];
-        
-        if (viewerContainer) {
-          viewerConfig['selector'] = "#" + viewerContainer.id;
-          const viewer = new ThumbnailViewer(viewerConfig);
-          this.thumbnailViewersLoaded++;
-        }
-      }
-
-      this.#enableThumbnailVisibilityToggle();
     }
   }
 }
