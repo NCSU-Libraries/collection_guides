@@ -234,14 +234,13 @@ class Resource < ApplicationRecord
 
   # returns
   def descendant_digital_objects_with_files
-    sql = "SELECT do.* from digital_objects do
-      JOIN digital_object_associations doa ON do.id = doa.digital_object_id
-      JOIN archival_objects a ON a.id = doa.record_id
-      WHERE doa.record_type = 'ArchivalObject'
-      AND a.resource_id = #{id}
-      AND do.publish = 1
-      AND do.has_files = 1"
-    DigitalObject.find_by_sql(sql)
+    DigitalObject.joins(
+      "JOIN digital_object_associations doa ON digital_objects.id = doa.digital_object_id
+       JOIN archival_objects a ON a.id = doa.record_id"
+    ).where(
+      "doa.record_type = ? AND a.resource_id = ? AND digital_objects.publish = ? AND digital_objects.has_files = ?",
+      'ArchivalObject', id, true, true
+    )
   end
 
 

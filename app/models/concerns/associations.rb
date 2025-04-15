@@ -85,7 +85,7 @@ module Associations
         dos = digital_objects.where(has_files: true)
         (dos.length > 0) ? true : false
       else
-        nil
+        false
       end
     end
 

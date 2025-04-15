@@ -116,6 +116,7 @@ class Search
               @fq << "#{k}: (#{values.join(' ')})" if !values.blank?
             end
           else
+
             case v
             when String
               # value = SolrSanitizer.sanitize_query_string(v)
@@ -128,6 +129,8 @@ class Search
                 value = RSolr.solr_escape(f)
                 @fq << "#{k}: \"#{value}\""
               end
+            when true
+              @fq << "#{k}: true"
             end
           end
         end
@@ -136,8 +139,6 @@ class Search
 
     @solr_params['fq'] = @fq.uniq
     custom_solr_params()
-    # puts @solr_params
-
     @solr_params
   end
 
