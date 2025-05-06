@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git
+  remote: git@github.ncsu.edu:ncsu-libraries/devise_wolftech_authenticatable.git
   revision: ba79d55230afe09dcb7a4c1282def6aabe293c55
   specs:
     devise_wolftech_authenticatable (0.0.5)
@@ -166,7 +166,8 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    highline (3.0.1)
+    highline (3.1.2)
+      reline
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)

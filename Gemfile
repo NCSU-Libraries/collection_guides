@@ -7,7 +7,7 @@ gem 'archivesspace-api-utility', git: 'https://github.com/NCSU-Libraries/archive
 # NC State only
 
 gem 'devise_wolftech_authenticatable',
-    git: "git@github.ncsu.edu:NCSU-Libraries/devise_wolftech_authenticatable.git"
+    git: "git@github.ncsu.edu:ncsu-libraries/devise_wolftech_authenticatable.git"
 
 gem 'ncsul_web', git: 'git@github.ncsu.edu:ncsu-libraries/ncsul_web-rails.git'
 
@@ -46,7 +46,7 @@ gem 'modernizr-rails'
 
 gem 'rsolr'
 
-# security vulnerabilities fix - https://github.com/NCSU-Libraries/collection_guides/security/dependabot/Gemfile.lock/nokogiri/open
+# security vulnerabilities
 gem 'truncate_html'
 gem 'chronic'
 gem 'whenever', require: false
