@@ -24,7 +24,7 @@ gem 'mysql2'
 # Use SCSS for stylesheets
 # gem 'sass-rails'
 gem 'sass-rails', '~> 6.0'
-gem 'foundation-rails'
+gem 'foundation-rails', '~> 6.6.0'
 # gem 'font-awesome-sass'
 gem 'font-awesome-sass'
 gem 'foundation-will_paginate'
