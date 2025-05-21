@@ -40,7 +40,7 @@ services:
     entrypoint:
       - bash
       - "-c"
-      - "precreate-core collection_guides /opt/solr/server/solr/configsets/collection_guides; precreate-core collection_guides_test /opt/solr/server/solr/configsets/collection_guides_test; exec solr -f"
+      - "export SOLR_HEAP=512m; precreate-core collection_guides /opt/solr/server/solr/configsets/collection_guides; precreate-core collection_guides_test /opt/solr/server/solr/configsets/collection_guides_test; exec solr -f"
 
   collection_guides_jobs:
     build:
