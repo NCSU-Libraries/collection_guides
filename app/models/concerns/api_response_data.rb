@@ -120,7 +120,7 @@ module ApiResponseData
               if script_code != 'Latn'
                 script = script_code_to_label[script_code]
                 if script
-                  language += " (#{script})"
+                  language += " (Script: #{script})"
                 end
               end
               langs << language
